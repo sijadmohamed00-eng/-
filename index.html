@@ -831,14 +831,22 @@ function renderUI(){
   buildStats(); buildBranches(); renderTopAreas();
 }
 
+// تحويل بيانات Firebase الآمن
+function safeArr(val){
+  if(!val) return [];
+  if(Array.isArray(val)) return val.filter(Boolean);
+  if(typeof val === 'object') return Object.values(val).filter(Boolean);
+  return [];
+}
+
 function buildStats(){
-  const total=branches.reduce((s,b)=>s+(DATA[b]||[]).length,0);
-  const ts=Object.values(searchStats).reduce((s,v)=>s+v,0);
+  const total=branches.reduce((s,b)=>s+safeArr(DATA[b]).length,0);
+  const ts=Object.values(searchStats).reduce((s,v)=>s+(typeof v==='number'?v:0),0);
   document.getElementById('statsBar').innerHTML=`
     <div class="stat-mini"><div class="n">${branches.length}</div><div class="l">فرع</div></div>
     <div class="stat-mini"><div class="n">${total}</div><div class="l">منطقة</div></div>
     <div class="stat-mini"><div class="n">4</div><div class="l">أسعار</div></div>
-    <div class="stat-mini"><div class="n">${ts}</div><div class="l">بحث</div></div>`;
+    <div class="stat-mini"><div class="n">${ts}</div><div class="l">بحث</div></div>\`;
 }
 
 function buildBranches(){
@@ -850,7 +858,7 @@ function buildBranchSel(){ const s=document.getElementById('newBranchSelect'); s
 function clearR(){ document.getElementById('result').innerHTML=''; document.getElementById('suggestions').innerHTML=''; document.getElementById('searchInput').value=''; }
 
 window.setFilter=function(p,btn){ priceFilter=p; document.querySelectorAll('.filter-chip').forEach(x=>x.className='filter-chip'); btn.classList.add('ca-'+(p==='all'?'all':p)); clearR(); };
-function allAreas(){ let a=[]; (sel?[sel]:branches).forEach(b=>(DATA[b]||[]).forEach(i=>a.push({...i,branch:b}))); if(priceFilter!=='all')a=a.filter(x=>x.price===priceFilter); return a; }
+function allAreas(){ let a=[]; (sel?[sel]:branches).forEach(b=>safeArr(DATA[b]).forEach(i=>{ if(i&&i.area) a.push({...i,branch:b}); })); if(priceFilter!=='all')a=a.filter(x=>x.price===priceFilter); return a; }
 function norm(s){ return s.replace(/[أإآا]/g,'ا').replace(/[ةه]/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ').trim().toLowerCase(); }
 function isLateNight(){ const h=new Date().getHours(); return h>=2&&h<9; }
 
@@ -993,8 +1001,8 @@ window.switchTab=function(name,btn){
 };
 
 function renderAdminStats(){
-  const total=branches.reduce((s,b)=>s+(DATA[b]||[]).length,0);
-  const ts=Object.values(searchStats).reduce((s,v)=>s+v,0);
+  const total=branches.reduce((s,b)=>s+safeArr(DATA[b]).length,0);
+  const ts=Object.values(searchStats).reduce((s,v)=>s+(typeof v==='number'?v:0),0);
   const visits=activityLog.filter(l=>l.type==='visit').length;
   const adds=activityLog.filter(l=>l.type==='pending').length;
   const pCount=Object.keys(pendingAreas).length;
@@ -1051,7 +1059,7 @@ async function processPendingExpired(){
   const entries=Object.entries(pendingAreas);
   for(const [key,item] of entries){
     if(Date.now()-item.ts >= MS24){
-      await set(ref(db,'data/'+item.branch),[...(DATA[item.branch]||[]),{area:item.area,price:item.price,distance:item.distance}]);
+      await set(ref(db,'data/'+item.branch),[...safeArr(DATA[item.branch]),{area:item.area,price:item.price,distance:item.distance}]);
       await remove(ref(db,'pending/'+key));
       await logActivity('add','تمت إضافة تلقائياً (24س): '+item.area,'الفرع: '+item.branch);
     }
@@ -1060,7 +1068,7 @@ async function processPendingExpired(){
 
 window.approvePending=async function(key){
   const item=pendingAreas[key]; if(!item)return;
-  await set(ref(db,'data/'+item.branch),[...(DATA[item.branch]||[]),{area:item.area,price:item.price,distance:item.distance}]);
+  await set(ref(db,'data/'+item.branch),[...safeArr(DATA[item.branch]),{area:item.area,price:item.price,distance:item.distance}]);
   await remove(ref(db,'pending/'+key));
   await logActivity('add','✅ قبول: '+item.area,'الفرع: '+item.branch);
   showToast('✅ تمت إضافة '+item.area+' للأساسيات');
@@ -1077,7 +1085,7 @@ window.rejectPending=async function(key){
 window.renderAreasList=function(){
   const q=norm(document.getElementById('areaSearchQ').value||'');
   let all=[];
-  branches.forEach(b=>(DATA[b]||[]).forEach((item,idx)=>{if(!q||norm(item.area).includes(q))all.push({...item,branch:b,idx});}));
+  branches.forEach(b=>safeArr(DATA[b]).forEach((item,idx)=>{if(item&&item.area&&(!q||norm(item.area).includes(q)))all.push({...item,branch:b,idx});}));
   const list=document.getElementById('areasList');
   if(!all.length){list.innerHTML='<div class="no-data">لا توجد نتائج</div>';return;}
   list.innerHTML='';
