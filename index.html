@@ -387,6 +387,11 @@ header p{font-size:13px;color:var(--muted)}
         <div class="setting-row"><div class="setting-label">تأكيد كلمة المرور</div><input type="password" class="setting-fi" id="confirmPassword" placeholder="أعد كتابة كلمة المرور"></div>
         <button class="btn-setting-save" onclick="saveCredentials()">💾 حفظ بيانات الدخول</button>
       </div>
+      <div class="ac" style="border-color:rgba(239,68,68,0.3);margin-top:12px">
+        <div class="ac-title"><span style="color:#f87171">⚠️ إعادة تهيئة البيانات</span></div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.8">يقوم هذا الخيار بمسح جميع البيانات الحالية وإعادة رفع بيانات الأفرع من الملف المحدّث. استخدمه عند إضافة أفرع جديدة أو تعديل المناطق.</p>
+        <button class="btn-setting-save" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#f87171;width:100%" onclick="resetAllData()">🔄 إعادة تهيئة بيانات الأفرع والمناطق</button>
+      </div>
     </div>
 
   </div>
@@ -785,8 +790,21 @@ async function initApp(){
   if(credSnap.exists()){ const c=credSnap.val(); ADMIN_USER=c.user; ADMIN_PASS=c.pass; }
   else { await set(ref(db,'adminCredentials'),{user:ADMIN_USER,pass:ADMIN_PASS}); }
 
+  // ── تحديث إجباري: يدمج SEED_DATA مع البيانات الموجودة
+  // يضيف الأفرع الجديدة دون حذف الأفرع الموجودة أو البيانات المضافة يدوياً
   const dataSnap = await get(ref(db,'data'));
-  if(!dataSnap.exists()) await set(ref(db,'data'), SEED_DATA);
+  if(!dataSnap.exists()){
+    await set(ref(db,'data'), SEED_DATA);
+  } else {
+    const existing = dataSnap.val() || {};
+    const merged = { ...SEED_DATA };
+    // احتفظ بأي فرع موجود بـ Firebase غير موجود في SEED_DATA
+    for(const b of Object.keys(existing)){
+      if(!merged[b]) merged[b] = existing[b];
+    }
+    // حدّث فقط الأفرع الموجودة في SEED_DATA (يستبدل بيانات القديمة بالجديدة)
+    await set(ref(db,'data'), merged);
+  }
 
   onValue(ref(db,'data'), s=>{ DATA=s.val()||{}; branches=Object.keys(DATA); renderUI(); });
   onValue(ref(db,'searchStats'), s=>{ searchStats=s.val()||{}; buildStats(); renderTopAreas(); if(isAdminOpen()) renderAdminStats(); });
@@ -1099,6 +1117,14 @@ window.saveCredentials=async function(){
   document.getElementById('newUsername').value=''; document.getElementById('newPassword').value=''; document.getElementById('confirmPassword').value='';
   await logActivity('settings','تم تغيير بيانات الدخول','');
   showToast('✅ تم حفظ بيانات الدخول الجديدة');
+};
+
+window.resetAllData=async function(){
+  if(!confirm("⚠️ سيتم مسح جميع البيانات الحالية وإعادة رفعها من الملف المحدّث.\n\nهل أنت متأكد؟"))return;
+  showToast("⏳ جاري إعادة التهيئة...");
+  await set(ref(db,"data"), SEED_DATA);
+  await logActivity("settings","إعادة تهيئة البيانات","تم رفع جميع الأفرع والمناطق من جديد");
+  showToast("✅ تمت إعادة التهيئة بنجاح");
 };
 
 function showToast(msg,color='#22c55e'){ const t=document.getElementById('toast'); t.textContent=msg; t.style.background=color; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
