@@ -790,20 +790,19 @@ async function initApp(){
   if(credSnap.exists()){ const c=credSnap.val(); ADMIN_USER=c.user; ADMIN_PASS=c.pass; }
   else { await set(ref(db,'adminCredentials'),{user:ADMIN_USER,pass:ADMIN_PASS}); }
 
-  // ── تحديث إجباري: يدمج SEED_DATA مع البيانات الموجودة
-  // يضيف الأفرع الجديدة دون حذف الأفرع الموجودة أو البيانات المضافة يدوياً
+  // ── عند أول تشغيل فقط: إذا ما في بيانات برفع SEED_DATA
+  // إذا في بيانات: فقط أضف الأفرع الجديدة اللي ما موجودة، ولا تلمس الموجودة
   const dataSnap = await get(ref(db,'data'));
   if(!dataSnap.exists()){
     await set(ref(db,'data'), SEED_DATA);
   } else {
     const existing = dataSnap.val() || {};
-    const merged = { ...SEED_DATA };
-    // احتفظ بأي فرع موجود بـ Firebase غير موجود في SEED_DATA
-    for(const b of Object.keys(existing)){
-      if(!merged[b]) merged[b] = existing[b];
+    // فقط أضف الأفرع الجديدة اللي ما موجودة بـ Firebase
+    for(const b of Object.keys(SEED_DATA)){
+      if(!existing[b]){
+        await set(ref(db,'data/'+b), SEED_DATA[b]);
+      }
     }
-    // حدّث فقط الأفرع الموجودة في SEED_DATA (يستبدل بيانات القديمة بالجديدة)
-    await set(ref(db,'data'), merged);
   }
 
   onValue(ref(db,'data'), s=>{ DATA=s.val()||{}; branches=Object.keys(DATA); renderUI(); });
@@ -1128,11 +1127,27 @@ window.saveCredentials=async function(){
 };
 
 window.resetAllData=async function(){
-  if(!confirm("⚠️ سيتم مسح جميع البيانات الحالية وإعادة رفعها من الملف المحدّث.\n\nهل أنت متأكد؟"))return;
-  showToast("⏳ جاري إعادة التهيئة...");
-  await set(ref(db,"data"), SEED_DATA);
-  await logActivity("settings","إعادة تهيئة البيانات","تم رفع جميع الأفرع والمناطق من جديد");
-  showToast("✅ تمت إعادة التهيئة بنجاح");
+  if(!confirm("⚠️ سيتم تحديث بيانات الأفرع من الملف.\nالمناطق المضافة يدوياً ستبقى محفوظة.\n\nهل أنت متأكد؟"))return;
+  showToast("⏳ جاري التحديث...");
+  // احصل على البيانات الحالية من Firebase
+  const snap = await get(ref(db,'data'));
+  const existing = snap.exists() ? (snap.val()||{}) : {};
+  // لكل فرع في SEED_DATA: استبدل فقط المناطق الأساسية وأضف المناطق اليدوية في النهاية
+  for(const b of Object.keys(SEED_DATA)){
+    const seedAreas = SEED_DATA[b];
+    const existingAreas = safeArr(existing[b]);
+    // المناطق اليدوية = المناطق الموجودة اللي ما موجودة بـ SEED_DATA
+    const seedNames = seedAreas.map(x=>x.area);
+    const manualAreas = existingAreas.filter(x=>x && x.area && !seedNames.includes(x.area));
+    // دمج: SEED_DATA أولاً ثم المناطق اليدوية
+    await set(ref(db,'data/'+b), [...seedAreas, ...manualAreas]);
+  }
+  // أضف أي أفرع جديدة من SEED_DATA غير موجودة
+  for(const b of Object.keys(SEED_DATA)){
+    if(!existing[b]) await set(ref(db,'data/'+b), SEED_DATA[b]);
+  }
+  await logActivity("settings","تحديث البيانات","تم تحديث الأفرع مع الحفاظ على الإضافات اليدوية");
+  showToast("✅ تم التحديث — الإضافات اليدوية محفوظة");
 };
 
 function showToast(msg,color='#22c55e'){ const t=document.getElementById('toast'); t.textContent=msg; t.style.background=color; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
