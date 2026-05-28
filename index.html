@@ -221,6 +221,20 @@ header p{font-size:13px;color:var(--muted)}
 .btn-setting-save:hover{background:var(--accent2)}
 
 .no-data{text-align:center;color:var(--muted);font-size:13px;padding:2rem 0}
+.search-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
+.search-row:last-child{border-bottom:none}
+.search-row:hover{background:rgba(255,255,255,0.02)}
+.sr-rank{color:var(--accent);font-weight:900;width:24px;text-align:center;flex-shrink:0}
+.sr-name{flex:1;font-weight:600}
+.sr-found{font-size:10px;padding:2px 8px;border-radius:50px;flex-shrink:0}
+.sr-found.yes{background:rgba(34,197,94,0.15);color:#4ade80}
+.sr-found.no{background:rgba(239,68,68,0.15);color:#f87171}
+.sr-count{font-size:11px;color:var(--muted);background:var(--surface2);padding:2px 10px;border-radius:50px;flex-shrink:0}
+.search-filter-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.sf-btn{padding:6px 14px;border-radius:50px;border:1px solid var(--border2);background:var(--surface2);color:var(--muted);font-family:'Cairo',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s}
+.sf-btn.active{background:var(--accent);border-color:var(--accent);color:#000}
+.reset-search-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:11px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:12px;color:#f87171;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px;transition:all 0.2s}
+.reset-search-btn:hover{background:rgba(239,68,68,0.22)}
 .tab-content{display:none}
 .tab-content.active{display:block}
 
@@ -352,8 +366,17 @@ header p{font-size:13px;color:var(--muted)}
         <div class="ag" id="adminStats"></div>
       </div>
       <div class="ac">
-        <div class="ac-title"><span>🔥 الأكثر بحثاً</span></div>
-        <div id="adminTopSearch"><div class="no-data">لا يوجد بحث بعد</div></div>
+        <div class="ac-title">
+          <span>🔍 سجل البحوثات الكاملة</span>
+          <span id="searchTotalCount" style="font-size:11px;color:var(--muted);font-weight:400"></span>
+        </div>
+        <div class="search-filter-row">
+          <button class="sf-btn active" onclick="filterSearchList('all',this)">الكل</button>
+          <button class="sf-btn" onclick="filterSearchList('found',this)">✅ موجودة</button>
+          <button class="sf-btn" onclick="filterSearchList('notfound',this)">❌ غير موجودة</button>
+        </div>
+        <div id="adminSearchList"><div class="no-data">لا يوجد بحث بعد</div></div>
+        <button class="reset-search-btn" onclick="resetSearchStats()">🗑️ مسح جميع إحصائيات البحث والبدء من جديد</button>
       </div>
     </div>
 
@@ -808,6 +831,7 @@ async function initApp(){
   onValue(ref(db,'data'), s=>{ DATA=s.val()||{}; branches=Object.keys(DATA); renderUI(); });
   onValue(ref(db,'searchStats'), s=>{ searchStats=s.val()||{}; buildStats(); renderTopAreas(); if(isAdminOpen()) renderAdminStats(); });
   onValue(query(ref(db,'activityLog'), limitToLast(100)), s=>{ activityLog=[]; s.forEach(c=>activityLog.unshift(c.val())); if(isAdminOpen()) renderActivityLog(); });
+  onValue(ref(db,'searchMeta'), s=>{ searchMeta=s.val()||{}; if(isAdminOpen()) renderSearchList(); });
   onValue(ref(db,'pending'), s=>{ pendingAreas=s.val()||{}; updatePendingBadge(); if(isAdminOpen()) renderPending(); processPendingExpired(); });
 
   logActivity('visit','زيارة جديدة للتطبيق','');
@@ -913,8 +937,15 @@ function showR(item){
 }
 
 async function recordSearch(k){
-  k=k.trim(); await update(ref(db,'searchStats'),{[k]:(searchStats[k]||0)+1});
-  await logActivity('search','بحث: '+k,'');
+  k=k.trim();
+  const found = allAreas().some(x=>norm(x.area)===norm(k)||norm(x.area).includes(norm(k)));
+  const current = searchStats[k];
+  // إذا القيمة القديمة object (من Firebase القديم) نعيد من 0
+  const prevCount = (typeof current==='number') ? current : 0;
+  await update(ref(db,'searchStats'),{[k]: prevCount+1});
+  // نخزن حالة الوجود
+  await update(ref(db,'searchMeta'),{[k]: found ? 'found' : 'notfound'});
+  await logActivity('search','بحث: '+k, found?'✅ موجودة':'❌ غير موجودة');
 }
 
 function renderTopAreas(){
@@ -1013,11 +1044,65 @@ function renderAdminStats(){
     <div class="as"><div class="an">${adds}</div><div class="al">طلب إضافة</div></div>
     <div class="as"><div class="an" style="color:${pCount>0?'var(--orange)':'var(--accent)'}">${pCount}</div><div class="al">بانتظار المراجعة</div></div>`;
 
-  const sorted=Object.entries(searchStats).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const topEl=document.getElementById('adminTopSearch');
-  if(!sorted.length){topEl.innerHTML='<div class="no-data">لا يوجد بحث بعد</div>';return;}
-  topEl.innerHTML=sorted.map(([n,c],i)=>`<div class="area-row"><span style="color:var(--accent);font-weight:900;width:20px;text-align:center">${i+1}</span><span class="ar-name">${n}</span><span class="top-count">${c} مرة</span></div>`).join('');
+  renderSearchList();
 }
+
+let searchFilter = 'all';
+let searchMeta = {};
+
+window.filterSearchList = function(f, btn){
+  searchFilter = f;
+  document.querySelectorAll('.sf-btn').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  renderSearchList();
+};
+
+function renderSearchList(){
+  const allEntries = Object.entries(searchStats)
+    .filter(([k,v])=>typeof v==='number' && k && k!=='undefined')
+    .sort((a,b)=>b[1]-a[1]);
+
+  const filtered = allEntries.filter(([k])=>{
+    const status = searchMeta[k] || (allAreas().some(x=>norm(x.area).includes(norm(k)))?'found':'notfound');
+    if(searchFilter==='found') return status==='found';
+    if(searchFilter==='notfound') return status==='notfound';
+    return true;
+  });
+
+  const total = allEntries.length;
+  const foundCount = allEntries.filter(([k])=>{
+    const s=searchMeta[k]||(allAreas().some(x=>norm(x.area).includes(norm(k)))?'found':'notfound');
+    return s==='found';
+  }).length;
+  const notFoundCount = total - foundCount;
+
+  document.getElementById('searchTotalCount').textContent =
+    `${total} بحث — ✅${foundCount} موجودة / ❌${notFoundCount} غير موجودة`;
+
+  const el = document.getElementById('adminSearchList');
+  if(!filtered.length){ el.innerHTML='<div class="no-data">لا توجد نتائج</div>'; return; }
+
+  el.innerHTML = filtered.map(([name,count],i)=>{
+    const status = searchMeta[name] || (allAreas().some(x=>norm(x.area).includes(norm(name)))?'found':'notfound');
+    const foundLabel = status==='found'
+      ? '<span class="sr-found yes">✅ موجودة</span>'
+      : '<span class="sr-found no">❌ غير موجودة</span>';
+    return `<div class="search-row">
+      <span class="sr-rank">${i+1}</span>
+      <span class="sr-name">${name}</span>
+      ${foundLabel}
+      <span class="sr-count">${count} مرة</span>
+    </div>`;
+  }).join('');
+}
+
+window.resetSearchStats = async function(){
+  if(!confirm('⚠️ سيتم مسح جميع إحصائيات البحث نهائياً.\nهل أنت متأكد؟')) return;
+  await set(ref(db,'searchStats'), null);
+  await set(ref(db,'searchMeta'), null);
+  await logActivity('settings','مسح إحصائيات البحث','تم الريست من لوحة المدير');
+  showToast('✅ تم مسح إحصائيات البحث');
+};
 
 function renderPending(){
   const entries=Object.entries(pendingAreas);
