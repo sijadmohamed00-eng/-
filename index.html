@@ -835,6 +835,7 @@ async function initApp(){
   onValue(ref(db,'pending'), s=>{ pendingAreas=s.val()||{}; updatePendingBadge(); if(isAdminOpen()) renderPending(); processPendingExpired(); });
 
   logActivity('visit','زيارة جديدة للتطبيق','');
+  cleanOldSearchStats();
   document.getElementById('syncStatus').textContent='متصل • تحديث فوري';
 }
 
@@ -1058,42 +1059,74 @@ window.filterSearchList = function(f, btn){
 };
 
 function renderSearchList(){
+  // تنظيف البيانات — نتجاهل أي قيمة مو رقم (مثل object Object القديمة)
   const allEntries = Object.entries(searchStats)
-    .filter(([k,v])=>typeof v==='number' && k && k!=='undefined')
+    .filter(([k,v])=> {
+      if(!k || k==='undefined' || k==='null') return false;
+      if(typeof v !== 'number') return false;
+      return true;
+    })
     .sort((a,b)=>b[1]-a[1]);
 
+  const getStatus = (k) => {
+    if(searchMeta[k]) return searchMeta[k];
+    return allAreas().some(x=>norm(x.area).includes(norm(k))) ? 'found' : 'notfound';
+  };
+
   const filtered = allEntries.filter(([k])=>{
-    const status = searchMeta[k] || (allAreas().some(x=>norm(x.area).includes(norm(k)))?'found':'notfound');
-    if(searchFilter==='found') return status==='found';
-    if(searchFilter==='notfound') return status==='notfound';
+    if(searchFilter==='found') return getStatus(k)==='found';
+    if(searchFilter==='notfound') return getStatus(k)==='notfound';
     return true;
   });
 
   const total = allEntries.length;
-  const foundCount = allEntries.filter(([k])=>{
-    const s=searchMeta[k]||(allAreas().some(x=>norm(x.area).includes(norm(k)))?'found':'notfound');
-    return s==='found';
-  }).length;
+  const foundCount = allEntries.filter(([k])=>getStatus(k)==='found').length;
   const notFoundCount = total - foundCount;
 
   document.getElementById('searchTotalCount').textContent =
-    `${total} بحث — ✅${foundCount} موجودة / ❌${notFoundCount} غير موجودة`;
+    `${total} كلمة بحث — ✅${foundCount} موجودة / ❌${notFoundCount} غير موجودة`;
 
   const el = document.getElementById('adminSearchList');
   if(!filtered.length){ el.innerHTML='<div class="no-data">لا توجد نتائج</div>'; return; }
 
   el.innerHTML = filtered.map(([name,count],i)=>{
-    const status = searchMeta[name] || (allAreas().some(x=>norm(x.area).includes(norm(name)))?'found':'notfound');
+    const status = getStatus(name);
     const foundLabel = status==='found'
       ? '<span class="sr-found yes">✅ موجودة</span>'
       : '<span class="sr-found no">❌ غير موجودة</span>';
-    return `<div class="search-row">
+    const safeName = name.replace(/'/g,"\'");
+    return `<div class="search-row" id="sr-${i}">
       <span class="sr-rank">${i+1}</span>
       <span class="sr-name">${name}</span>
       ${foundLabel}
       <span class="sr-count">${count} مرة</span>
+      <button onclick="deleteSearchEntry('${safeName}')" style="background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:#f87171;padding:4px 10px;font-family:Cairo,sans-serif;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0">🗑️</button>
     </div>`;
   }).join('');
+}
+
+window.deleteSearchEntry = async function(name){
+  // حذف من searchStats و searchMeta
+  await update(ref(db,'searchStats'), {[name]: null});
+  await update(ref(db,'searchMeta'), {[name]: null});
+  await logActivity('delete','حذف بحث: '+name,'');
+  showToast('🗑️ تم حذف "'+name+'" من السجل');
+};
+
+// تنظيف البيانات القديمة الفاسدة (object Object) من Firebase
+async function cleanOldSearchStats(){
+  const snap = await get(ref(db,'searchStats'));
+  if(!snap.exists()) return;
+  const data = snap.val();
+  const fixes = {};
+  for(const [k,v] of Object.entries(data)){
+    if(!k || k==='undefined' || typeof v !== 'number'){
+      fixes[k] = null; // حذف
+    }
+  }
+  if(Object.keys(fixes).length > 0){
+    await update(ref(db,'searchStats'), fixes);
+  }
 }
 
 window.resetSearchStats = async function(){
