@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>استعلام التوصيل</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
@@ -413,7 +416,10 @@ header p{font-size:13px;color:var(--muted)}
       <div class="ac" style="border-color:rgba(239,68,68,0.3);margin-top:12px">
         <div class="ac-title"><span style="color:#f87171">⚠️ إعادة تهيئة البيانات</span></div>
         <p style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.8">يقوم هذا الخيار بمسح جميع البيانات الحالية وإعادة رفع بيانات الأفرع من الملف المحدّث. استخدمه عند إضافة أفرع جديدة أو تعديل المناطق.</p>
-        <button class="btn-setting-save" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#f87171;width:100%" onclick="resetAllData()">🔄 إعادة تهيئة بيانات الأفرع والمناطق</button>
+        <div style="display:flex;flex-direction:column;gap:8px">
+  <button class="btn-setting-save" style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);color:#60a5fa;width:100%" onclick="syncNewBranches()">➕ مزامنة الأفرع الجديدة فقط (يحافظ على الإضافات)</button>
+  <button class="btn-setting-save" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#f87171;width:100%" onclick="resetAllData()">⚠️ إعادة تهيئة كاملة (يمسح الإضافات اليدوية)</button>
+</div>
       </div>
     </div>
 
@@ -1242,6 +1248,31 @@ window.saveCredentials=async function(){
   document.getElementById('newUsername').value=''; document.getElementById('newPassword').value=''; document.getElementById('confirmPassword').value='';
   await logActivity('settings','تم تغيير بيانات الدخول','');
   showToast('✅ تم حفظ بيانات الدخول الجديدة');
+};
+
+window.syncNewBranches=async function(){
+  showToast("⏳ جاري المزامنة...");
+  const snap = await get(ref(db,'data'));
+  const existing = snap.exists() ? (snap.val()||{}) : {};
+  let added = 0;
+  for(const b of Object.keys(SEED_DATA)){
+    if(!existing[b]){
+      // فرع جديد كلياً — أضفه
+      await set(ref(db,'data/'+b), SEED_DATA[b]);
+      added++;
+    } else {
+      // فرع موجود — أضف فقط المناطق الجديدة اللي ما موجودة
+      const existingAreas = safeArr(existing[b]);
+      const existingNames = existingAreas.map(x=>x&&x.area).filter(Boolean);
+      const newAreas = SEED_DATA[b].filter(x=>!existingNames.includes(x.area));
+      if(newAreas.length > 0){
+        await set(ref(db,'data/'+b), [...existingAreas, ...newAreas]);
+        added += newAreas.length;
+      }
+    }
+  }
+  await logActivity('settings','مزامنة الأفرع الجديدة','تمت إضافة '+added+' عنصر جديد');
+  showToast(added > 0 ? '✅ تمت المزامنة — '+added+' إضافة جديدة' : '✅ لا يوجد جديد، كل شيء محدّث');
 };
 
 window.resetAllData=async function(){
