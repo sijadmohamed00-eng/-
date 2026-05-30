@@ -9,259 +9,311 @@
 <title>استعلام التوصيل</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f0f13;--surface:#1a1a22;--surface2:#22222e;--surface3:#2a2a38;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--accent:#f5a623;--accent2:#e8892a;--green:#22c55e;--blue:#3b82f6;--orange:#f97316;--red:#ef4444;--purple:#a855f7;--text:#f0f0f5;--muted:#8888a0;--dim:#55556a}
+:root{
+  --bg:#f0f4ff;
+  --bg2:#e8eeff;
+  --surface:#ffffff;
+  --surface2:#f5f7ff;
+  --border:#e2e8f7;
+  --border2:#d0d9f0;
+  --blue:#2563eb;
+  --blue2:#1d4ed8;
+  --blue-light:#eff4ff;
+  --blue-mid:#dbeafe;
+  --green:#16a34a;
+  --green-bg:#f0fdf4;
+  --orange:#ea580c;
+  --orange-bg:#fff7ed;
+  --red:#dc2626;
+  --red-bg:#fef2f2;
+  --purple:#7c3aed;
+  --text:#0f172a;
+  --text2:#334155;
+  --muted:#64748b;
+  --dim:#94a3b8;
+  --shadow:0 1px 3px rgba(37,99,235,0.08), 0 8px 24px rgba(37,99,235,0.06);
+  --shadow-md:0 4px 16px rgba(37,99,235,0.12), 0 1px 4px rgba(37,99,235,0.08);
+  --shadow-lg:0 8px 32px rgba(37,99,235,0.16);
+  --radius:16px;
+  --radius-sm:10px;
+  --radius-xs:8px;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-html{overflow-x:hidden;width:100%;position:relative}
-body{background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;min-height:100vh;overflow-x:hidden;width:100%;position:relative;-webkit-overflow-scrolling:touch}
-.bg-glow{position:fixed;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(245,166,35,0.06) 0%,transparent 70%);pointer-events:none;z-index:0}
-.bg-glow2{position:fixed;bottom:-150px;left:-150px;width:400px;height:400px;background:radial-gradient(circle,rgba(59,130,246,0.05) 0%,transparent 70%);pointer-events:none;z-index:0}
-.container{max-width:680px;margin:0 auto;padding:2rem 1rem 5rem;position:relative;z-index:1;width:100%;overflow-x:hidden}
+html{overflow-x:hidden;width:100%;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;min-height:100vh;overflow-x:hidden;width:100%;-webkit-overflow-scrolling:touch}
 
-/* HEADER */
-header{text-align:center;margin-bottom:2rem}
-.logo-wrap{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:18px;margin-bottom:1rem;box-shadow:0 8px 32px rgba(245,166,35,0.3)}
-.logo-wrap svg{width:32px;height:32px;fill:#fff}
-header h1{font-size:26px;font-weight:900;letter-spacing:-0.5px;margin-bottom:6px}
+/* ── PATTERN BG ── */
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 80% 50% at 50% -10%, rgba(37,99,235,0.08) 0%, transparent 60%),
+  radial-gradient(ellipse 60% 40% at 100% 100%, rgba(37,99,235,0.05) 0%, transparent 50%);
+pointer-events:none;z-index:0}
+
+.container{max-width:640px;margin:0 auto;padding:1.5rem 1rem 6rem;position:relative;z-index:1;width:100%;overflow-x:hidden}
+
+/* ── HEADER ── */
+header{text-align:center;margin-bottom:2rem;padding-top:0.5rem}
+.logo-wrap{display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;background:linear-gradient(135deg,var(--blue),var(--blue2));border-radius:22px;margin-bottom:1rem;box-shadow:0 8px 24px rgba(37,99,235,0.35)}
+.logo-wrap svg{width:34px;height:34px;fill:#fff}
+header h1{font-size:26px;font-weight:900;color:var(--text);letter-spacing:-0.5px;margin-bottom:4px}
 header p{font-size:13px;color:var(--muted)}
-.sync-badge{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;color:var(--accent);background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.2);border-radius:50px;padding:4px 12px}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.sync-badge{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:var(--blue);background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:50px;padding:5px 14px;font-weight:600}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
 
-/* LOADING */
-.loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:65vh;gap:16px}
-.spinner{width:42px;height:42px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
+/* ── LOADING ── */
+.loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:16px}
+.spinner{width:44px;height:44px;border:3px solid var(--border2);border-top-color:var(--blue);border-radius:50%;animation:spin 0.9s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* STATS BAR */
+/* ── STATS BAR ── */
 .stats-bar{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.5rem}
-.stat-mini{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center;min-width:0}
-.stat-mini .n{font-size:22px;font-weight:900;color:var(--accent);word-break:break-all}
-.stat-mini .l{font-size:11px;color:var(--muted);margin-top:2px}
+.stat-mini{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;box-shadow:var(--shadow);min-width:0}
+.stat-mini .n{font-size:24px;font-weight:900;color:var(--blue);word-break:break-all}
+.stat-mini .l{font-size:11px;color:var(--muted);margin-top:3px;font-weight:600}
 
-.section-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+/* ── SECTION LABEL ── */
+.section-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
 
-/* FILTERS */
+/* ── FILTERS ── */
 .filter-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
-.filter-chip{padding:7px 14px;border-radius:50px;border:1px solid var(--border2);background:var(--surface);font-size:12px;font-family:'Cairo',sans-serif;cursor:pointer;transition:all 0.2s;font-weight:600;display:flex;align-items:center;gap:5px;color:var(--muted)}
+.filter-chip{padding:8px 16px;border-radius:50px;border:1.5px solid var(--border2);background:var(--surface);font-size:12px;font-family:'Cairo',sans-serif;cursor:pointer;transition:all 0.2s;font-weight:700;display:flex;align-items:center;gap:6px;color:var(--muted);box-shadow:var(--shadow)}
 .filter-chip .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.ca-all{border-color:var(--accent)!important;background:rgba(245,166,35,0.12)!important;color:var(--accent)!important}
-.ca-0{border-color:var(--green)!important;background:rgba(34,197,94,0.1)!important;color:var(--green)!important}
-.ca-1{border-color:var(--blue)!important;background:rgba(59,130,246,0.1)!important;color:var(--blue)!important}
-.ca-2{border-color:var(--orange)!important;background:rgba(249,115,22,0.1)!important;color:var(--orange)!important}
-.ca-3{border-color:var(--red)!important;background:rgba(239,68,68,0.1)!important;color:var(--red)!important}
+.ca-all{border-color:var(--blue)!important;background:var(--blue)!important;color:#fff!important;box-shadow:0 4px 12px rgba(37,99,235,0.3)!important}
+.ca-0{border-color:var(--green)!important;background:var(--green-bg)!important;color:var(--green)!important}
+.ca-1{border-color:var(--blue)!important;background:var(--blue-light)!important;color:var(--blue)!important}
+.ca-2{border-color:var(--orange)!important;background:var(--orange-bg)!important;color:var(--orange)!important}
+.ca-3{border-color:var(--red)!important;background:var(--red-bg)!important;color:var(--red)!important}
 
-/* BRANCHES */
+/* ── BRANCHES ── */
 .branches-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem}
-.branch-chip{padding:7px 14px;border-radius:50px;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-size:13px;font-family:'Cairo',sans-serif;cursor:pointer;transition:all 0.2s;font-weight:500}
-.branch-chip:hover{border-color:var(--accent);color:var(--accent)}
-.branch-chip.active{background:var(--accent);border-color:var(--accent);color:#000;font-weight:700}
+.branch-chip{padding:8px 16px;border-radius:50px;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-size:13px;font-family:'Cairo',sans-serif;cursor:pointer;transition:all 0.2s;font-weight:600;box-shadow:var(--shadow)}
+.branch-chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.branch-chip.active{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700;box-shadow:0 4px 12px rgba(37,99,235,0.3)}
 
-/* SEARCH */
-.search-wrap{display:flex;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:6px 6px 6px 16px;transition:border-color 0.2s;margin-bottom:1rem;width:100%;max-width:100%}
-.search-wrap:focus-within{border-color:var(--accent)}
-.search-wrap input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'Cairo',sans-serif;font-size:16px;direction:rtl;padding:6px 0;min-width:0;-webkit-appearance:none;border-radius:0}
+/* ── SEARCH ── */
+.search-wrap{display:flex;gap:0;background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:1rem;width:100%;max-width:100%;transition:border-color 0.2s,box-shadow 0.2s}
+.search-wrap:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.12),var(--shadow-md)}
+.search-wrap input{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'Cairo',sans-serif;font-size:16px;direction:rtl;padding:14px 18px;min-width:0;-webkit-appearance:none;border-radius:0}
 .search-wrap input::placeholder{color:var(--dim)}
-.search-btn{background:var(--accent);border:none;border-radius:12px;padding:10px 20px;color:#000;font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap}
-.search-btn:hover{background:var(--accent2)}
+.search-btn{background:var(--blue);border:none;padding:12px 22px;color:#fff;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap;border-radius:0}
+.search-btn:hover{background:var(--blue2)}
+.search-btn:active{transform:scale(0.97)}
 
-/* SUGGESTIONS */
-.sugg-box{background:var(--surface);border:1px solid var(--border2);border-radius:14px;overflow:hidden;margin-bottom:1rem}
-.sug-item{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.15s}
+/* ── SUGGESTIONS ── */
+.sugg-box{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;box-shadow:var(--shadow-md)}
+.sug-item{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.15s}
 .sug-item:last-child{border-bottom:none}
-.sug-item:hover{background:var(--surface2)}
-.sug-name{font-size:14px;font-weight:600}
-.sug-meta{display:flex;align-items:center;gap:6px}
-.sug-branch{font-size:11px;color:var(--muted);background:var(--surface2);padding:3px 10px;border-radius:50px}
+.sug-item:hover{background:var(--blue-light)}
+.sug-name{font-size:14px;font-weight:700;color:var(--text)}
+.sug-meta{display:flex;align-items:center;gap:8px}
+.sug-branch{font-size:11px;color:var(--muted);background:var(--surface2);padding:3px 10px;border-radius:50px;border:1px solid var(--border);font-weight:600}
 .sug-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
-/* RESULT CARD */
-.result-card{background:var(--surface);border-radius:20px;overflow:hidden;margin-bottom:1rem;border:1px solid var(--border2)}
+/* ── RESULT CARD ── */
+.result-card{background:var(--surface);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;border:1.5px solid var(--border);box-shadow:var(--shadow-md)}
 .result-header{padding:1.25rem 1.25rem 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.result-area-name{font-size:20px;font-weight:900;line-height:1.2;flex:1}
-.result-branch-badge{background:var(--surface2);border:1px solid var(--border2);border-radius:50px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap}
+.result-area-name{font-size:22px;font-weight:900;line-height:1.2;flex:1;color:var(--text)}
+.result-branch-badge{background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:50px;padding:5px 14px;font-size:12px;font-weight:700;color:var(--blue);white-space:nowrap}
 .result-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:1rem 1.25rem}
-.stat-box{background:var(--surface2);border-radius:14px;padding:12px;text-align:center}
+.stat-box{background:var(--surface2);border-radius:var(--radius-sm);padding:14px;text-align:center;border:1px solid var(--border)}
 .stat-box .s-label{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:0.5px;margin-bottom:6px;text-transform:uppercase}
-.stat-box .s-val{font-size:15px;font-weight:800;line-height:1.2}
+.stat-box .s-val{font-size:15px;font-weight:800;line-height:1.2;color:var(--text)}
 .result-footer{padding:0 1.25rem 1.25rem;display:flex;flex-direction:column;gap:8px}
-.late-warn{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:12px;font-size:12px;line-height:1.6;color:#fca5a5}
-.map-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.3);border-radius:12px;color:#60a5fa;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;text-decoration:none;transition:all 0.2s}
-.map-btn:hover{background:rgba(59,130,246,0.22)}
+.late-warn{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--red-bg);border:1.5px solid rgba(220,38,38,0.2);border-radius:var(--radius-sm);font-size:12px;line-height:1.6;color:var(--red)}
+.map-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:var(--radius-sm);color:var(--blue);font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;text-decoration:none;transition:all 0.2s}
+.map-btn:hover{background:var(--blue);color:#fff}
 .no-result{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:15px}
 
-/* ADD BUTTON */
-.add-area-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:var(--surface);border:1px dashed var(--border2);border-radius:16px;color:var(--muted);font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;margin-bottom:1.5rem}
-.add-area-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(245,166,35,0.05)}
+/* ── ADD BUTTON ── */
+.add-area-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:var(--surface);border:1.5px dashed var(--border2);border-radius:var(--radius);color:var(--muted);font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-bottom:1.5rem}
+.add-area-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
 
-/* TOP AREAS */
+/* ── TOP AREAS ── */
 .top-section{margin-bottom:1.5rem}
-.top-list{display:flex;flex-direction:column;gap:6px}
-.top-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;font-size:13px;cursor:pointer;transition:background 0.15s}
-.top-item:hover{background:var(--surface2)}
-.top-rank{font-weight:900;color:var(--accent);width:22px;text-align:center;flex-shrink:0}
-.top-name{flex:1;font-weight:600}
-.top-count{font-size:11px;color:var(--muted);background:var(--surface2);padding:3px 10px;border-radius:50px}
+.top-list{display:flex;flex-direction:column;gap:8px}
+.top-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow)}
+.top-item:hover{background:var(--blue-light);border-color:var(--blue)}
+.top-rank{font-weight:900;color:var(--blue);width:24px;text-align:center;flex-shrink:0;font-size:16px}
+.top-name{flex:1;font-weight:700;color:var(--text)}
+.top-count{font-size:11px;color:var(--muted);background:var(--surface2);padding:3px 10px;border-radius:50px;border:1px solid var(--border);font-weight:600}
 .top-branch{font-size:11px;color:var(--dim)}
 
-/* LEGEND */
-.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:2rem}
-.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
-.leg-dot{width:8px;height:8px;border-radius:50%}
+/* ── LEGEND ── */
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:1.5rem}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-weight:600}
+.leg-dot{width:9px;height:9px;border-radius:50%}
 
-/* MODAL ADD AREA */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:100;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px)}
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.5);z-index:100;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(8px)}
 .modal-overlay.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:22px;padding:1.5rem;width:calc(100% - 2rem);max-width:460px;max-height:90vh;overflow-y:auto}
-.modal-title{font-size:18px;font-weight:900;margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center}
-.modal-close{background:var(--surface2);border:none;border-radius:50%;width:32px;height:32px;color:var(--muted);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Cairo',sans-serif}
-.fg{margin-bottom:1rem}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:1.5rem;width:calc(100% - 2rem);max-width:460px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal-title{font-size:18px;font-weight:900;margin-bottom:1.4rem;display:flex;justify-content:space-between;align-items:center;color:var(--text)}
+.modal-close{background:var(--surface2);border:1px solid var(--border);border-radius:50%;width:34px;height:34px;color:var(--muted);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Cairo',sans-serif;transition:all 0.2s}
+.modal-close:hover{background:var(--red-bg);color:var(--red);border-color:rgba(220,38,38,0.2)}
+.fg{margin-bottom:1.1rem}
 .fl{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.5px}
-.fi,.fs{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:11px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:16px;outline:none;transition:border-color 0.2s;direction:rtl;-webkit-appearance:none}
-.fi:focus,.fs:focus{border-color:var(--accent)}
-.fs option{background:var(--surface2)}
+.fi,.fs{width:100%;background:var(--surface2);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:12px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:16px;outline:none;transition:border-color 0.2s;direction:rtl;-webkit-appearance:none}
+.fi:focus,.fs:focus{border-color:var(--blue);background:#fff}
+.fs option{background:var(--surface)}
 .branch-row{display:flex;gap:8px;margin-top:8px}
 .branch-row .fi{flex:1;margin:0}
-.btn-addbranch{background:var(--accent);border:none;border-radius:12px;padding:11px 16px;color:#000;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+.btn-addbranch{background:var(--blue);border:none;border-radius:var(--radius-sm);padding:12px 16px;color:#fff;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
 .price-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.price-opt{border:1px solid var(--border2);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;transition:all 0.2s;font-size:12px;font-weight:700;color:var(--muted)}
-.price-opt.s0{border-color:var(--green);background:rgba(34,197,94,0.12);color:var(--green)}
-.price-opt.s1{border-color:var(--blue);background:rgba(59,130,246,0.12);color:var(--blue)}
-.price-opt.s2{border-color:var(--orange);background:rgba(249,115,22,0.12);color:var(--orange)}
-.price-opt.s3{border-color:var(--red);background:rgba(239,68,68,0.12);color:var(--red)}
-.modal-actions{display:flex;gap:10px;margin-top:1.2rem}
-.btn-save{flex:1;background:var(--accent);border:none;border-radius:12px;padding:12px;color:#000;font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.price-opt{border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:11px 6px;text-align:center;cursor:pointer;transition:all 0.2s;font-size:12px;font-weight:700;color:var(--muted);background:var(--surface2)}
+.price-opt:hover{border-color:var(--blue);color:var(--blue)}
+.price-opt.s0{border-color:var(--green);background:var(--green-bg);color:var(--green)}
+.price-opt.s1{border-color:var(--blue);background:var(--blue-light);color:var(--blue)}
+.price-opt.s2{border-color:var(--orange);background:var(--orange-bg);color:var(--orange)}
+.price-opt.s3{border-color:var(--red);background:var(--red-bg);color:var(--red)}
+.modal-actions{display:flex;gap:10px;margin-top:1.4rem}
+.btn-save{flex:1;background:var(--blue);border:none;border-radius:var(--radius-sm);padding:13px;color:#fff;font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 12px rgba(37,99,235,0.3)}
+.btn-save:hover{background:var(--blue2)}
 .btn-save:disabled{opacity:0.5;cursor:not-allowed}
-.btn-cancel{background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:12px 18px;color:var(--muted);font-family:'Cairo',sans-serif;font-size:14px;font-weight:600;cursor:pointer}
+.btn-cancel{background:var(--surface2);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:13px 18px;color:var(--muted);font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.btn-cancel:hover{border-color:var(--red);color:var(--red)}
 
-/* ADMIN FLOAT BTN */
-.admin-float{position:fixed;bottom:24px;left:16px;z-index:50;background:var(--surface);border:1px solid var(--border2);border-radius:50px;padding:10px 18px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:0 4px 24px rgba(0,0,0,0.4);transition:all 0.2s}
-.admin-float:hover{border-color:var(--accent);color:var(--accent)}
+/* ── ADMIN FLOAT ── */
+.admin-float{position:fixed;bottom:24px;left:16px;z-index:50;background:var(--surface);border:1.5px solid var(--border);border-radius:50px;padding:11px 20px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:var(--shadow-md);transition:all 0.2s}
+.admin-float:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
 
-/* LOGIN SCREEN */
-.login-screen{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;align-items:center;justify-content:center;padding:1rem}
+/* ── LOGIN SCREEN ── */
+.login-screen{display:none;position:fixed;inset:0;background:rgba(240,244,255,0.95);backdrop-filter:blur(12px);z-index:200;align-items:center;justify-content:center;padding:1rem}
 .login-screen.open{display:flex}
-.login-box{background:var(--surface);border:1px solid var(--border2);border-radius:26px;padding:2.2rem 2rem;width:100%;max-width:340px;text-align:center}
-.login-icon{font-size:48px;margin-bottom:1rem;line-height:1}
-.login-title{font-size:22px;font-weight:900;margin-bottom:4px}
-.login-sub{font-size:13px;color:var(--muted);margin-bottom:1.8rem}
-.login-fi{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:13px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:14px;outline:none;margin-bottom:10px;direction:ltr;text-align:center;letter-spacing:1px;transition:border-color 0.2s}
-.login-fi:focus{border-color:var(--accent)}
-.login-btn{width:100%;background:var(--accent);border:none;border-radius:12px;padding:14px;color:#000;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;transition:all 0.2s}
-.login-btn:hover{background:var(--accent2)}
+.login-box{background:var(--surface);border:1.5px solid var(--border);border-radius:26px;padding:2.5rem 2rem;width:100%;max-width:340px;text-align:center;box-shadow:var(--shadow-lg)}
+.login-icon{font-size:52px;margin-bottom:1rem;line-height:1}
+.login-title{font-size:22px;font-weight:900;margin-bottom:4px;color:var(--text)}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:2rem}
+.login-fi{width:100%;background:var(--surface2);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:16px;outline:none;margin-bottom:10px;direction:ltr;text-align:center;transition:border-color 0.2s;-webkit-appearance:none}
+.login-fi:focus{border-color:var(--blue);background:#fff}
+.login-btn{width:100%;background:var(--blue);border:none;border-radius:var(--radius-sm);padding:14px;color:#fff;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;transition:all 0.2s;box-shadow:0 4px 12px rgba(37,99,235,0.3)}
+.login-btn:hover{background:var(--blue2)}
 .login-err{color:var(--red);font-size:13px;margin-top:10px;display:none;font-weight:600}
 .login-back{margin-top:16px;background:none;border:none;color:var(--muted);font-family:'Cairo',sans-serif;font-size:13px;cursor:pointer;display:block;width:100%;text-align:center}
 .login-back:hover{color:var(--text)}
 
-/* ADMIN PANEL */
+/* ── ADMIN PANEL ── */
 .admin-panel{display:none;position:fixed;inset:0;background:var(--bg);z-index:190;overflow-y:auto}
 .admin-panel.open{display:block}
-.admin-topbar{background:var(--surface);border-bottom:1px solid var(--border2);padding:0.9rem 1.2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;gap:12px}
-.admin-topbar h2{font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px;flex:1}
-.admin-back-btn{background:var(--surface2);border:1px solid var(--border2);border-radius:50px;padding:8px 18px;color:var(--muted);font-family:'Cairo',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
-.admin-back-btn:hover{color:var(--text)}
+.admin-topbar{background:var(--surface);border-bottom:1.5px solid var(--border);padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;gap:12px;box-shadow:var(--shadow)}
+.admin-topbar h2{font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px;flex:1;color:var(--text)}
+.admin-back-btn{background:var(--surface2);border:1.5px solid var(--border);border-radius:50px;padding:8px 18px;color:var(--muted);font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all 0.2s}
+.admin-back-btn:hover{border-color:var(--blue);color:var(--blue)}
 
-/* ADMIN TABS */
-.admin-tabs{display:flex;gap:4px;background:var(--surface2);border-radius:14px;padding:4px;margin:1.2rem 1rem 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.admin-tab{flex:1;padding:9px;border:none;border-radius:10px;background:none;color:var(--muted);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center;white-space:nowrap;min-width:fit-content}
-.admin-tab.active{background:var(--surface);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+/* ── ADMIN TABS ── */
+.admin-tabs{display:flex;gap:4px;background:var(--surface2);border-radius:var(--radius);padding:4px;margin:1.2rem 1rem 0;border:1.5px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.admin-tab{flex:1;padding:9px 6px;border:none;border-radius:var(--radius-sm);background:none;color:var(--muted);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center;white-space:nowrap;min-width:fit-content}
+.admin-tab.active{background:var(--surface);color:var(--blue);box-shadow:var(--shadow)}
 .admin-tab-badge{display:inline-block;background:var(--red);color:#fff;border-radius:50px;font-size:10px;padding:1px 6px;margin-right:4px;vertical-align:middle}
 
 .admin-body{padding:1rem 1rem 4rem}
 
-/* ADMIN CARDS */
-.ac{background:var(--surface);border:1px solid var(--border2);border-radius:18px;padding:1.2rem;margin-bottom:1rem}
-.ac-title{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:6px}
+/* ── ADMIN CARDS ── */
+.ac{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:1rem;box-shadow:var(--shadow)}
+.ac-title{font-size:12px;font-weight:700;color:var(--blue);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:6px}
 .ac-title span{display:flex;align-items:center;gap:6px}
 
-/* STATS GRID */
+/* ── STATS GRID ── */
 .ag{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.as{background:var(--surface2);border-radius:12px;padding:13px;text-align:center;min-width:0}
-.as .an{font-size:22px;font-weight:900;color:var(--accent);word-break:break-all}
-.as .al{font-size:10px;color:var(--muted);margin-top:2px}
+.as{background:var(--surface2);border-radius:var(--radius-sm);padding:14px;text-align:center;border:1px solid var(--border);min-width:0}
+.as .an{font-size:22px;font-weight:900;color:var(--blue);word-break:break-all}
+.as .al{font-size:10px;color:var(--muted);margin-top:3px;font-weight:600}
 
-/* ACTIVITY LOG TABLE */
-.log-scroll{overflow-x:auto;border-radius:12px}
+/* ── LOG TABLE ── */
+.log-scroll{overflow-x:auto;border-radius:var(--radius-sm);border:1px solid var(--border)}
 .log-tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:420px}
-.log-tbl th{text-align:right;color:var(--muted);font-weight:700;padding:9px 10px;border-bottom:1px solid var(--border2);font-size:11px;white-space:nowrap;background:var(--surface2)}
-.log-tbl td{padding:9px 10px;border-bottom:1px solid var(--border)}
+.log-tbl th{text-align:right;color:var(--muted);font-weight:700;padding:10px 12px;border-bottom:1.5px solid var(--border);font-size:11px;white-space:nowrap;background:var(--surface2)}
+.log-tbl td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text)}
 .log-tbl tr:last-child td{border-bottom:none}
-.log-tbl tr:hover td{background:rgba(255,255,255,0.02)}
-.ltag{display:inline-block;padding:2px 9px;border-radius:50px;font-size:10px;font-weight:700}
-.tv{background:rgba(245,166,35,0.15);color:var(--accent)}
-.ts{background:rgba(59,130,246,0.15);color:#60a5fa}
-.ta{background:rgba(34,197,94,0.15);color:#4ade80}
-.td{background:rgba(239,68,68,0.15);color:#f87171}
-.tp{background:rgba(168,85,247,0.15);color:#c084fc}
+.log-tbl tr:hover td{background:var(--blue-light)}
+.ltag{display:inline-block;padding:3px 10px;border-radius:50px;font-size:10px;font-weight:700}
+.tv{background:var(--blue-light);color:var(--blue)}
+.ts{background:#f0fdf4;color:var(--green)}
+.ta{background:#f0fdf4;color:var(--green)}
+.td{background:var(--red-bg);color:var(--red)}
+.tp{background:var(--orange-bg);color:var(--orange)}
 
-/* PENDING AREAS */
-.pending-item{background:var(--surface2);border:1px solid var(--border2);border-radius:14px;padding:13px 14px;margin-bottom:8px}
+/* ── PENDING ── */
+.pending-item{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:8px}
 .pending-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
-.pending-name{font-size:14px;font-weight:700;flex:1}
-.pending-branch{font-size:11px;color:var(--muted)}
-.pending-price{font-size:11px;font-weight:700;padding:2px 9px;border-radius:50px}
-.pending-timer{font-size:11px;color:var(--orange);background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.2);border-radius:50px;padding:2px 9px;display:flex;align-items:center;gap:4px}
+.pending-name{font-size:14px;font-weight:700;flex:1;color:var(--text)}
+.pending-branch{font-size:11px;color:var(--muted);font-weight:600}
+.pending-price{font-size:11px;font-weight:700;padding:3px 10px;border-radius:50px}
+.pending-timer{font-size:11px;color:var(--orange);background:var(--orange-bg);border:1px solid rgba(234,88,12,0.2);border-radius:50px;padding:3px 10px;display:flex;align-items:center;gap:4px;font-weight:600}
 .pending-actions{display:flex;gap:8px}
-.btn-approve{flex:1;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);border-radius:10px;color:#4ade80;padding:9px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center}
-.btn-approve:hover{background:rgba(34,197,94,0.25)}
-.btn-reject{flex:1;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:10px;color:#f87171;padding:9px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center}
-.btn-reject:hover{background:rgba(239,68,68,0.22)}
+.btn-approve{flex:1;background:var(--green-bg);border:1.5px solid rgba(22,163,74,0.3);border-radius:var(--radius-xs);color:var(--green);padding:10px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center}
+.btn-approve:hover{background:var(--green);color:#fff}
+.btn-reject{flex:1;background:var(--red-bg);border:1.5px solid rgba(220,38,38,0.2);border-radius:var(--radius-xs);color:var(--red);padding:10px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center}
+.btn-reject:hover{background:var(--red);color:#fff}
 
-/* AREA MANAGE */
-.area-search-fi{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:10px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;outline:none;margin-bottom:10px;direction:rtl}
-.area-search-fi:focus{border-color:var(--accent)}
-.area-row{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--surface2);border-radius:11px;margin-bottom:6px}
-.ar-name{flex:1;font-size:13px;font-weight:600}
-.ar-branch{font-size:11px;color:var(--muted);flex-shrink:0}
-.ar-price{font-size:11px;font-weight:700;padding:2px 8px;border-radius:50px;flex-shrink:0}
-.btn-del{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.22);border-radius:8px;color:#f87171;padding:5px 11px;font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0}
-.btn-del:hover{background:rgba(239,68,68,0.25)}
+/* ── AREA MANAGE ── */
+.area-search-fi{width:100%;background:var(--surface2);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:11px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:14px;outline:none;margin-bottom:10px;direction:rtl;-webkit-appearance:none}
+.area-search-fi:focus{border-color:var(--blue)}
+.area-row{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--surface2);border-radius:var(--radius-xs);margin-bottom:6px;border:1px solid var(--border)}
+.ar-name{flex:1;font-size:13px;font-weight:700;color:var(--text)}
+.ar-branch{font-size:11px;color:var(--muted);flex-shrink:0;font-weight:600}
+.ar-price{font-size:11px;font-weight:700;padding:3px 9px;border-radius:50px;flex-shrink:0}
+.btn-del{background:var(--red-bg);border:1px solid rgba(220,38,38,0.2);border-radius:var(--radius-xs);color:var(--red);padding:5px 11px;font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;transition:all 0.2s}
+.btn-del:hover{background:var(--red);color:#fff}
 
-/* SETTINGS */
+/* ── SETTINGS ── */
 .setting-row{display:flex;flex-direction:column;gap:6px;margin-bottom:1rem}
 .setting-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
-.setting-fi{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:11px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:14px;outline:none;direction:ltr;text-align:right;transition:border-color 0.2s}
-.setting-fi:focus{border-color:var(--accent)}
-.btn-setting-save{background:var(--accent);border:none;border-radius:12px;padding:12px 24px;color:#000;font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:4px}
-.btn-setting-save:hover{background:var(--accent2)}
+.setting-fi{width:100%;background:var(--surface2);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:12px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:16px;outline:none;direction:ltr;text-align:right;transition:border-color 0.2s;-webkit-appearance:none}
+.setting-fi:focus{border-color:var(--blue);background:#fff}
+.btn-setting-save{background:var(--blue);border:none;border-radius:var(--radius-sm);padding:12px 24px;color:#fff;font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:4px;box-shadow:0 4px 12px rgba(37,99,235,0.25)}
+.btn-setting-save:hover{background:var(--blue2)}
 
-.no-data{text-align:center;color:var(--muted);font-size:13px;padding:2rem 0}
-.search-row{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
+/* ── SEARCH LIST ── */
+.search-row{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px}
 .search-row:last-child{border-bottom:none}
-.search-row:hover{background:rgba(255,255,255,0.02)}
-.sr-rank{color:var(--accent);font-weight:900;width:24px;text-align:center;flex-shrink:0}
-.sr-name{flex:1;font-weight:600}
-.sr-found{font-size:10px;padding:2px 8px;border-radius:50px;flex-shrink:0}
-.sr-found.yes{background:rgba(34,197,94,0.15);color:#4ade80}
-.sr-found.no{background:rgba(239,68,68,0.15);color:#f87171}
-.sr-count{font-size:11px;color:var(--muted);background:var(--surface2);padding:2px 10px;border-radius:50px;flex-shrink:0}
+.search-row:hover{background:var(--blue-light)}
+.sr-rank{color:var(--blue);font-weight:900;width:24px;text-align:center;flex-shrink:0}
+.sr-name{flex:1;font-weight:700;color:var(--text)}
+.sr-found{font-size:10px;padding:3px 9px;border-radius:50px;flex-shrink:0;font-weight:700}
+.sr-found.yes{background:var(--green-bg);color:var(--green)}
+.sr-found.no{background:var(--red-bg);color:var(--red)}
+.sr-count{font-size:11px;color:var(--muted);background:var(--surface2);padding:3px 10px;border-radius:50px;border:1px solid var(--border);flex-shrink:0;font-weight:600}
 .search-filter-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
-.sf-btn{padding:6px 14px;border-radius:50px;border:1px solid var(--border2);background:var(--surface2);color:var(--muted);font-family:'Cairo',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s}
-.sf-btn.active{background:var(--accent);border-color:var(--accent);color:#000}
-.reset-search-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:11px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:12px;color:#f87171;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px;transition:all 0.2s}
-.reset-search-btn:hover{background:rgba(239,68,68,0.22)}
+.sf-btn{padding:7px 14px;border-radius:50px;border:1.5px solid var(--border2);background:var(--surface2);color:var(--muted);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.sf-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.reset-search-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;background:var(--red-bg);border:1.5px solid rgba(220,38,38,0.25);border-radius:var(--radius-sm);color:var(--red);font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px;transition:all 0.2s}
+.reset-search-btn:hover{background:var(--red);color:#fff}
+
+.no-data{text-align:center;color:var(--dim);font-size:13px;padding:2rem 0}
 .tab-content{display:none}
 .tab-content.active{display:block}
 
-/* TOAST */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#22c55e;color:#000;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;padding:12px 24px;border-radius:50px;z-index:400;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap}
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--blue);color:#fff;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;padding:13px 26px;border-radius:50px;z-index:400;opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(37,99,235,0.35)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-@media(max-width:600px){header h1{font-size:21px}.result-area-name{font-size:17px}.admin-tabs{gap:2px;overflow-x:auto}.admin-tab{font-size:11px;padding:8px 6px;white-space:nowrap}.search-filter-row{flex-wrap:wrap}.sf-btn{font-size:11px;padding:5px 10px}}
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:1.5rem 0}
+
+@media(max-width:480px){
+  header h1{font-size:22px}
+  .result-area-name{font-size:19px}
+  .admin-tab{font-size:11px;padding:8px 4px}
+  .price-opts{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
-<div class="bg-glow"></div><div class="bg-glow2"></div>
 
-<!-- ══ الصفحة الرئيسية ══ -->
 <div class="container">
   <header>
-    <div class="logo-wrap"><svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div>
+    <div class="logo-wrap">
+      <svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+    </div>
     <h1>استعلام التوصيل</h1>
     <p>ابحث عن منطقتك واعرف السعر وأقرب فرع</p>
     <div class="sync-badge"><span class="sync-dot"></span><span id="syncStatus">جاري الاتصال...</span></div>
   </header>
 
-  <div class="loading-screen" id="loadingScreen"><div class="spinner"></div><div style="color:var(--muted);font-size:14px">جاري تحميل البيانات...</div></div>
+  <div class="loading-screen" id="loadingScreen">
+    <div class="spinner"></div>
+    <div style="color:var(--muted);font-size:14px;font-weight:600">جاري تحميل البيانات...</div>
+  </div>
 
   <div id="mainContent" style="display:none">
     <div class="stats-bar" id="statsBar"></div>
@@ -295,6 +347,7 @@ header p{font-size:13px;color:var(--muted)}
       <div class="top-list" id="topList"></div>
     </div>
 
+    <div class="divider"></div>
     <div class="legend">
       <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>مجاني</div>
       <div class="leg-item"><div class="leg-dot" style="background:var(--blue)"></div>1,000 دينار</div>
@@ -304,10 +357,9 @@ header p{font-size:13px;color:var(--muted)}
   </div>
 </div>
 
-<!-- زر المدير -->
 <button class="admin-float" onclick="openLogin()">🔐 المدير</button>
 
-<!-- ══ مودال إضافة منطقة ══ -->
+<!-- مودال الإضافة -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <div class="modal-title"><span>➕ إضافة منطقة</span><button class="modal-close" onclick="closeModal()">×</button></div>
@@ -315,7 +367,7 @@ header p{font-size:13px;color:var(--muted)}
     <div class="fg">
       <label class="fl">الفرع</label>
       <select class="fs" id="newBranchSelect"></select>
-      <div class="branch-row"><input type="text" class="fi" id="newBranchInput" placeholder="أو أضف فرع جديد..."><button class="btn-addbranch" onclick="addNewBranch()">أضف فرع</button></div>
+      <div class="branch-row"><input type="text" class="fi" id="newBranchInput" placeholder="أو أضف فرع جديد..."><button class="btn-addbranch" onclick="addNewBranch()">أضف</button></div>
     </div>
     <div class="fg"><label class="fl">سعر التوصيل</label>
       <div class="price-opts">
@@ -333,7 +385,7 @@ header p{font-size:13px;color:var(--muted)}
   </div>
 </div>
 
-<!-- ══ شاشة تسجيل الدخول ══ -->
+<!-- تسجيل الدخول -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="login-icon">🔐</div>
@@ -341,19 +393,18 @@ header p{font-size:13px;color:var(--muted)}
     <div class="login-sub">أدخل بيانات الدخول</div>
     <input type="text" class="login-fi" id="loginUser" placeholder="اسم المستخدم" autocomplete="off">
     <input type="password" class="login-fi" id="loginPass" placeholder="كلمة المرور">
-    <div class="login-err" id="loginErr">❌ بيانات خاطئة، حاول مرة ثانية</div>
+    <div class="login-err" id="loginErr">❌ بيانات خاطئة</div>
     <button class="login-btn" onclick="doLogin()">دخول ←</button>
     <button class="login-back" onclick="closeLogin()">← رجوع للتطبيق</button>
   </div>
 </div>
 
-<!-- ══ لوحة المدير ══ -->
+<!-- لوحة المدير -->
 <div class="admin-panel" id="adminPanel">
   <div class="admin-topbar">
     <h2>⚙️ لوحة المدير</h2>
     <button class="admin-back-btn" onclick="closeAdmin()">← خروج</button>
   </div>
-
   <div class="admin-tabs">
     <button class="admin-tab active" onclick="switchTab('stats',this)">📊 الإحصائيات</button>
     <button class="admin-tab" onclick="switchTab('pending',this)">🕐 المراجعة <span class="admin-tab-badge" id="pendingBadge" style="display:none">0</span></button>
@@ -361,7 +412,6 @@ header p{font-size:13px;color:var(--muted)}
     <button class="admin-tab" onclick="switchTab('log',this)">📋 السجل</button>
     <button class="admin-tab" onclick="switchTab('settings',this)">🔧 الإعدادات</button>
   </div>
-
   <div class="admin-body">
 
     <div class="tab-content active" id="tab-stats">
@@ -372,7 +422,7 @@ header p{font-size:13px;color:var(--muted)}
       <div class="ac">
         <div class="ac-title">
           <span>🔍 سجل البحوثات الكاملة</span>
-          <span id="searchTotalCount" style="font-size:11px;color:var(--muted);font-weight:400"></span>
+          <span id="searchTotalCount" style="font-size:11px;color:var(--muted);font-weight:500"></span>
         </div>
         <div class="search-filter-row">
           <button class="sf-btn active" onclick="filterSearchList('all',this)">الكل</button>
@@ -386,7 +436,7 @@ header p{font-size:13px;color:var(--muted)}
 
     <div class="tab-content" id="tab-pending">
       <div class="ac">
-        <div class="ac-title"><span>🕐 مناطق تنتظر المراجعة</span><span style="font-size:11px;color:var(--muted);font-weight:400">تُحذف تلقائياً بعد 24 ساعة وتُضاف للأساسيات</span></div>
+        <div class="ac-title"><span>🕐 مناطق تنتظر المراجعة</span><span style="font-size:11px;color:var(--muted);font-weight:500">تُضاف تلقائياً بعد 24 ساعة</span></div>
         <div id="pendingList"><div class="no-data">لا توجد مناطق معلقة</div></div>
       </div>
     </div>
@@ -414,13 +464,13 @@ header p{font-size:13px;color:var(--muted)}
         <div class="setting-row"><div class="setting-label">تأكيد كلمة المرور</div><input type="password" class="setting-fi" id="confirmPassword" placeholder="أعد كتابة كلمة المرور"></div>
         <button class="btn-setting-save" onclick="saveCredentials()">💾 حفظ بيانات الدخول</button>
       </div>
-      <div class="ac" style="border-color:rgba(239,68,68,0.3);margin-top:12px">
-        <div class="ac-title"><span style="color:#f87171">⚠️ إعادة تهيئة البيانات</span></div>
-        <p style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.8">يقوم هذا الخيار بمسح جميع البيانات الحالية وإعادة رفع بيانات الأفرع من الملف المحدّث. استخدمه عند إضافة أفرع جديدة أو تعديل المناطق.</p>
+      <div class="ac" style="border-color:rgba(37,99,235,0.2);background:var(--blue-light)">
+        <div class="ac-title"><span>🔄 مزامنة البيانات</span></div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.8">يضيف الأفرع والمناطق الجديدة فقط — يحافظ على الإضافات اليدوية.</p>
         <div style="display:flex;flex-direction:column;gap:8px">
-  <button class="btn-setting-save" style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);color:#60a5fa;width:100%" onclick="syncNewBranches()">➕ مزامنة الأفرع الجديدة فقط (يحافظ على الإضافات)</button>
-  <button class="btn-setting-save" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#f87171;width:100%" onclick="resetAllData()">⚠️ إعادة تهيئة كاملة (يمسح الإضافات اليدوية)</button>
-</div>
+          <button class="btn-setting-save" style="width:100%" onclick="syncNewBranches()">➕ مزامنة الأفرع الجديدة فقط</button>
+          <button class="btn-setting-save" style="background:var(--orange-bg);color:var(--orange);box-shadow:none;border:1.5px solid rgba(234,88,12,0.3);width:100%" onclick="resetAllData()">⚠️ إعادة تهيئة كاملة</button>
+        </div>
       </div>
     </div>
 
@@ -428,8 +478,9 @@ header p{font-size:13px;color:var(--muted)}
 </div>
 
 <div class="toast" id="toast"></div>
-<footer style="text-align:center;margin-top:40px;padding:20px 10px;color:#8888a0;font-size:12px;border-top:1px solid rgba(255,255,255,0.08)">
-  ©️ 2026 جميع الحقوق محفوظة - <span style="color:#f5a623;font-weight:700">سجاد محمد</span>
+
+<footer style="text-align:center;padding:20px 10px;color:var(--dim);font-size:12px;border-top:1px solid var(--border);margin-top:40px">
+  ©️ 2026 جميع الحقوق محفوظة — <span style="color:var(--blue);font-weight:700">سجاد محمد</span>
 </footer>
 
 <script type="module">
@@ -452,857 +503,213 @@ const db  = getDatabase(app);
 let ADMIN_USER = "f1v1f";
 let ADMIN_PASS = "2001185";
 
-// ═══════════════════════════════════════════════
-// SEED DATA — محدّث بجميع الأفرع والتعديلات
-// ═══════════════════════════════════════════════
+
 const SEED_DATA = {
 
-  // ── فرع الاعظمية (بدون تغيير) ──
   "الاعظمية":[
-    {area:"شارع الضباط",price:"1",distance:"1كم"},
-    {area:"الشماسية",price:"1",distance:"1-2كم"},
-    {area:"شارع عمر",price:"1",distance:"2-3كم"},
-    {area:"ساحة عنتر",price:"1",distance:"2-3كم"},
-    {area:"شارع الاخطل",price:"1",distance:"2-3كم"},
-    {area:"شارع 20",price:"1",distance:"3-4كم"},
-    {area:"شارع سهام",price:"1",distance:"2-3كم"},
-    {area:"قصر بلاسم",price:"1",distance:"3-4كم"},
-    {area:"شارع المشاتل",price:"1",distance:"3-4كم"},
-    {area:"جامع النداء",price:"1",distance:"3-4كم"},
-    {area:"الكم",price:"1",distance:"2-3كم"},
-    {area:"راغبة غاتون",price:"1",distance:"1-2كم"},
-    {area:"شارع أبو حنيفة",price:"1",distance:"3-4كم"},
-    {area:"السفينة",price:"2",distance:"4-5كم"},
-    {area:"المقبرة الملكية",price:"2",distance:"4-5كم"},
-    {area:"مقابر الخيزران",price:"2",distance:"4-5كم"},
-    {area:"مقبرة الشهداء",price:"2",distance:"4كم"},
-    {area:"مستشفى النعمان",price:"2",distance:"4-5كم"},
-    {area:"كورنيش الاعظمية",price:"2",distance:"4-5كم"},
-    {area:"المسناية",price:"2",distance:"5-6كم"},
-    {area:"جسر الائمة",price:"2",distance:"5-6كم"},
-    {area:"كورنيش الكاظمية",price:"2",distance:"6-7كم"},
-    {area:"شارع اكد",price:"2",distance:"7-8كم"},
-    {area:"مستشفى أطفال الكاظمية",price:"2",distance:"7-8كم"},
-    {area:"فلكة محمد الجواد",price:"2",distance:"7-8كم"},
-    {area:"باب المراد",price:"2",distance:"7-8كم"},
-    {area:"مجمع العبسلي",price:"2",distance:"7-8كم"},
-    {area:"شارع الجواد",price:"2",distance:"7-8كم"},
-    {area:"معسكر العدالة",price:"2",distance:"8-9كم"},
-    {area:"الوزيرية",price:"2",distance:"6-7كم"},
-    {area:"شارع المغرب",price:"2",distance:"6-7كم"},
-    {area:"باب المعظم",price:"2",distance:"7-8كم"},
-    {area:"مدينة الطب",price:"2",distance:"6-7كم"},
-    {area:"صليخ",price:"2",distance:"5-6كم"},
-    {area:"القاهرة جهة النداء",price:"2",distance:"5-6كم"},
-    {area:"القاهرة الدلفية",price:"2",distance:"5-7كم"},
-    {area:"الكريعات",price:"3",distance:"7-8كم"}
+    {area:"شارع الضباط",price:"1",distance:"1كم"},{area:"الشماسية",price:"1",distance:"1-2كم"},{area:"شارع عمر",price:"1",distance:"2-3كم"},{area:"ساحة عنتر",price:"1",distance:"2-3كم"},{area:"شارع الاخطل",price:"1",distance:"2-3كم"},{area:"شارع 20",price:"1",distance:"3-4كم"},{area:"شارع سهام",price:"1",distance:"2-3كم"},{area:"قصر بلاسم",price:"1",distance:"3-4كم"},{area:"شارع المشاتل",price:"1",distance:"3-4كم"},{area:"جامع النداء",price:"1",distance:"3-4كم"},{area:"الكم",price:"1",distance:"2-3كم"},{area:"راغبة غاتون",price:"1",distance:"1-2كم"},{area:"شارع أبو حنيفة",price:"1",distance:"3-4كم"},{area:"السفينة",price:"2",distance:"4-5كم"},{area:"المقبرة الملكية",price:"2",distance:"4-5كم"},{area:"مقابر الخيزران",price:"2",distance:"4-5كم"},{area:"مقبرة الشهداء",price:"2",distance:"4كم"},{area:"مستشفى النعمان",price:"2",distance:"4-5كم"},{area:"كورنيش الاعظمية",price:"2",distance:"4-5كم"},{area:"المسناية",price:"2",distance:"5-6كم"},{area:"جسر الائمة",price:"2",distance:"5-6كم"},{area:"كورنيش الكاظمية",price:"2",distance:"6-7كم"},{area:"شارع اكد",price:"2",distance:"7-8كم"},{area:"مستشفى أطفال الكاظمية",price:"2",distance:"7-8كم"},{area:"فلكة محمد الجواد",price:"2",distance:"7-8كم"},{area:"باب المراد",price:"2",distance:"7-8كم"},{area:"مجمع العبسلي",price:"2",distance:"7-8كم"},{area:"شارع الجواد",price:"2",distance:"7-8كم"},{area:"معسكر العدالة",price:"2",distance:"8-9كم"},{area:"الوزيرية",price:"2",distance:"6-7كم"},{area:"شارع المغرب",price:"2",distance:"6-7كم"},{area:"باب المعظم",price:"2",distance:"7-8كم"},{area:"مدينة الطب",price:"2",distance:"6-7كم"},{area:"صليخ",price:"2",distance:"5-6كم"},{area:"القاهرة جهة النداء",price:"2",distance:"5-6كم"},{area:"القاهرة الدلفية",price:"2",distance:"5-7كم"},{area:"الكريعات",price:"3",distance:"7-8كم"}
   ],
-
-  // ── فرع البنوك (بدون تغيير) ──
   "البنوك":[
-    {area:"طاقه ومجمع الاساتذه",price:"0",distance:"1كم"},
-    {area:"نادي العربي",price:"1",distance:"2كم"},
-    {area:"طالبية",price:"1",distance:"2كم"},
-    {area:"نادي النفط",price:"1",distance:"2كم"},
-    {area:"حي اور 600",price:"1",distance:"2-3كم"},
-    {area:"صباح الخياط",price:"1",distance:"2-3كم"},
-    {area:"علوة زويني",price:"1",distance:"2-3كم"},
-    {area:"البنوك بكل مخارجها ومداخلها",price:"1",distance:"2-4كم"},
-    {area:"حي سومر",price:"1",distance:"3-4كم"},
-    {area:"عمار ابن ياسر",price:"1",distance:"2-3كم"},
-    {area:"شارع فلسطين تقاطع الصخرة",price:"2",distance:"4كم"},
-    {area:"شارع فلسطين نادي التركماني",price:"2",distance:"4-5كم"},
-    {area:"شارع فلسطين مركز شرطة القناة",price:"2",distance:"4-5كم"},
-    {area:"م ابن البلدي",price:"2",distance:"3-4كم"},
-    {area:"حي اور معمل الرحلات",price:"2",distance:"3-4كم"},
-    {area:"حي اور كوفي السلطان",price:"2",distance:"3-4كم"},
-    {area:"حي الكوفه",price:"2",distance:"4-5كم"},
-    {area:"سبع قصور",price:"2",distance:"4-5كم"},
-    {area:"قاهرة من جسر البنوك لغاية جامعة الامام الصادق",price:"2",distance:"4-5كم"},
-    {area:"ام الكبر",price:"2",distance:"4-5كم"},
-    {area:"جميلة",price:"2",distance:"4-5كم"},
-    {area:"مدينه الصدر من الفلاح الى قطاع 79",price:"2",distance:"5-7كم"},
-    {area:"كسرة وعطش",price:"2",distance:"5-6كم"},
-    {area:"نهايه حي اور",price:"2",distance:"4-5كم"},
-    {area:"شيشان حي اور",price:"2",distance:"4-5كم"},
-    {area:"اريدو وساحة بيروت",price:"2",distance:"6-7كم"},
-    {area:"مستشفى الكندي",price:"3",distance:"7-8كم"},
-    {area:"النهضة",price:"3",distance:"8-9كم"}
+    {area:"طاقه ومجمع الاساتذه",price:"0",distance:"1كم"},{area:"نادي العربي",price:"1",distance:"2كم"},{area:"طالبية",price:"1",distance:"2كم"},{area:"نادي النفط",price:"1",distance:"2كم"},{area:"حي اور 600",price:"1",distance:"2-3كم"},{area:"صباح الخياط",price:"1",distance:"2-3كم"},{area:"علوة زويني",price:"1",distance:"2-3كم"},{area:"البنوك بكل مخارجها ومداخلها",price:"1",distance:"2-4كم"},{area:"حي سومر",price:"1",distance:"3-4كم"},{area:"عمار ابن ياسر",price:"1",distance:"2-3كم"},{area:"شارع فلسطين تقاطع الصخرة",price:"2",distance:"4كم"},{area:"شارع فلسطين نادي التركماني",price:"2",distance:"4-5كم"},{area:"شارع فلسطين مركز شرطة القناة",price:"2",distance:"4-5كم"},{area:"م ابن البلدي",price:"2",distance:"3-4كم"},{area:"حي اور معمل الرحلات",price:"2",distance:"3-4كم"},{area:"حي اور كوفي السلطان",price:"2",distance:"3-4كم"},{area:"حي الكوفه",price:"2",distance:"4-5كم"},{area:"سبع قصور",price:"2",distance:"4-5كم"},{area:"قاهرة من جسر البنوك لغاية جامعة الامام الصادق",price:"2",distance:"4-5كم"},{area:"ام الكبر",price:"2",distance:"4-5كم"},{area:"جميلة",price:"2",distance:"4-5كم"},{area:"مدينه الصدر من الفلاح الى قطاع 79",price:"2",distance:"5-7كم"},{area:"كسرة وعطش",price:"2",distance:"5-6كم"},{area:"نهايه حي اور",price:"2",distance:"4-5كم"},{area:"شيشان حي اور",price:"2",distance:"4-5كم"},{area:"اريدو وساحة بيروت",price:"2",distance:"6-7كم"},{area:"مستشفى الكندي",price:"3",distance:"7-8كم"},{area:"النهضة",price:"3",distance:"8-9كم"}
   ],
-
-  // ── فرع الحرية (بدون تغيير) ──
   "الحرية":[
-    {area:"شارع الدور العريض",price:"0",distance:"1كم"},
-    {area:"بيت شاطىء",price:"0",distance:"1كم"},
-    {area:"مصور عيسى",price:"0",distance:"1كم"},
-    {area:"كباب ابو رضا",price:"0",distance:"0كم"},
-    {area:"جامع المشاهده",price:"1",distance:"1-2كم"},
-    {area:"دور النواب",price:"1",distance:"2-3كم"},
-    {area:"دور الضباط",price:"1",distance:"2-3كم"},
-    {area:"شارع 20",price:"1",distance:"2-3كم"},
-    {area:"حي السلام",price:"1",distance:"3-4كم"},
-    {area:"البستان",price:"1",distance:"2-3كم"},
-    {area:"الدباش",price:"1",distance:"3-4كم"},
-    {area:"جامع زين العابدين",price:"1",distance:"2-3كم"},
-    {area:"شارع المشجر",price:"1",distance:"1-2كم"},
-    {area:"الحريه 1 2 3",price:"1",distance:"2-4كم"},
-    {area:"الحريه شارع الصحه",price:"1",distance:"1-2كم"},
-    {area:"الحريه الجمعيه",price:"1",distance:"2-3كم"},
-    {area:"الزراعي بالحريه",price:"2",distance:"4-5كم"},
-    {area:"الامام الحسين واخيه العباس",price:"2",distance:"3-4كم"},
-    {area:"الكاظميه",price:"2",distance:"4-5كم"},
-    {area:"الدولعي",price:"2",distance:"4-5كم"},
-    {area:"حي الجامعه",price:"2",distance:"4-5كم"},
-    {area:"الوشاش",price:"2",distance:"6-7كم"},
-    {area:"المنصور",price:"2",distance:"5-6كم"},
-    {area:"الاسكان",price:"2",distance:"4-5كم"},
-    {area:"شالجيه",price:"2",distance:"5-6كم"},
-    {area:"الطي",price:"3",distance:"6-7كم"},
-    {area:"العلاوي",price:"3",distance:"6-7كم"},
-    {area:"المنصور البيجية",price:"3",distance:"6-7كم"}
+    {area:"شارع الدور العريض",price:"0",distance:"1كم"},{area:"بيت شاطىء",price:"0",distance:"1كم"},{area:"مصور عيسى",price:"0",distance:"1كم"},{area:"كباب ابو رضا",price:"0",distance:"0كم"},{area:"جامع المشاهده",price:"1",distance:"1-2كم"},{area:"دور النواب",price:"1",distance:"2-3كم"},{area:"دور الضباط",price:"1",distance:"2-3كم"},{area:"شارع 20",price:"1",distance:"2-3كم"},{area:"حي السلام",price:"1",distance:"3-4كم"},{area:"البستان",price:"1",distance:"2-3كم"},{area:"الدباش",price:"1",distance:"3-4كم"},{area:"جامع زين العابدين",price:"1",distance:"2-3كم"},{area:"شارع المشجر",price:"1",distance:"1-2كم"},{area:"الحريه 1 2 3",price:"1",distance:"2-4كم"},{area:"الحريه شارع الصحه",price:"1",distance:"1-2كم"},{area:"الحريه الجمعيه",price:"1",distance:"2-3كم"},{area:"الزراعي بالحريه",price:"2",distance:"4-5كم"},{area:"الامام الحسين واخيه العباس",price:"2",distance:"3-4كم"},{area:"الكاظميه",price:"2",distance:"4-5كم"},{area:"الدولعي",price:"2",distance:"4-5كم"},{area:"حي الجامعه",price:"2",distance:"4-5كم"},{area:"الوشاش",price:"2",distance:"6-7كم"},{area:"المنصور",price:"2",distance:"5-6كم"},{area:"الاسكان",price:"2",distance:"4-5كم"},{area:"شالجيه",price:"2",distance:"5-6كم"},{area:"الطي",price:"3",distance:"6-7كم"},{area:"العلاوي",price:"3",distance:"6-7كم"},{area:"المنصور البيجية",price:"3",distance:"6-7كم"}
   ],
-
-  // ── فرع الدورة — مُعدَّل حسب الملف ──
   "الدورة":[
-    {area:"شارع 60",price:"1",distance:"1-2كم"},
-    {area:"شارع 120",price:"1",distance:"2-3كم"},
-    {area:"شارع الزيتون",price:"1",distance:"2-3كم"},
-    {area:"شارع الصحة",price:"1",distance:"2-3كم"},
-    {area:"الرواد",price:"1",distance:"2-3كم"},
-    {area:"كلية الهادي",price:"1",distance:"1-2كم"},
-    {area:"هور رجب",price:"2",distance:"5-6كم"},
-    {area:"أبو دشير",price:"2",distance:"4-5كم"},
-    {area:"عمارات/كفائات الصحة",price:"2",distance:"4-5كم"},
-    {area:"حي اسيا/حي الحضر",price:"2",distance:"3-4كم"},
-    {area:"الوادي",price:"2",distance:"4-5كم"},
-    {area:"الاسكان",price:"2",distance:"5كم"},
-    {area:"المعلمين",price:"2",distance:"5-6كم"},
-    {area:"حي الشرطة",price:"2",distance:"5-6كم"},
-    {area:"المعامرة",price:"2",distance:"6-7كم"},
-    {area:"الطعمة",price:"2",distance:"6-7كم"},
-    {area:"المخابرات/حي زبيدة",price:"2",distance:"6-7كم"},
-    {area:"سكانية",price:"2",distance:"4-5كم"},
-    {area:"كلية دجلة",price:"2",distance:"5-6كم"},
-    {area:"كلية الفارابي",price:"2",distance:"6-7كم"},
-    {area:"الجامعة التقنية الوسطى",price:"2",distance:"7-8كم"},
-    {area:"هور رجب خط النفط",price:"2",distance:"10-11كم"},
-    {area:"شهداء أبو دشير",price:"3",distance:"6-7كم"},
-    {area:"الطعمة بريد الدورة",price:"3",distance:"5-6كم"},
-    {area:"حاتم السعدون",price:"3",distance:"5-6كم"},
-    {area:"الاثوريين",price:"3",distance:"5-7كم"},
-    {area:"كلية السلام",price:"3",distance:"6-7كم"},
-    {area:"العدوانية",price:"3",distance:"6-7كم"},
-    {area:"علوة الرشيد",price:"3",distance:"8-9كم"},
-    {area:"كويريش/عويريج",price:"3",distance:"8-9كم"},
-    {area:"جسر الطابقين",price:"3",distance:"10-12كم"},
-    {area:"المهدية 1 2 3",price:"3",distance:"10-11كم"},
-    {area:"شيخ سردي/جسر صدام/جسر الوليد",price:"3",distance:"8-9كم"},
-    {area:"زراعي/الملا/العبيدي/أبو طيارة",price:"3",distance:"9-11كم"},
-    {area:"مجمع الايادي",price:"3",distance:"9-10كم"}
+    {area:"شارع 60",price:"1",distance:"1-2كم"},{area:"شارع 120",price:"1",distance:"2-3كم"},{area:"شارع الزيتون",price:"1",distance:"2-3كم"},{area:"شارع الصحة",price:"1",distance:"2-3كم"},{area:"الرواد",price:"1",distance:"2-3كم"},{area:"كلية الهادي",price:"1",distance:"1-2كم"},{area:"هور رجب",price:"2",distance:"5-6كم"},{area:"أبو دشير",price:"2",distance:"4-5كم"},{area:"عمارات/كفائات الصحة",price:"2",distance:"4-5كم"},{area:"حي اسيا/حي الحضر",price:"2",distance:"3-4كم"},{area:"الوادي",price:"2",distance:"4-5كم"},{area:"الاسكان",price:"2",distance:"5كم"},{area:"المعلمين",price:"2",distance:"5-6كم"},{area:"حي الشرطة",price:"2",distance:"5-6كم"},{area:"المعامرة",price:"2",distance:"6-7كم"},{area:"الطعمة",price:"2",distance:"6-7كم"},{area:"المخابرات/حي زبيدة",price:"2",distance:"6-7كم"},{area:"سكانية",price:"2",distance:"4-5كم"},{area:"كلية دجلة",price:"2",distance:"5-6كم"},{area:"كلية الفارابي",price:"2",distance:"6-7كم"},{area:"الجامعة التقنية الوسطى",price:"2",distance:"7-8كم"},{area:"هور رجب خط النفط",price:"2",distance:"10-11كم"},{area:"شهداء أبو دشير",price:"3",distance:"6-7كم"},{area:"الطعمة بريد الدورة",price:"3",distance:"5-6كم"},{area:"حاتم السعدون",price:"3",distance:"5-6كم"},{area:"الاثوريين",price:"3",distance:"5-7كم"},{area:"كلية السلام",price:"3",distance:"6-7كم"},{area:"العدوانية",price:"3",distance:"6-7كم"},{area:"علوة الرشيد",price:"3",distance:"8-9كم"},{area:"كويريش/عويريج",price:"3",distance:"8-9كم"},{area:"جسر الطابقين",price:"3",distance:"10-12كم"},{area:"المهدية 1 2 3",price:"3",distance:"10-11كم"},{area:"شيخ سردي/جسر صدام/جسر الوليد",price:"3",distance:"8-9كم"},{area:"زراعي/الملا/العبيدي/أبو طيارة",price:"3",distance:"9-11كم"},{area:"مجمع الايادي",price:"3",distance:"9-10كم"}
   ],
-
-  // ── فرع الشعب (بدون تغيير) ──
   "الشعب":[
-    {area:"الصحه",price:"1",distance:"1كم"},
-    {area:"وصفي المضمد",price:"1",distance:"1كم"},
-    {area:"جامع الحق",price:"1",distance:"1كم"},
-    {area:"جامع الارقم",price:"1",distance:"2-3كم"},
-    {area:"صلاح الدين",price:"1",distance:"2-3كم"},
-    {area:"شارع عدن",price:"1",distance:"2-3كم"},
-    {area:"جامع الجهاد",price:"1",distance:"2-3كم"},
-    {area:"شارع المحكمه",price:"1",distance:"2كم"},
-    {area:"الجزائر",price:"1",distance:"2-3كم"},
-    {area:"الفيحاء",price:"1",distance:"1-2كم"},
-    {area:"المثلث",price:"1",distance:"2كم"},
-    {area:"الديوان",price:"1",distance:"2-3كم"},
-    {area:"شارع 25",price:"1",distance:"2كم"},
-    {area:"شارع 40",price:"1",distance:"2-3كم"},
-    {area:"شارع 15",price:"1",distance:"2كم"},
-    {area:"سما بغداد",price:"1",distance:"2كم"},
-    {area:"زراعيه شارع 20",price:"1",distance:"2كم"},
-    {area:"ساحه علاء نجف",price:"1",distance:"1-2كم"},
-    {area:"شارع ابو ماهر",price:"1",distance:"2كم"},
-    {area:"حجي عادل",price:"1",distance:"1-2كم"},
-    {area:"حي البساتين مقابيل المحكمه",price:"2",distance:"2-3كم"},
-    {area:"البساتين شارع احمد الوائلي",price:"2",distance:"3-4كم"},
-    {area:"البساتين شارع التكاتك",price:"2",distance:"3-4كم"},
-    {area:"البساتين شارع الشخ منهل",price:"2",distance:"3-4كم"},
-    {area:"حي المصطفى",price:"2",distance:"4كم"},
-    {area:"حي المهندسين",price:"2",distance:"4كم"},
-    {area:"جمعيات وجامع المحترك",price:"2",distance:"2-3كم"},
-    {area:"شارع ابو هيثم",price:"2",distance:"3كم"},
-    {area:"بساتين الضباط",price:"2",distance:"3-4كم"},
-    {area:"بساتين حي السلام",price:"2",distance:"3-4كم"},
-    {area:"بساتين من جهة القناه",price:"2",distance:"4كم"},
-    {area:"بساتين الشقق",price:"2",distance:"4كم"},
-    {area:"بساتين اسواق فراوله",price:"2",distance:"3-4كم"},
-    {area:"بساتين شارع السبيس",price:"2",distance:"3-4كم"},
-    {area:"سيطره الشعب القديمه",price:"2",distance:"3-4كم"},
-    {area:"السريدات",price:"2",distance:"4كم"},
-    {area:"حي الشهيدين",price:"2",distance:"4كم"},
-    {area:"الثعالبه",price:"2",distance:"4-5كم"},
-    {area:"بوب الشام",price:"2",distance:"5-6كم"},
-    {area:"واحد حزيران",price:"2",distance:"5-6كم"},
-    {area:"بوب الشام بعد القوس",price:"3",distance:"6-7كم"},
-    {area:"فوج شمال بغداد",price:"3",distance:"6-7كم"}
+    {area:"الصحه",price:"1",distance:"1كم"},{area:"وصفي المضمد",price:"1",distance:"1كم"},{area:"جامع الحق",price:"1",distance:"1كم"},{area:"جامع الارقم",price:"1",distance:"2-3كم"},{area:"صلاح الدين",price:"1",distance:"2-3كم"},{area:"شارع عدن",price:"1",distance:"2-3كم"},{area:"جامع الجهاد",price:"1",distance:"2-3كم"},{area:"شارع المحكمه",price:"1",distance:"2كم"},{area:"الجزائر",price:"1",distance:"2-3كم"},{area:"الفيحاء",price:"1",distance:"1-2كم"},{area:"المثلث",price:"1",distance:"2كم"},{area:"الديوان",price:"1",distance:"2-3كم"},{area:"شارع 25",price:"1",distance:"2كم"},{area:"شارع 40",price:"1",distance:"2-3كم"},{area:"شارع 15",price:"1",distance:"2كم"},{area:"سما بغداد",price:"1",distance:"2كم"},{area:"زراعيه شارع 20",price:"1",distance:"2كم"},{area:"ساحه علاء نجف",price:"1",distance:"1-2كم"},{area:"شارع ابو ماهر",price:"1",distance:"2كم"},{area:"حجي عادل",price:"1",distance:"1-2كم"},{area:"حي البساتين مقابيل المحكمه",price:"2",distance:"2-3كم"},{area:"البساتين شارع احمد الوائلي",price:"2",distance:"3-4كم"},{area:"البساتين شارع التكاتك",price:"2",distance:"3-4كم"},{area:"البساتين شارع الشخ منهل",price:"2",distance:"3-4كم"},{area:"حي المصطفى",price:"2",distance:"4كم"},{area:"حي المهندسين",price:"2",distance:"4كم"},{area:"جمعيات وجامع المحترك",price:"2",distance:"2-3كم"},{area:"شارع ابو هيثم",price:"2",distance:"3كم"},{area:"بساتين الضباط",price:"2",distance:"3-4كم"},{area:"بساتين حي السلام",price:"2",distance:"3-4كم"},{area:"بساتين من جهة القناه",price:"2",distance:"4كم"},{area:"بساتين الشقق",price:"2",distance:"4كم"},{area:"بساتين اسواق فراوله",price:"2",distance:"3-4كم"},{area:"بساتين شارع السبيس",price:"2",distance:"3-4كم"},{area:"سيطره الشعب القديمه",price:"2",distance:"3-4كم"},{area:"السريدات",price:"2",distance:"4كم"},{area:"حي الشهيدين",price:"2",distance:"4كم"},{area:"الثعالبه",price:"2",distance:"4-5كم"},{area:"بوب الشام",price:"2",distance:"5-6كم"},{area:"واحد حزيران",price:"2",distance:"5-6كم"},{area:"بوب الشام بعد القوس",price:"3",distance:"6-7كم"},{area:"فوج شمال بغداد",price:"3",distance:"6-7كم"}
   ],
-
-  // ── فرع الغدير (بدون تغيير) ──
   "الغدير":[
-    {area:"الغدير",price:"1",distance:"1كم"},
-    {area:"تل محمد",price:"1",distance:"1-2كم"},
-    {area:"بغداد الجديده الدرويش",price:"1",distance:"3-4كم"},
-    {area:"زيونه",price:"1",distance:"2-3كم"},
-    {area:"ميسلون",price:"1",distance:"1كم"},
-    {area:"شارع الربيعي",price:"1",distance:"1-2كم"},
-    {area:"الف دار",price:"1",distance:"4-5كم"},
-    {area:"بغداد الجديده شارع المسبح الفين",price:"2",distance:"4-5كم"},
-    {area:"الأمين",price:"2",distance:"4-5كم"},
-    {area:"البلديات",price:"2",distance:"4-5كم"},
-    {area:"الكراده خارج",price:"2",distance:"5-6كم"},
-    {area:"الكراده داخل",price:"2",distance:"6-7كم"},
-    {area:"النعيريه",price:"2",distance:"5-6كم"},
-    {area:"الحبيبيه",price:"2",distance:"5-6كم"},
-    {area:"شارع فلسطين حي النيل",price:"2",distance:"5-6كم"},
-    {area:"شارع فلسطين حي المهندسين",price:"2",distance:"5-6كم"},
-    {area:"كراج الامانه",price:"2",distance:"4-5كم"},
-    {area:"مشتل",price:"2",distance:"5-6كم"},
-    {area:"فلكه رقم 10",price:"2",distance:"4-5كم"},
-    {area:"شارع المطبك",price:"2",distance:"6-7كم"},
-    {area:"ملجأ",price:"2",distance:"5-6كم"},
-    {area:"شارع السعدون",price:"2",distance:"5-6كم"},
-    {area:"ملعب الشعب على جهة وزاره الداخليه",price:"2",distance:"5-6كم"},
-    {area:"مدينه قطاع 0 1 2 3",price:"2",distance:"6-7كم"},
-    {area:"الاستكشافات",price:"3",distance:"6-7كم"},
-    {area:"الجملة العصبيه",price:"3",distance:"6-7كم"},
-    {area:"كفاءات العبيدي",price:"3",distance:"7-8كم"},
-    {area:"اورفلي",price:"3",distance:"7-8كم"},
-    {area:"رستميه",price:"3",distance:"6-7كم"}
+    {area:"الغدير",price:"1",distance:"1كم"},{area:"تل محمد",price:"1",distance:"1-2كم"},{area:"بغداد الجديده الدرويش",price:"1",distance:"3-4كم"},{area:"زيونه",price:"1",distance:"2-3كم"},{area:"ميسلون",price:"1",distance:"1كم"},{area:"شارع الربيعي",price:"1",distance:"1-2كم"},{area:"الف دار",price:"1",distance:"4-5كم"},{area:"بغداد الجديده شارع المسبح الفين",price:"2",distance:"4-5كم"},{area:"الأمين",price:"2",distance:"4-5كم"},{area:"البلديات",price:"2",distance:"4-5كم"},{area:"الكراده خارج",price:"2",distance:"5-6كم"},{area:"الكراده داخل",price:"2",distance:"6-7كم"},{area:"النعيريه",price:"2",distance:"5-6كم"},{area:"الحبيبيه",price:"2",distance:"5-6كم"},{area:"شارع فلسطين حي النيل",price:"2",distance:"5-6كم"},{area:"شارع فلسطين حي المهندسين",price:"2",distance:"5-6كم"},{area:"كراج الامانه",price:"2",distance:"4-5كم"},{area:"مشتل",price:"2",distance:"5-6كم"},{area:"فلكه رقم 10",price:"2",distance:"4-5كم"},{area:"شارع المطبك",price:"2",distance:"6-7كم"},{area:"ملجأ",price:"2",distance:"5-6كم"},{area:"شارع السعدون",price:"2",distance:"5-6كم"},{area:"ملعب الشعب على جهة وزاره الداخليه",price:"2",distance:"5-6كم"},{area:"مدينه قطاع 0 1 2 3",price:"2",distance:"6-7كم"},{area:"الاستكشافات",price:"3",distance:"6-7كم"},{area:"الجملة العصبيه",price:"3",distance:"6-7كم"},{area:"كفاءات العبيدي",price:"3",distance:"7-8كم"},{area:"اورفلي",price:"3",distance:"7-8كم"},{area:"رستميه",price:"3",distance:"6-7كم"}
   ],
-
-  // ── فرع الغزالية (بدون تغيير) ──
   "الغزالية":[
-    {area:"شارع مدير الامن",price:"1",distance:"1-2كم"},
-    {area:"شارع الصديق",price:"1",distance:"1-2كم"},
-    {area:"مرور الغزالية",price:"1",distance:"2كم"},
-    {area:"سوق النفلة",price:"1",distance:"2كم"},
-    {area:"شارع أسواق الزاوية",price:"1",distance:"1-2كم"},
-    {area:"الهياكل",price:"2",distance:"3-4كم"},
-    {area:"ام القرى",price:"2",distance:"3-4كم"},
-    {area:"سوق المائدة",price:"2",distance:"3-4كم"},
-    {area:"شارع المهاجرين",price:"2",distance:"3-4كم"},
-    {area:"شارع المركز",price:"2",distance:"3-4كم"},
-    {area:"شارع الضغط",price:"2",distance:"4-5كم"},
-    {area:"البكرية",price:"2",distance:"3-4كم"},
-    {area:"شارع البصرة",price:"2",distance:"4-5كم"},
-    {area:"شارع الزبير",price:"2",distance:"4-5كم"},
-    {area:"مجمع المالية",price:"2",distance:"4-5كم"},
-    {area:"المجمع السويسري",price:"2",distance:"5-6كم"},
-    {area:"مول الغزالية",price:"2",distance:"4-5كم"},
-    {area:"شارع البدالة",price:"2",distance:"4-5كم"},
-    {area:"الشعلة",price:"2",distance:"6-7كم"},
-    {area:"حي الخضراء",price:"2",distance:"7-8كم"},
-    {area:"جرف الملح",price:"2",distance:"7-8كم"},
-    {area:"الرحمانية",price:"3",distance:"4-6كم"},
-    {area:"الصابئات",price:"3",distance:"7-8كم"},
-    {area:"السلاميات",price:"3",distance:"9-10كم"},
-    {area:"العامرية",price:"3",distance:"9-10كم"},
-    {area:"حي الحسين",price:"3",distance:"9-10كم"}
+    {area:"شارع مدير الامن",price:"1",distance:"1-2كم"},{area:"شارع الصديق",price:"1",distance:"1-2كم"},{area:"مرور الغزالية",price:"1",distance:"2كم"},{area:"سوق النفلة",price:"1",distance:"2كم"},{area:"شارع أسواق الزاوية",price:"1",distance:"1-2كم"},{area:"الهياكل",price:"2",distance:"3-4كم"},{area:"ام القرى",price:"2",distance:"3-4كم"},{area:"سوق المائدة",price:"2",distance:"3-4كم"},{area:"شارع المهاجرين",price:"2",distance:"3-4كم"},{area:"شارع المركز",price:"2",distance:"3-4كم"},{area:"شارع الضغط",price:"2",distance:"4-5كم"},{area:"البكرية",price:"2",distance:"3-4كم"},{area:"شارع البصرة",price:"2",distance:"4-5كم"},{area:"شارع الزبير",price:"2",distance:"4-5كم"},{area:"مجمع المالية",price:"2",distance:"4-5كم"},{area:"المجمع السويسري",price:"2",distance:"5-6كم"},{area:"مول الغزالية",price:"2",distance:"4-5كم"},{area:"شارع البدالة",price:"2",distance:"4-5كم"},{area:"الشعلة",price:"2",distance:"6-7كم"},{area:"حي الخضراء",price:"2",distance:"7-8كم"},{area:"جرف الملح",price:"2",distance:"7-8كم"},{area:"الرحمانية",price:"3",distance:"4-6كم"},{area:"الصابئات",price:"3",distance:"7-8كم"},{area:"السلاميات",price:"3",distance:"9-10كم"},{area:"العامرية",price:"3",distance:"9-10كم"},{area:"حي الحسين",price:"3",distance:"9-10كم"}
   ],
-
-  // ── فرع حي العامل — مُعدَّل حسب الملف ──
   "حي العامل":[
-    {area:"شارع السكلات/الجنابات",price:"1",distance:"1كم"},
-    {area:"شارع 30/جامع العشرة المبشر",price:"1",distance:"1كم"},
-    {area:"دور النفط",price:"1",distance:"1-2كم"},
-    {area:"مركز الصحي",price:"1",distance:"1-2كم"},
-    {area:"شارع 7 نيسان/شارع التايرات",price:"1",distance:"2-3كم"},
-    {area:"سوق الشعبي/جامع الزهراء",price:"1",distance:"1-2كم"},
-    {area:"شارع المصرف/فوج المصرف",price:"1",distance:"1-2كم"},
-    {area:"شارع 84/الجمعيات",price:"1",distance:"1-2كم"},
-    {area:"سوق المكاصيص",price:"1",distance:"2-3كم"},
-    {area:"نادي صلاح الدين",price:"1",distance:"2-3كم"},
-    {area:"مدرسة تعز/البريد",price:"1",distance:"2-3كم"},
-    {area:"شارع التشييش",price:"1",distance:"2-3كم"},
-    {area:"حي صدام/شارع المطار",price:"1",distance:"4-5كم"},
-    {area:"المدارس الصفر",price:"1",distance:"3-4كم"},
-    {area:"فلكة حياوي/مؤسسة بنت الهدى",price:"1",distance:"2-3كم"},
-    {area:"حي العمداء",price:"1",distance:"3-4كم"},
-    {area:"حي العباس",price:"2",distance:"5-6كم"},
-    {area:"مدرسة سعد ابن المسيب",price:"2",distance:"5-6كم"},
-    {area:"شارع 9 نيسان",price:"2",distance:"5-6كم"},
-    {area:"شارع المكتفي",price:"2",distance:"5-7كم"},
-    {area:"شارع المعتز",price:"2",distance:"6-7كم"},
-    {area:"مجمع المحبة السكني",price:"2",distance:"7-8كم"}
+    {area:"شارع السكلات/الجنابات",price:"1",distance:"1كم"},{area:"شارع 30/جامع العشرة المبشر",price:"1",distance:"1كم"},{area:"دور النفط",price:"1",distance:"1-2كم"},{area:"مركز الصحي",price:"1",distance:"1-2كم"},{area:"شارع 7 نيسان/شارع التايرات",price:"1",distance:"2-3كم"},{area:"سوق الشعبي/جامع الزهراء",price:"1",distance:"1-2كم"},{area:"شارع المصرف/فوج المصرف",price:"1",distance:"1-2كم"},{area:"شارع 84/الجمعيات",price:"1",distance:"1-2كم"},{area:"سوق المكاصيص",price:"1",distance:"2-3كم"},{area:"نادي صلاح الدين",price:"1",distance:"2-3كم"},{area:"مدرسة تعز/البريد",price:"1",distance:"2-3كم"},{area:"شارع التشييش",price:"1",distance:"2-3كم"},{area:"حي صدام/شارع المطار",price:"1",distance:"4-5كم"},{area:"المدارس الصفر",price:"1",distance:"3-4كم"},{area:"فلكة حياوي/مؤسسة بنت الهدى",price:"1",distance:"2-3كم"},{area:"حي العمداء",price:"1",distance:"3-4كم"},{area:"حي العباس",price:"2",distance:"5-6كم"},{area:"مدرسة سعد ابن المسيب",price:"2",distance:"5-6كم"},{area:"شارع 9 نيسان",price:"2",distance:"5-6كم"},{area:"شارع المكتفي",price:"2",distance:"5-7كم"},{area:"شارع المعتز",price:"2",distance:"6-7كم"},{area:"مجمع المحبة السكني",price:"2",distance:"7-8كم"}
   ],
-
-  // ── فرع بسمايه (بدون تغيير) ──
-  "بسمايه":[
-    {area:"كل المنطقة",price:"1",distance:"كل المنطقة"}
-  ],
-
-  // ── فرع البعيثة — مُعدَّل حسب ملف PDF ──
+  "بسمايه":[{area:"كل المنطقة",price:"1",distance:"كل المنطقة"}],
   "البعيثة":[
-    {area:"السلطان 1",price:"1",distance:"1-2كم"},
-    {area:"السلطان 2",price:"1",distance:"2-3كم"},
-    {area:"السلطان 3",price:"1",distance:"2-3كم"},
-    {area:"العدل 1",price:"1",distance:"2-3كم"},
-    {area:"العدل 2",price:"1",distance:"2-3كم"},
-    {area:"العدل 3",price:"1",distance:"1-2كم"},
-    {area:"جمعية خير الله",price:"2",distance:"5-6كم"},
-    {area:"دور النفط",price:"2",distance:"4-5كم"},
-    {area:"المعدات",price:"2",distance:"4-5كم"},
-    {area:"حي دجلة",price:"2",distance:"3-4كم"},
-    {area:"كرارة",price:"2",distance:"4-5كم"},
-    {area:"عرب جبور",price:"2",distance:"5كم"},
-    {area:"الدوانم",price:"2",distance:"5-6كم"},
-    {area:"سدة عرب جبور",price:"2",distance:"5-6كم"},
-    {area:"مزارع عرب جبور",price:"2",distance:"5-6كم"},
-    {area:"السابعة حي الحسن مدخل الحشد",price:"3",distance:"9-12كم"},
-    {area:"الثامنة",price:"3",distance:"10-12كم"},
-    {area:"مصفى الدورة",price:"3",distance:"9-11كم"},
-    {area:"مول العراق",price:"3",distance:"10-11كم"}
+    {area:"السلطان 1",price:"1",distance:"1-2كم"},{area:"السلطان 2",price:"1",distance:"2-3كم"},{area:"السلطان 3",price:"1",distance:"2-3كم"},{area:"العدل 1",price:"1",distance:"2-3كم"},{area:"العدل 2",price:"1",distance:"2-3كم"},{area:"العدل 3",price:"1",distance:"1-2كم"},{area:"جمعية خير الله",price:"2",distance:"5-6كم"},{area:"دور النفط",price:"2",distance:"4-5كم"},{area:"المعدات",price:"2",distance:"4-5كم"},{area:"حي دجلة",price:"2",distance:"3-4كم"},{area:"كرارة",price:"2",distance:"4-5كم"},{area:"عرب جبور",price:"2",distance:"5كم"},{area:"الدوانم",price:"2",distance:"5-6كم"},{area:"سدة عرب جبور",price:"2",distance:"5-6كم"},{area:"مزارع عرب جبور",price:"2",distance:"5-6كم"},{area:"السابعة حي الحسن مدخل الحشد",price:"3",distance:"9-12كم"},{area:"الثامنة",price:"3",distance:"10-12كم"},{area:"مصفى الدورة",price:"3",distance:"9-11كم"},{area:"مول العراق",price:"3",distance:"10-11كم"}
   ],
-
-  // ── فرع حي الجهاد — جديد ──
   "حي الجهاد":[
-    {area:"الشارع التجاري",price:"1",distance:"1كم"},
-    {area:"الاساتذة",price:"1",distance:"1-2كم"},
-    {area:"الملحانية",price:"1",distance:"2-3كم"},
-    {area:"مجمع السلام/النسيم/الرافدين",price:"1",distance:"1-2كم"},
-    {area:"حي الحسين/الضباط/الفرات",price:"1",distance:"2-3كم"},
-    {area:"الأمانة/المخابرات",price:"1",distance:"3-4كم"},
-    {area:"الشارقة/حي الاطباء",price:"1",distance:"2-3كم"},
-    {area:"شارع الديوان",price:"1",distance:"3-4كم"},
-    {area:"الرضوانية",price:"2",distance:"4-6كم"},
-    {area:"العامرية",price:"2",distance:"6-8كم"}
+    {area:"الشارع التجاري",price:"1",distance:"1كم"},{area:"الاساتذة",price:"1",distance:"1-2كم"},{area:"الملحانية",price:"1",distance:"2-3كم"},{area:"مجمع السلام/النسيم/الرافدين",price:"1",distance:"1-2كم"},{area:"حي الحسين/الضباط/الفرات",price:"1",distance:"2-3كم"},{area:"الأمانة/المخابرات",price:"1",distance:"3-4كم"},{area:"الشارقة/حي الاطباء",price:"1",distance:"2-3كم"},{area:"شارع الديوان",price:"1",distance:"3-4كم"},{area:"الرضوانية",price:"2",distance:"4-6كم"},{area:"العامرية",price:"2",distance:"6-8كم"}
   ],
-
-  // ── فرع شهداء البياع — جديد ──
   "شهداء البياع":[
-    {area:"شارع الشهداء",price:"1",distance:"2كم"},
-    {area:"فلكة شهداء البياع",price:"1",distance:"2كم"},
-    {area:"جامع الحسن العسكري",price:"1",distance:"2كم"},
-    {area:"الحمدانية",price:"1",distance:"4كم"},
-    {area:"الرسالة 1/2/3",price:"1",distance:"2-3كم"},
-    {area:"الشرطة الرابعة والخامسة",price:"1",distance:"3-4كم"},
-    {area:"شارع السياب",price:"1",distance:"2-3كم"},
-    {area:"سويب",price:"1",distance:"3-4كم"},
-    {area:"البديري",price:"1",distance:"1-2كم"},
-    {area:"المكاسب",price:"1",distance:"3-4كم"},
-    {area:"المواصلات",price:"1",distance:"1-2كم"},
-    {area:"قطر الندى",price:"1",distance:"4كم"},
-    {area:"شارع المضخة",price:"1",distance:"2-3كم"},
-    {area:"حي الاعلام",price:"2",distance:"5-6كم"},
-    {area:"الدوانم",price:"2",distance:"4-6كم"},
-    {area:"المعالف",price:"2",distance:"5-7كم"},
-    {area:"التراث",price:"2",distance:"5-7كم"},
-    {area:"الري",price:"2",distance:"5-6كم"},
-    {area:"السيدية/شهداء السيدية",price:"2",distance:"5-7كم"},
-    {area:"جامعة الفراهيدي",price:"2",distance:"6-7كم"},
-    {area:"الجادرية",price:"3",distance:"10كم"}
+    {area:"شارع الشهداء",price:"1",distance:"2كم"},{area:"فلكة شهداء البياع",price:"1",distance:"2كم"},{area:"جامع الحسن العسكري",price:"1",distance:"2كم"},{area:"الحمدانية",price:"1",distance:"4كم"},{area:"الرسالة 1/2/3",price:"1",distance:"2-3كم"},{area:"الشرطة الرابعة والخامسة",price:"1",distance:"3-4كم"},{area:"شارع السياب",price:"1",distance:"2-3كم"},{area:"سويب",price:"1",distance:"3-4كم"},{area:"البديري",price:"1",distance:"1-2كم"},{area:"المكاسب",price:"1",distance:"3-4كم"},{area:"المواصلات",price:"1",distance:"1-2كم"},{area:"قطر الندى",price:"1",distance:"4كم"},{area:"شارع المضخة",price:"1",distance:"2-3كم"},{area:"حي الاعلام",price:"2",distance:"5-6كم"},{area:"الدوانم",price:"2",distance:"4-6كم"},{area:"المعالف",price:"2",distance:"5-7كم"},{area:"التراث",price:"2",distance:"5-7كم"},{area:"الري",price:"2",distance:"5-6كم"},{area:"السيدية/شهداء السيدية",price:"2",distance:"5-7كم"},{area:"جامعة الفراهيدي",price:"2",distance:"6-7كم"},{area:"الجادرية",price:"3",distance:"10كم"}
   ]
-
 };
 
-const PRICES    = {"0":"مجاني","1":"1,000 د.ع","2":"2,000 د.ع","3":"3,000 د.ع"};
-const PRICE_CLR = {"0":"#22c55e","1":"#3b82f6","2":"#f97316","3":"#ef4444"};
-const BORDER_CLR= {"0":"rgba(34,197,94,0.35)","1":"rgba(59,130,246,0.35)","2":"rgba(249,115,22,0.35)","3":"rgba(239,68,68,0.35)"};
-const MS24      = 24 * 60 * 60 * 1000;
+const PRICES={"0":"مجاني","1":"1,000 د.ع","2":"2,000 د.ع","3":"3,000 د.ع"};
+const PRICE_CLR={"0":"#16a34a","1":"#2563eb","2":"#ea580c","3":"#dc2626"};
+const BORDER_CLR={"0":"rgba(22,163,74,0.3)","1":"rgba(37,99,235,0.3)","2":"rgba(234,88,12,0.3)","3":"rgba(220,38,38,0.3)"};
+const MS24=24*60*60*1000;
+let DATA={},searchStats={},activityLog=[],pendingAreas={},branches=[],sel=null,priceFilter='all',selPrice=null;
 
-let DATA={}, searchStats={}, activityLog=[], pendingAreas={}, branches=[], sel=null, priceFilter='all', selPrice=null;
-
-// ═══════════════════════════════════════════════
-// التهيئة
-// ═══════════════════════════════════════════════
 async function initApp(){
-  const credSnap = await get(ref(db,'adminCredentials'));
-  if(credSnap.exists()){ const c=credSnap.val(); ADMIN_USER=c.user; ADMIN_PASS=c.pass; }
-  else { await set(ref(db,'adminCredentials'),{user:ADMIN_USER,pass:ADMIN_PASS}); }
-
-  // ── عند أول تشغيل فقط: إذا ما في بيانات برفع SEED_DATA
-  // إذا في بيانات: فقط أضف الأفرع الجديدة اللي ما موجودة، ولا تلمس الموجودة
-  const dataSnap = await get(ref(db,'data'));
-  if(!dataSnap.exists()){
-    await set(ref(db,'data'), SEED_DATA);
-  } else {
-    const existing = dataSnap.val() || {};
-    // فقط أضف الأفرع الجديدة اللي ما موجودة بـ Firebase
-    for(const b of Object.keys(SEED_DATA)){
-      if(!existing[b]){
-        await set(ref(db,'data/'+b), SEED_DATA[b]);
-      }
-    }
+  const credSnap=await get(ref(db,'adminCredentials'));
+  if(credSnap.exists()){const c=credSnap.val();ADMIN_USER=c.user;ADMIN_PASS=c.pass;}
+  else{await set(ref(db,'adminCredentials'),{user:ADMIN_USER,pass:ADMIN_PASS});}
+  const dataSnap=await get(ref(db,'data'));
+  if(!dataSnap.exists()){await set(ref(db,'data'),SEED_DATA);}
+  else{
+    const existing=dataSnap.val()||{};
+    for(const b of Object.keys(SEED_DATA)){if(!existing[b])await set(ref(db,'data/'+b),SEED_DATA[b]);}
   }
-
-  onValue(ref(db,'data'), s=>{ DATA=s.val()||{}; branches=Object.keys(DATA); renderUI(); });
-  onValue(ref(db,'searchStats'), s=>{ searchStats=s.val()||{}; buildStats(); renderTopAreas(); if(isAdminOpen()) renderAdminStats(); });
-  onValue(query(ref(db,'activityLog'), limitToLast(100)), s=>{ activityLog=[]; s.forEach(c=>activityLog.unshift(c.val())); if(isAdminOpen()) renderActivityLog(); });
-  onValue(ref(db,'searchMeta'), s=>{ searchMeta=s.val()||{}; if(isAdminOpen()) renderSearchList(); });
-  onValue(ref(db,'pending'), s=>{ pendingAreas=s.val()||{}; updatePendingBadge(); if(isAdminOpen()) renderPending(); processPendingExpired(); });
-
+  onValue(ref(db,'data'),s=>{DATA=s.val()||{};branches=Object.keys(DATA);renderUI();});
+  onValue(ref(db,'searchStats'),s=>{searchStats=s.val()||{};buildStats();renderTopAreas();if(isAdminOpen())renderAdminStats();});
+  onValue(query(ref(db,'activityLog'),limitToLast(100)),s=>{activityLog=[];s.forEach(c=>activityLog.unshift(c.val()));if(isAdminOpen())renderActivityLog();});
+  onValue(ref(db,'searchMeta'),s=>{searchMeta=s.val()||{};if(isAdminOpen())renderSearchList();});
+  onValue(ref(db,'pending'),s=>{pendingAreas=s.val()||{};updatePendingBadge();if(isAdminOpen())renderPending();processPendingExpired();});
   logActivity('visit','زيارة جديدة للتطبيق','');
   cleanOldSearchStats();
   document.getElementById('syncStatus').textContent='متصل • تحديث فوري';
 }
-
-function isAdminOpen(){ return document.getElementById('adminPanel').classList.contains('open'); }
-
-async function logActivity(type,text,detail){
-  const t=new Date().toLocaleString('ar-IQ',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit',year:'2-digit'});
-  await push(ref(db,'activityLog'),{type,text,detail,time:t,ts:Date.now()});
-}
-
-// ═══════════════════════════════════════════════
-// الواجهة الرئيسية
-// ═══════════════════════════════════════════════
-function renderUI(){
-  document.getElementById('loadingScreen').style.display='none';
-  document.getElementById('mainContent').style.display='block';
-  buildStats(); buildBranches(); renderTopAreas();
-}
-
-// تحويل بيانات Firebase الآمن
-function safeArr(val){
-  if(!val) return [];
-  if(Array.isArray(val)) return val.filter(Boolean);
-  if(typeof val === 'object') return Object.values(val).filter(Boolean);
-  return [];
-}
-
+function isAdminOpen(){return document.getElementById('adminPanel').classList.contains('open');}
+async function logActivity(type,text,detail){const t=new Date().toLocaleString('ar-IQ',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit',year:'2-digit'});await push(ref(db,'activityLog'),{type,text,detail,time:t,ts:Date.now()});}
+function renderUI(){document.getElementById('loadingScreen').style.display='none';document.getElementById('mainContent').style.display='block';buildStats();buildBranches();renderTopAreas();}
+function safeArr(val){if(!val)return[];if(Array.isArray(val))return val.filter(Boolean);if(typeof val==='object')return Object.values(val).filter(Boolean);return[];}
 function buildStats(){
   const total=branches.reduce((s,b)=>s+safeArr(DATA[b]).length,0);
   const ts=Object.values(searchStats).reduce((s,v)=>s+(typeof v==='number'?v:0),0);
-  document.getElementById('statsBar').innerHTML=`
-    <div class="stat-mini"><div class="n">${branches.length}</div><div class="l">فرع</div></div>
-    <div class="stat-mini"><div class="n">${total}</div><div class="l">منطقة</div></div>
-    <div class="stat-mini"><div class="n">4</div><div class="l">أسعار</div></div>
-    <div class="stat-mini"><div class="n">${ts}</div><div class="l">بحث</div></div>`;
+  document.getElementById('statsBar').innerHTML=`<div class="stat-mini"><div class="n">${branches.length}</div><div class="l">فرع</div></div><div class="stat-mini"><div class="n">${total}</div><div class="l">منطقة</div></div><div class="stat-mini"><div class="n">4</div><div class="l">أسعار</div></div><div class="stat-mini"><div class="n">${ts}</div><div class="l">بحث</div></div>`;
 }
-
 function buildBranches(){
-  const w=document.getElementById('branchChips'); w.innerHTML='';
-  const mk=(lbl,b)=>{ const btn=document.createElement('button'); btn.className='branch-chip'+(b===sel||(b===null&&sel===null)?' active':''); btn.textContent=lbl; btn.onclick=()=>{sel=b;buildBranches();clearR();}; w.appendChild(btn); };
-  mk('الكل',null); branches.forEach(b=>mk(b,b));
+  const w=document.getElementById('branchChips');w.innerHTML='';
+  const mk=(lbl,b)=>{const btn=document.createElement('button');btn.className='branch-chip'+(b===sel||(b===null&&sel===null)?' active':'');btn.textContent=lbl;btn.onclick=()=>{sel=b;buildBranches();clearR();};w.appendChild(btn);};
+  mk('الكل',null);branches.forEach(b=>mk(b,b));
 }
-function buildBranchSel(){ const s=document.getElementById('newBranchSelect'); s.innerHTML=''; branches.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;s.appendChild(o);}); }
-function clearR(){ document.getElementById('result').innerHTML=''; document.getElementById('suggestions').innerHTML=''; document.getElementById('searchInput').value=''; }
+function buildBranchSel(){const s=document.getElementById('newBranchSelect');s.innerHTML='';branches.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;s.appendChild(o);});}
+function clearR(){document.getElementById('result').innerHTML='';document.getElementById('suggestions').innerHTML='';document.getElementById('searchInput').value='';}
+window.setFilter=function(p,btn){priceFilter=p;document.querySelectorAll('.filter-chip').forEach(x=>x.className='filter-chip');btn.classList.add('ca-'+(p==='all'?'all':p));clearR();};
+function allAreas(){let a=[];(sel?[sel]:branches).forEach(b=>safeArr(DATA[b]).forEach(i=>{if(i&&i.area)a.push({...i,branch:b});}));if(priceFilter!=='all')a=a.filter(x=>x.price===priceFilter);return a;}
+function norm(s){return s.replace(/[أإآا]/g,'ا').replace(/[ةه]/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ').trim().toLowerCase();}
+function isLateNight(){const h=new Date().getHours();return h>=2&&h<9;}
 
-window.setFilter=function(p,btn){ priceFilter=p; document.querySelectorAll('.filter-chip').forEach(x=>x.className='filter-chip'); btn.classList.add('ca-'+(p==='all'?'all':p)); clearR(); };
-function allAreas(){ let a=[]; (sel?[sel]:branches).forEach(b=>safeArr(DATA[b]).forEach(i=>{ if(i&&i.area) a.push({...i,branch:b}); })); if(priceFilter!=='all')a=a.filter(x=>x.price===priceFilter); return a; }
-function norm(s){ return s.replace(/[أإآا]/g,'ا').replace(/[ةه]/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ').trim().toLowerCase(); }
-function isLateNight(){ const h=new Date().getHours(); return h>=2&&h<9; }
-
-// البحث
 document.getElementById('searchInput').addEventListener('input',function(){
-  const q=this.value.trim(); document.getElementById('result').innerHTML='';
+  const q=this.value.trim();document.getElementById('result').innerHTML='';
   if(q.length<2){document.getElementById('suggestions').innerHTML='';return;}
   const m=allAreas().filter(x=>norm(x.area).includes(norm(q))).slice(0,9);
   if(!m.length){document.getElementById('suggestions').innerHTML='';return;}
   renderSugs(m);
 });
 document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
-
-window.doSearch=function(){
-  const q=document.getElementById('searchInput').value.trim(); if(!q)return;
-  const m=allAreas().filter(x=>norm(x.area).includes(norm(q)));
-  if(m.length>0) recordSearch(m.length===1?m[0].area:q);
-  showResults(m,q);
-};
-
+window.doSearch=function(){const q=document.getElementById('searchInput').value.trim();if(!q)return;const m=allAreas().filter(x=>norm(x.area).includes(norm(q)));if(m.length>0)recordSearch(m.length===1?m[0].area:q);showResults(m,q);};
 function renderSugs(m){
-  const s=document.getElementById('suggestions'); s.innerHTML='';
-  const box=document.createElement('div'); box.className='sugg-box';
-  m.forEach(x=>{ const d=document.createElement('div'); d.className='sug-item';
+  const s=document.getElementById('suggestions');s.innerHTML='';
+  const box=document.createElement('div');box.className='sugg-box';
+  m.forEach(x=>{const d=document.createElement('div');d.className='sug-item';
     d.innerHTML=`<span class="sug-name">${x.area}</span><span class="sug-meta"><span class="sug-dot" style="background:${PRICE_CLR[x.price]}"></span><span class="sug-branch">${x.branch}</span></span>`;
-    d.onclick=()=>{showR(x);s.innerHTML='';document.getElementById('searchInput').value=x.area;recordSearch(x.area);}; box.appendChild(d); });
+    d.onclick=()=>{showR(x);s.innerHTML='';document.getElementById('searchInput').value=x.area;recordSearch(x.area);};box.appendChild(d);});
   s.appendChild(box);
 }
-
 function showResults(m,q){
-  if(!m.length){ document.getElementById('suggestions').innerHTML='';
-    const u='https://www.google.com/maps/search/'+encodeURIComponent(q+' بغداد العراق');
-    document.getElementById('result').innerHTML=`<div class="no-result"><div style="font-size:36px;margin-bottom:10px">🔍</div><div>ما لكيت "<strong>${q}</strong>" بالقائمة</div><br><a href="${u}" target="_blank" class="map-btn">🗺️ ابحث عنها في Google Maps</a></div>`; return; }
+  if(!m.length){document.getElementById('suggestions').innerHTML='';const u='https://www.google.com/maps/search/'+encodeURIComponent(q+' بغداد العراق');document.getElementById('result').innerHTML=`<div class="no-result"><div style="font-size:40px;margin-bottom:12px">🔍</div><div style="font-weight:600;color:var(--text2)">ما لكيت "<strong>${q}</strong>" بالقائمة</div><br><a href="${u}" target="_blank" class="map-btn">🗺️ ابحث عنها في Google Maps</a></div>`;return;}
   if(m.length===1){showR(m[0]);document.getElementById('suggestions').innerHTML='';return;}
   renderSugs(m);
 }
-
 function showR(item){
   document.getElementById('suggestions').innerHTML='';
   const u=`https://www.google.com/maps/search/${encodeURIComponent(item.area+' بغداد العراق')}`;
   const late=isLateNight()&&item.price==='3';
   const lateHtml=late?`<div class="late-warn"><span style="font-size:18px">⚠️</span><span>التوصيل لهذه المنطقة <strong>متوقف حالياً</strong> بعد الساعة 2 صباحاً</span></div>`:'';
-  document.getElementById('result').innerHTML=`
-    <div class="result-card" style="border-color:${BORDER_CLR[item.price]||BORDER_CLR['1']}">
-      <div class="result-header"><div class="result-area-name">${item.area}</div><div class="result-branch-badge">${item.branch}</div></div>
-      <div class="result-stats">
-        <div class="stat-box"><div class="s-label">الفرع</div><div class="s-val" style="font-size:13px">${item.branch}</div></div>
-        <div class="stat-box"><div class="s-label">التوصيل</div><div class="s-val" style="color:${PRICE_CLR[item.price]}">${PRICES[item.price]}</div></div>
-        <div class="stat-box"><div class="s-label">المسافة</div><div class="s-val">${item.distance}</div></div>
-      </div>
-      <div class="result-footer">${lateHtml}<a href="${u}" target="_blank" class="map-btn">🗺️ عرض على Google Maps</a></div>
-    </div>`;
+  document.getElementById('result').innerHTML=`<div class="result-card" style="border-color:${BORDER_CLR[item.price]||BORDER_CLR['1']}"><div class="result-header"><div class="result-area-name">${item.area}</div><div class="result-branch-badge">${item.branch}</div></div><div class="result-stats"><div class="stat-box"><div class="s-label">الفرع</div><div class="s-val" style="font-size:13px">${item.branch}</div></div><div class="stat-box"><div class="s-label">التوصيل</div><div class="s-val" style="color:${PRICE_CLR[item.price]}">${PRICES[item.price]}</div></div><div class="stat-box"><div class="s-label">المسافة</div><div class="s-val">${item.distance}</div></div></div><div class="result-footer">${lateHtml}<a href="${u}" target="_blank" class="map-btn">🗺️ عرض على Google Maps</a></div></div>`;
 }
-
 async function recordSearch(k){
-  k=k.trim();
-  const found = allAreas().some(x=>norm(x.area)===norm(k)||norm(x.area).includes(norm(k)));
-  const current = searchStats[k];
-  // إذا القيمة القديمة object (من Firebase القديم) نعيد من 0
-  const prevCount = (typeof current==='number') ? current : 0;
-  await update(ref(db,'searchStats'),{[k]: prevCount+1});
-  // نخزن حالة الوجود
-  await update(ref(db,'searchMeta'),{[k]: found ? 'found' : 'notfound'});
-  await logActivity('search','بحث: '+k, found?'✅ موجودة':'❌ غير موجودة');
+  k=k.trim();const found=allAreas().some(x=>norm(x.area)===norm(k)||norm(x.area).includes(norm(k)));
+  const current=searchStats[k];const prevCount=(typeof current==='number')?current:0;
+  await update(ref(db,'searchStats'),{[k]:prevCount+1});
+  await update(ref(db,'searchMeta'),{[k]:found?'found':'notfound'});
+  await logActivity('search','بحث: '+k,found?'✅ موجودة':'❌ غير موجودة');
 }
-
 function renderTopAreas(){
-  const sorted=Object.entries(searchStats).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const sorted=Object.entries(searchStats).filter(([k,v])=>typeof v==='number').sort((a,b)=>b[1]-a[1]).slice(0,5);
   if(!sorted.length){document.getElementById('topSection').style.display='none';return;}
   document.getElementById('topSection').style.display='block';
-  const list=document.getElementById('topList'); list.innerHTML='';
+  const list=document.getElementById('topList');list.innerHTML='';
   sorted.forEach(([name,count],i)=>{
     const branch=Object.entries(DATA).find(([b,areas])=>(areas||[]).some(a=>a.area===name));
-    const div=document.createElement('div'); div.className='top-item';
+    const div=document.createElement('div');div.className='top-item';
     div.innerHTML=`<span class="top-rank">${i+1}</span><span class="top-name">${name}</span><span class="top-branch">${branch?branch[0]:''}</span><span class="top-count">${count} مرة</span>`;
-    div.onclick=()=>{document.getElementById('searchInput').value=name;doSearch();}; list.appendChild(div); });
+    div.onclick=()=>{document.getElementById('searchInput').value=name;doSearch();};list.appendChild(div);});
 }
-
-// ═══════════════════════════════════════════════
-// مودال الإضافة
-// ═══════════════════════════════════════════════
-window.openModal=function(){ buildBranchSel(); selPrice=null; document.getElementById('newAreaName').value=''; document.getElementById('newDistance').value=''; document.getElementById('newBranchInput').value=''; document.querySelectorAll('.price-opt').forEach(x=>x.className='price-opt'); document.getElementById('modalOverlay').classList.add('open'); };
-window.closeModal=function(){ document.getElementById('modalOverlay').classList.remove('open'); };
-window.selectPrice=function(el){ document.querySelectorAll('.price-opt').forEach(x=>x.className='price-opt'); el.classList.add('s'+el.getAttribute('data-v')); selPrice=el.getAttribute('data-v'); };
-
-window.addNewBranch=async function(){
-  const val=document.getElementById('newBranchInput').value.trim();
-  if(!val){showToast('اكتب اسم الفرع','#ef4444');return;}
-  if(DATA[val]){showToast('الفرع موجود','#f97316');return;}
-  await set(ref(db,'data/'+val),[]); document.getElementById('newBranchInput').value='';
-  await logActivity('add','فرع جديد: '+val,''); showToast('✅ تمت إضافة الفرع: '+val);
-};
-
+window.openModal=function(){buildBranchSel();selPrice=null;document.getElementById('newAreaName').value='';document.getElementById('newDistance').value='';document.getElementById('newBranchInput').value='';document.querySelectorAll('.price-opt').forEach(x=>x.className='price-opt');document.getElementById('modalOverlay').classList.add('open');};
+window.closeModal=function(){document.getElementById('modalOverlay').classList.remove('open');};
+window.selectPrice=function(el){document.querySelectorAll('.price-opt').forEach(x=>x.className='price-opt');el.classList.add('s'+el.getAttribute('data-v'));selPrice=el.getAttribute('data-v');};
+window.addNewBranch=async function(){const val=document.getElementById('newBranchInput').value.trim();if(!val){showToast('اكتب اسم الفرع','#dc2626');return;}if(DATA[val]){showToast('الفرع موجود','#ea580c');return;}await set(ref(db,'data/'+val),[]);document.getElementById('newBranchInput').value='';await logActivity('add','فرع جديد: '+val,'');showToast('✅ تمت إضافة الفرع: '+val);};
 window.saveArea=async function(){
-  const name=document.getElementById('newAreaName').value.trim();
-  const branch=document.getElementById('newBranchSelect').value;
-  const distance=document.getElementById('newDistance').value.trim()||'—';
-  if(!name){showToast('اكتب اسم المنطقة','#ef4444');return;}
-  if(selPrice===null){showToast('اختر سعر التوصيل','#ef4444');return;}
-  if(!branch){showToast('اختر الفرع','#ef4444');return;}
-  const btn=document.getElementById('btnSave'); btn.disabled=true; btn.textContent='جاري الإرسال...';
+  const name=document.getElementById('newAreaName').value.trim();const branch=document.getElementById('newBranchSelect').value;const distance=document.getElementById('newDistance').value.trim()||'—';
+  if(!name){showToast('اكتب اسم المنطقة','#dc2626');return;}if(selPrice===null){showToast('اختر سعر التوصيل','#dc2626');return;}if(!branch){showToast('اختر الفرع','#dc2626');return;}
+  const btn=document.getElementById('btnSave');btn.disabled=true;btn.textContent='جاري الإرسال...';
   await push(ref(db,'pending'),{area:name,price:selPrice,distance,branch,ts:Date.now()});
   await logActivity('pending','طلب إضافة: '+name,'الفرع: '+branch+' | '+PRICES[selPrice]);
-  btn.disabled=false; btn.textContent='💾 إرسال للمراجعة';
-  closeModal(); showToast('✅ تم إرسال '+name+' للمراجعة');
+  btn.disabled=false;btn.textContent='💾 إرسال للمراجعة';
+  closeModal();showToast('✅ تم إرسال '+name+' للمراجعة');
 };
-
 document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
-
-// ═══════════════════════════════════════════════
-// تسجيل الدخول
-// ═══════════════════════════════════════════════
-window.openLogin=function(){
-  document.getElementById('loginUser').value=''; document.getElementById('loginPass').value='';
-  document.getElementById('loginErr').style.display='none';
-  document.getElementById('loginScreen').classList.add('open');
-  setTimeout(()=>document.getElementById('loginUser').focus(),200);
-};
-window.closeLogin=function(){ document.getElementById('loginScreen').classList.remove('open'); };
-window.doLogin=function(){
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value.trim();
-  if(u===ADMIN_USER&&p===ADMIN_PASS){ closeLogin(); openAdmin(); }
-  else { document.getElementById('loginErr').style.display='block'; }
-};
+window.openLogin=function(){document.getElementById('loginUser').value='';document.getElementById('loginPass').value='';document.getElementById('loginErr').style.display='none';document.getElementById('loginScreen').classList.add('open');setTimeout(()=>document.getElementById('loginUser').focus(),200);};
+window.closeLogin=function(){document.getElementById('loginScreen').classList.remove('open');};
+window.doLogin=function(){const u=document.getElementById('loginUser').value.trim();const p=document.getElementById('loginPass').value.trim();if(u===ADMIN_USER&&p===ADMIN_PASS){closeLogin();openAdmin();}else{document.getElementById('loginErr').style.display='block';}};
 document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('loginScreen').addEventListener('click',function(e){if(e.target===this)closeLogin();});
-
-// ═══════════════════════════════════════════════
-// لوحة المدير
-// ═══════════════════════════════════════════════
-function openAdmin(){
-  document.getElementById('adminPanel').classList.add('open');
-  renderAdminStats(); renderActivityLog(); renderPending(); renderAreasList();
-}
-window.closeAdmin=function(){ document.getElementById('adminPanel').classList.remove('open'); };
-
-window.switchTab=function(name,btn){
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');
-  btn.classList.add('active');
-  if(name==='stats') renderAdminStats();
-  if(name==='pending') renderPending();
-  if(name==='areas') renderAreasList();
-  if(name==='log') renderActivityLog();
-};
-
+function openAdmin(){document.getElementById('adminPanel').classList.add('open');renderAdminStats();renderActivityLog();renderPending();renderAreasList();}
+window.closeAdmin=function(){document.getElementById('adminPanel').classList.remove('open');};
+window.switchTab=function(name,btn){document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');btn.classList.add('active');if(name==='stats')renderAdminStats();if(name==='pending')renderPending();if(name==='areas')renderAreasList();if(name==='log')renderActivityLog();};
 function renderAdminStats(){
-  const total=branches.reduce((s,b)=>s+safeArr(DATA[b]).length,0);
-  const ts=Object.values(searchStats).reduce((s,v)=>s+(typeof v==='number'?v:0),0);
-  const visits=activityLog.filter(l=>l.type==='visit').length;
-  const adds=activityLog.filter(l=>l.type==='pending').length;
-  const pCount=Object.keys(pendingAreas).length;
-  document.getElementById('adminStats').innerHTML=`
-    <div class="as"><div class="an">${branches.length}</div><div class="al">فرع</div></div>
-    <div class="as"><div class="an">${total}</div><div class="al">منطقة</div></div>
-    <div class="as"><div class="an">${ts}</div><div class="al">بحث</div></div>
-    <div class="as"><div class="an">${visits}</div><div class="al">زيارة</div></div>
-    <div class="as"><div class="an">${adds}</div><div class="al">طلب إضافة</div></div>
-    <div class="as"><div class="an" style="color:${pCount>0?'var(--orange)':'var(--accent)'}">${pCount}</div><div class="al">بانتظار المراجعة</div></div>`;
-
+  const total=branches.reduce((s,b)=>s+safeArr(DATA[b]).length,0);const ts=Object.values(searchStats).reduce((s,v)=>s+(typeof v==='number'?v:0),0);const visits=activityLog.filter(l=>l.type==='visit').length;const adds=activityLog.filter(l=>l.type==='pending').length;const pCount=Object.keys(pendingAreas).length;
+  document.getElementById('adminStats').innerHTML=`<div class="as"><div class="an">${branches.length}</div><div class="al">فرع</div></div><div class="as"><div class="an">${total}</div><div class="al">منطقة</div></div><div class="as"><div class="an">${ts}</div><div class="al">بحث</div></div><div class="as"><div class="an">${visits}</div><div class="al">زيارة</div></div><div class="as"><div class="an">${adds}</div><div class="al">طلب إضافة</div></div><div class="as"><div class="an" style="color:${pCount>0?'var(--orange)':'var(--blue)'}">${pCount}</div><div class="al">بانتظار المراجعة</div></div>`;
   renderSearchList();
 }
-
-let searchFilter = 'all';
-let searchMeta = {};
-
-window.filterSearchList = function(f, btn){
-  searchFilter = f;
-  document.querySelectorAll('.sf-btn').forEach(x=>x.classList.remove('active'));
-  btn.classList.add('active');
-  renderSearchList();
-};
-
+let searchFilter='all';let searchMeta={};
+window.filterSearchList=function(f,btn){searchFilter=f;document.querySelectorAll('.sf-btn').forEach(x=>x.classList.remove('active'));btn.classList.add('active');renderSearchList();};
 function renderSearchList(){
-  // تنظيف البيانات — نتجاهل أي قيمة مو رقم (مثل object Object القديمة)
-  const allEntries = Object.entries(searchStats)
-    .filter(([k,v])=> {
-      if(!k || k==='undefined' || k==='null') return false;
-      if(typeof v !== 'number') return false;
-      return true;
-    })
-    .sort((a,b)=>b[1]-a[1]);
-
-  const getStatus = (k) => {
-    if(searchMeta[k]) return searchMeta[k];
-    return allAreas().some(x=>norm(x.area).includes(norm(k))) ? 'found' : 'notfound';
-  };
-
-  const filtered = allEntries.filter(([k])=>{
-    if(searchFilter==='found') return getStatus(k)==='found';
-    if(searchFilter==='notfound') return getStatus(k)==='notfound';
-    return true;
-  });
-
-  const total = allEntries.length;
-  const foundCount = allEntries.filter(([k])=>getStatus(k)==='found').length;
-  const notFoundCount = total - foundCount;
-
-  document.getElementById('searchTotalCount').textContent =
-    `${total} كلمة بحث — ✅${foundCount} موجودة / ❌${notFoundCount} غير موجودة`;
-
-  const el = document.getElementById('adminSearchList');
-  if(!filtered.length){ el.innerHTML='<div class="no-data">لا توجد نتائج</div>'; return; }
-
-  el.innerHTML = filtered.map(([name,count],i)=>{
-    const status = getStatus(name);
-    const foundLabel = status==='found'
-      ? '<span class="sr-found yes">✅ موجودة</span>'
-      : '<span class="sr-found no">❌ غير موجودة</span>';
-    const safeName = name.replace(/'/g,"\'");
-    return `<div class="search-row" id="sr-${i}">
-      <span class="sr-rank">${i+1}</span>
-      <span class="sr-name">${name}</span>
-      ${foundLabel}
-      <span class="sr-count">${count} مرة</span>
-      <button onclick="deleteSearchEntry('${safeName}')" style="background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:#f87171;padding:4px 10px;font-family:Cairo,sans-serif;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0">🗑️</button>
-    </div>`;
+  const allEntries=Object.entries(searchStats).filter(([k,v])=>{if(!k||k==='undefined'||k==='null')return false;if(typeof v!=='number')return false;return true;}).sort((a,b)=>b[1]-a[1]);
+  const getStatus=(k)=>{if(searchMeta[k])return searchMeta[k];return allAreas().some(x=>norm(x.area).includes(norm(k)))?'found':'notfound';};
+  const filtered=allEntries.filter(([k])=>{if(searchFilter==='found')return getStatus(k)==='found';if(searchFilter==='notfound')return getStatus(k)==='notfound';return true;});
+  const total=allEntries.length;const foundCount=allEntries.filter(([k])=>getStatus(k)==='found').length;
+  document.getElementById('searchTotalCount').textContent=`${total} بحث — ✅${foundCount} / ❌${total-foundCount}`;
+  const el=document.getElementById('adminSearchList');
+  if(!filtered.length){el.innerHTML='<div class="no-data">لا توجد نتائج</div>';return;}
+  el.innerHTML=filtered.map(([name,count],i)=>{
+    const status=getStatus(name);const foundLabel=status==='found'?'<span class="sr-found yes">✅ موجودة</span>':'<span class="sr-found no">❌ غير موجودة</span>';
+    const safeName=name.replace(/'/g,"\\'");
+    return `<div class="search-row"><span class="sr-rank">${i+1}</span><span class="sr-name">${name}</span>${foundLabel}<span class="sr-count">${count} مرة</span><button onclick="deleteSearchEntry('${safeName}')" style="background:var(--red-bg);border:1px solid rgba(220,38,38,0.2);border-radius:6px;color:var(--red);padding:4px 10px;font-family:Cairo,sans-serif;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0">🗑️</button></div>`;
   }).join('');
 }
-
-window.deleteSearchEntry = async function(name){
-  // حذف من searchStats و searchMeta
-  await update(ref(db,'searchStats'), {[name]: null});
-  await update(ref(db,'searchMeta'), {[name]: null});
-  await logActivity('delete','حذف بحث: '+name,'');
-  showToast('🗑️ تم حذف "'+name+'" من السجل');
-};
-
-// تنظيف البيانات القديمة الفاسدة (object Object) من Firebase
-async function cleanOldSearchStats(){
-  const snap = await get(ref(db,'searchStats'));
-  if(!snap.exists()) return;
-  const data = snap.val();
-  const fixes = {};
-  for(const [k,v] of Object.entries(data)){
-    if(!k || k==='undefined' || typeof v !== 'number'){
-      fixes[k] = null; // حذف
-    }
-  }
-  if(Object.keys(fixes).length > 0){
-    await update(ref(db,'searchStats'), fixes);
-  }
-}
-
-window.resetSearchStats = async function(){
-  if(!confirm('⚠️ سيتم مسح جميع إحصائيات البحث نهائياً.\nهل أنت متأكد؟')) return;
-  await set(ref(db,'searchStats'), null);
-  await set(ref(db,'searchMeta'), null);
-  await logActivity('settings','مسح إحصائيات البحث','تم الريست من لوحة المدير');
-  showToast('✅ تم مسح إحصائيات البحث');
-};
-
+window.deleteSearchEntry=async function(name){await update(ref(db,'searchStats'),{[name]:null});await update(ref(db,'searchMeta'),{[name]:null});await logActivity('delete','حذف بحث: '+name,'');showToast('🗑️ تم حذف "'+name+'" من السجل');};
+async function cleanOldSearchStats(){const snap=await get(ref(db,'searchStats'));if(!snap.exists())return;const data=snap.val();const fixes={};for(const[k,v]of Object.entries(data)){if(!k||k==='undefined'||typeof v!=='number')fixes[k]=null;}if(Object.keys(fixes).length>0)await update(ref(db,'searchStats'),fixes);}
+window.resetSearchStats=async function(){if(!confirm('⚠️ سيتم مسح جميع إحصائيات البحث نهائياً.\nهل أنت متأكد؟'))return;await set(ref(db,'searchStats'),null);await set(ref(db,'searchMeta'),null);await logActivity('settings','مسح إحصائيات البحث','');showToast('✅ تم مسح إحصائيات البحث');};
 function renderPending(){
-  const entries=Object.entries(pendingAreas);
-  updatePendingBadge();
-  const list=document.getElementById('pendingList');
+  const entries=Object.entries(pendingAreas);updatePendingBadge();const list=document.getElementById('pendingList');
   if(!entries.length){list.innerHTML='<div class="no-data">✅ لا توجد مناطق معلقة</div>';return;}
   list.innerHTML='';
-  entries.forEach(([key,item])=>{
-    const elapsed=Date.now()-item.ts;
-    const remaining=MS24-elapsed;
-    const hrs=Math.max(0,Math.floor(remaining/3600000));
-    const mins=Math.max(0,Math.floor((remaining%3600000)/60000));
-    const div=document.createElement('div'); div.className='pending-item';
-    div.innerHTML=`
-      <div class="pending-top">
-        <span class="pending-name">${item.area}</span>
-        <span class="pending-branch">${item.branch}</span>
-        <span class="pending-price" style="background:${PRICE_CLR[item.price]}22;color:${PRICE_CLR[item.price]}">${PRICES[item.price]}</span>
-        <span class="pending-timer">⏰ ${hrs}س ${mins}د</span>
-      </div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">المسافة: ${item.distance}</div>
-      <div class="pending-actions">
-        <button class="btn-approve" onclick="approvePending('${key}')">✅ قبول — إضافة للأساسيات</button>
-        <button class="btn-reject" onclick="rejectPending('${key}')">❌ رفض — حذف</button>
-      </div>`;
-    list.appendChild(div);
-  });
+  entries.forEach(([key,item])=>{const elapsed=Date.now()-item.ts;const remaining=MS24-elapsed;const hrs=Math.max(0,Math.floor(remaining/3600000));const mins=Math.max(0,Math.floor((remaining%3600000)/60000));const div=document.createElement('div');div.className='pending-item';div.innerHTML=`<div class="pending-top"><span class="pending-name">${item.area}</span><span class="pending-branch">${item.branch}</span><span class="pending-price" style="background:${PRICE_CLR[item.price]}22;color:${PRICE_CLR[item.price]}">${PRICES[item.price]}</span><span class="pending-timer">⏰ ${hrs}س ${mins}د</span></div><div style="font-size:12px;color:var(--muted);margin-bottom:10px">المسافة: ${item.distance}</div><div class="pending-actions"><button class="btn-approve" onclick="approvePending('${key}')">✅ قبول</button><button class="btn-reject" onclick="rejectPending('${key}')">❌ رفض</button></div>`;list.appendChild(div);});
 }
-
-function updatePendingBadge(){
-  const count=Object.keys(pendingAreas).length;
-  const badge=document.getElementById('pendingBadge');
-  if(count>0){badge.style.display='inline';badge.textContent=count;}
-  else badge.style.display='none';
-}
-
-async function processPendingExpired(){
-  const entries=Object.entries(pendingAreas);
-  for(const [key,item] of entries){
-    if(Date.now()-item.ts >= MS24){
-      await set(ref(db,'data/'+item.branch),[...safeArr(DATA[item.branch]),{area:item.area,price:item.price,distance:item.distance}]);
-      await remove(ref(db,'pending/'+key));
-      await logActivity('add','تمت إضافة تلقائياً (24س): '+item.area,'الفرع: '+item.branch);
-    }
-  }
-}
-
-window.approvePending=async function(key){
-  const item=pendingAreas[key]; if(!item)return;
-  await set(ref(db,'data/'+item.branch),[...safeArr(DATA[item.branch]),{area:item.area,price:item.price,distance:item.distance}]);
-  await remove(ref(db,'pending/'+key));
-  await logActivity('add','✅ قبول: '+item.area,'الفرع: '+item.branch);
-  showToast('✅ تمت إضافة '+item.area+' للأساسيات');
-};
-
-window.rejectPending=async function(key){
-  const item=pendingAreas[key]; if(!item)return;
-  if(!confirm(`حذف طلب إضافة "${item.area}"؟`))return;
-  await remove(ref(db,'pending/'+key));
-  await logActivity('delete','❌ رفض: '+item.area,'الفرع: '+item.branch);
-  showToast('تم رفض الطلب','#ef4444');
-};
-
+function updatePendingBadge(){const count=Object.keys(pendingAreas).length;const badge=document.getElementById('pendingBadge');if(count>0){badge.style.display='inline';badge.textContent=count;}else badge.style.display='none';}
+async function processPendingExpired(){const entries=Object.entries(pendingAreas);for(const[key,item]of entries){if(Date.now()-item.ts>=MS24){await set(ref(db,'data/'+item.branch),[...safeArr(DATA[item.branch]),{area:item.area,price:item.price,distance:item.distance}]);await remove(ref(db,'pending/'+key));await logActivity('add','تمت إضافة تلقائياً (24س): '+item.area,'الفرع: '+item.branch);}}}
+window.approvePending=async function(key){const item=pendingAreas[key];if(!item)return;await set(ref(db,'data/'+item.branch),[...safeArr(DATA[item.branch]),{area:item.area,price:item.price,distance:item.distance}]);await remove(ref(db,'pending/'+key));await logActivity('add','✅ قبول: '+item.area,'الفرع: '+item.branch);showToast('✅ تمت إضافة '+item.area);};
+window.rejectPending=async function(key){const item=pendingAreas[key];if(!item)return;if(!confirm(`حذف طلب إضافة "${item.area}"؟`))return;await remove(ref(db,'pending/'+key));await logActivity('delete','❌ رفض: '+item.area,'الفرع: '+item.branch);showToast('تم رفض الطلب','#dc2626');};
 window.renderAreasList=function(){
-  const q=norm(document.getElementById('areaSearchQ').value||'');
-  let all=[];
+  const q=norm(document.getElementById('areaSearchQ').value||'');let all=[];
   branches.forEach(b=>safeArr(DATA[b]).forEach((item,idx)=>{if(item&&item.area&&(!q||norm(item.area).includes(q)))all.push({...item,branch:b,idx});}));
-  const list=document.getElementById('areasList');
-  if(!all.length){list.innerHTML='<div class="no-data">لا توجد نتائج</div>';return;}
-  list.innerHTML='';
-  all.slice(0,100).forEach(item=>{
-    const div=document.createElement('div'); div.className='area-row';
-    const bn=item.branch.replace(/'/g,"\\'"); const an=item.area.replace(/'/g,"\\'");
-    div.innerHTML=`<span class="ar-name">${item.area}</span><span class="ar-branch">${item.branch}</span><span class="ar-price" style="background:${PRICE_CLR[item.price]}22;color:${PRICE_CLR[item.price]}">${PRICES[item.price]}</span><button class="btn-del" onclick="deleteArea('${bn}',${item.idx},'${an}')">🗑️</button>`;
-    list.appendChild(div);
-  });
+  const list=document.getElementById('areasList');if(!all.length){list.innerHTML='<div class="no-data">لا توجد نتائج</div>';return;}
+  list.innerHTML='';all.slice(0,100).forEach(item=>{const div=document.createElement('div');div.className='area-row';const bn=item.branch.replace(/'/g,"\\'");const an=item.area.replace(/'/g,"\\'");div.innerHTML=`<span class="ar-name">${item.area}</span><span class="ar-branch">${item.branch}</span><span class="ar-price" style="background:${PRICE_CLR[item.price]}22;color:${PRICE_CLR[item.price]}">${PRICES[item.price]}</span><button class="btn-del" onclick="deleteArea('${bn}',${item.idx},'${an}')">🗑️</button>`;list.appendChild(div);});
 };
-
-window.deleteArea=async function(branch,idx,name){
-  if(!confirm(`حذف "${name}" من ${branch}؟`))return;
-  const updated=(DATA[branch]||[]).filter((_,i)=>i!==idx);
-  await set(ref(db,'data/'+branch),updated);
-  await logActivity('delete','حذف: '+name,'الفرع: '+branch);
-  showToast('🗑️ تم حذف '+name,'#ef4444');
-  renderAreasList();
-};
-
+window.deleteArea=async function(branch,idx,name){if(!confirm(`حذف "${name}" من ${branch}؟`))return;const updated=(DATA[branch]||[]).filter((_,i)=>i!==idx);await set(ref(db,'data/'+branch),updated);await logActivity('delete','حذف: '+name,'الفرع: '+branch);showToast('🗑️ تم حذف '+name,'#dc2626');renderAreasList();};
 function renderActivityLog(){
   if(!activityLog.length){document.getElementById('activityLog').innerHTML='<div class="no-data">لا يوجد نشاط</div>';return;}
-  const lbl={visit:'زيارة',search:'بحث',add:'إضافة',delete:'حذف',pending:'طلب',settings:'إعدادات'};
-  const cls={visit:'tv',search:'ts',add:'ta',delete:'td',pending:'tp',settings:'tv'};
+  const lbl={visit:'زيارة',search:'بحث',add:'إضافة',delete:'حذف',pending:'طلب',settings:'إعدادات'};const cls={visit:'tv',search:'ts',add:'ta',delete:'td',pending:'tp',settings:'tv'};
   const rows=activityLog.map(l=>`<tr><td style="white-space:nowrap;color:var(--dim);font-size:11px">${l.time||''}</td><td><span class="ltag ${cls[l.type]||'tv'}">${lbl[l.type]||l.type}</span></td><td style="font-size:12px">${l.text||''}</td><td style="font-size:11px;color:var(--dim)">${l.detail||''}</td></tr>`).join('');
   document.getElementById('activityLog').innerHTML=`<table class="log-tbl"><thead><tr><th>الوقت</th><th>النوع</th><th>التفاصيل</th><th>ملاحظة</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
-
-window.saveCredentials=async function(){
-  const u=document.getElementById('newUsername').value.trim();
-  const p=document.getElementById('newPassword').value.trim();
-  const c=document.getElementById('confirmPassword').value.trim();
-  if(!u||!p){showToast('اكتب اليوزر وكلمة المرور','#ef4444');return;}
-  if(p!==c){showToast('كلمة المرور غير متطابقة','#ef4444');return;}
-  await set(ref(db,'adminCredentials'),{user:u,pass:p});
-  ADMIN_USER=u; ADMIN_PASS=p;
-  document.getElementById('newUsername').value=''; document.getElementById('newPassword').value=''; document.getElementById('confirmPassword').value='';
-  await logActivity('settings','تم تغيير بيانات الدخول','');
-  showToast('✅ تم حفظ بيانات الدخول الجديدة');
-};
-
-window.syncNewBranches=async function(){
-  showToast("⏳ جاري المزامنة...");
-  const snap = await get(ref(db,'data'));
-  const existing = snap.exists() ? (snap.val()||{}) : {};
-  let added = 0;
-  for(const b of Object.keys(SEED_DATA)){
-    if(!existing[b]){
-      // فرع جديد كلياً — أضفه
-      await set(ref(db,'data/'+b), SEED_DATA[b]);
-      added++;
-    } else {
-      // فرع موجود — أضف فقط المناطق الجديدة اللي ما موجودة
-      const existingAreas = safeArr(existing[b]);
-      const existingNames = existingAreas.map(x=>x&&x.area).filter(Boolean);
-      const newAreas = SEED_DATA[b].filter(x=>!existingNames.includes(x.area));
-      if(newAreas.length > 0){
-        await set(ref(db,'data/'+b), [...existingAreas, ...newAreas]);
-        added += newAreas.length;
-      }
-    }
-  }
-  await logActivity('settings','مزامنة الأفرع الجديدة','تمت إضافة '+added+' عنصر جديد');
-  showToast(added > 0 ? '✅ تمت المزامنة — '+added+' إضافة جديدة' : '✅ لا يوجد جديد، كل شيء محدّث');
-};
-
-window.resetAllData=async function(){
-  if(!confirm("⚠️ سيتم تحديث بيانات الأفرع من الملف.\nالمناطق المضافة يدوياً ستبقى محفوظة.\n\nهل أنت متأكد؟"))return;
-  showToast("⏳ جاري التحديث...");
-  // احصل على البيانات الحالية من Firebase
-  const snap = await get(ref(db,'data'));
-  const existing = snap.exists() ? (snap.val()||{}) : {};
-  // لكل فرع في SEED_DATA: استبدل فقط المناطق الأساسية وأضف المناطق اليدوية في النهاية
-  for(const b of Object.keys(SEED_DATA)){
-    const seedAreas = SEED_DATA[b];
-    const existingAreas = safeArr(existing[b]);
-    // المناطق اليدوية = المناطق الموجودة اللي ما موجودة بـ SEED_DATA
-    const seedNames = seedAreas.map(x=>x.area);
-    const manualAreas = existingAreas.filter(x=>x && x.area && !seedNames.includes(x.area));
-    // دمج: SEED_DATA أولاً ثم المناطق اليدوية
-    await set(ref(db,'data/'+b), [...seedAreas, ...manualAreas]);
-  }
-  // أضف أي أفرع جديدة من SEED_DATA غير موجودة
-  for(const b of Object.keys(SEED_DATA)){
-    if(!existing[b]) await set(ref(db,'data/'+b), SEED_DATA[b]);
-  }
-  await logActivity("settings","تحديث البيانات","تم تحديث الأفرع مع الحفاظ على الإضافات اليدوية");
-  showToast("✅ تم التحديث — الإضافات اليدوية محفوظة");
-};
-
-function showToast(msg,color='#22c55e'){ const t=document.getElementById('toast'); t.textContent=msg; t.style.background=color; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
-
+window.saveCredentials=async function(){const u=document.getElementById('newUsername').value.trim();const p=document.getElementById('newPassword').value.trim();const c=document.getElementById('confirmPassword').value.trim();if(!u||!p){showToast('اكتب اليوزر وكلمة المرور','#dc2626');return;}if(p!==c){showToast('كلمة المرور غير متطابقة','#dc2626');return;}await set(ref(db,'adminCredentials'),{user:u,pass:p});ADMIN_USER=u;ADMIN_PASS=p;document.getElementById('newUsername').value='';document.getElementById('newPassword').value='';document.getElementById('confirmPassword').value='';await logActivity('settings','تم تغيير بيانات الدخول','');showToast('✅ تم حفظ بيانات الدخول الجديدة');};
+window.syncNewBranches=async function(){showToast("⏳ جاري المزامنة...");const snap=await get(ref(db,'data'));const existing=snap.exists()?(snap.val()||{}):{};let added=0;for(const b of Object.keys(SEED_DATA)){if(!existing[b]){await set(ref(db,'data/'+b),SEED_DATA[b]);added++;}else{const existingAreas=safeArr(existing[b]);const existingNames=existingAreas.map(x=>x&&x.area).filter(Boolean);const newAreas=SEED_DATA[b].filter(x=>!existingNames.includes(x.area));if(newAreas.length>0){await set(ref(db,'data/'+b),[...existingAreas,...newAreas]);added+=newAreas.length;}}}await logActivity('settings','مزامنة الأفرع الجديدة','تمت إضافة '+added+' عنصر جديد');showToast(added>0?'✅ تمت المزامنة — '+added+' إضافة جديدة':'✅ كل شيء محدّث');};
+window.resetAllData=async function(){if(!confirm("⚠️ سيتم تحديث بيانات الأفرع.\nالمناطق المضافة يدوياً ستبقى محفوظة.\n\nهل أنت متأكد؟"))return;showToast("⏳ جاري التحديث...");const snap=await get(ref(db,'data'));const existing=snap.exists()?(snap.val()||{}):{};for(const b of Object.keys(SEED_DATA)){const seedAreas=SEED_DATA[b];const existingAreas=safeArr(existing[b]);const seedNames=seedAreas.map(x=>x.area);const manualAreas=existingAreas.filter(x=>x&&x.area&&!seedNames.includes(x.area));await set(ref(db,'data/'+b),[...seedAreas,...manualAreas]);}await logActivity("settings","تحديث البيانات","مع الحفاظ على الإضافات اليدوية");showToast("✅ تم التحديث — الإضافات اليدوية محفوظة");};
+function showToast(msg,color='#2563eb'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=color;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 initApp();
+
 </script>
 </body>
 </html>
