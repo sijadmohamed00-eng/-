@@ -740,6 +740,9 @@ async function initApp(){
   onValue(query(ref(db,'activityLog'),limitToLast(100)),s=>{activityLog=[];s.forEach(c=>activityLog.unshift(c.val()));if(isAdminOpen())renderActivityLog();});
   onValue(ref(db,'searchMeta'),s=>{searchMeta=s.val()||{};if(isAdminOpen())renderSearchList();});
   onValue(ref(db,'pending'),s=>{pendingAreas=s.val()||{};updatePendingBadge();if(isAdminOpen())renderPending();processPendingExpired();});
+  // حذف فرع البعيثة القديم إذا موجود
+  const oldBranch=await get(ref(db,'data/البعيثة'));
+  if(oldBranch.exists())await remove(ref(db,'data/البعيثة'));
   logActivity('visit','زيارة جديدة','');cleanOldSearchStats();
   document.getElementById('syncStatus').textContent='متصل • تحديث فوري';
 }
