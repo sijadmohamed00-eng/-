@@ -48,24 +48,17 @@ body{
   overflow-x:hidden;
   width:100%;
 }
-
-/* ── NOISE TEXTURE ── */
 body::before{
   content:'';position:fixed;inset:0;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events:none;z-index:0;opacity:0.4;
 }
-
-/* ── AMBIENT ORBS ── */
 .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px);animation:orb-drift 12s ease-in-out infinite alternate}
 .orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(240,180,41,0.12) 0%,transparent 70%);top:-200px;right:-100px;animation-delay:0s}
 .orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(59,130,246,0.08) 0%,transparent 70%);bottom:-150px;left:-100px;animation-delay:-6s}
 .orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(16,185,129,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-3s}
 @keyframes orb-drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,20px) scale(1.1)}}
-
 .container{max-width:640px;margin:0 auto;padding:2rem 1rem 7rem;position:relative;z-index:1;width:100%}
-
-/* ── HEADER ── */
 header{text-align:center;margin-bottom:2.5rem;padding-top:1rem;animation:fade-up 0.8s ease both}
 @keyframes fade-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .logo-ring{
@@ -96,14 +89,10 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 }
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 2s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-
-/* ── LOADING ── */
 .loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:65vh;gap:20px}
 .loader{width:48px;height:48px;border-radius:50%;border:2px solid var(--ink4);border-top-color:var(--gold);animation:spin 0.8s linear infinite;box-shadow:0 0 16px var(--gold-glow)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{color:var(--muted);font-size:13px;font-weight:600;letter-spacing:1px}
-
-/* ── STATS BAR ── */
 .stats-bar{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:2rem;animation:fade-up 0.8s ease 0.1s both}
 .stat-mini{
   background:var(--glass);
@@ -118,12 +107,8 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .stat-mini:hover{border-color:var(--border3);transform:translateY(-2px)}
 .stat-mini .n{font-size:26px;font-weight:900;color:var(--gold);line-height:1}
 .stat-mini .l{font-size:11px;color:var(--muted);margin-top:4px;font-weight:600;letter-spacing:0.5px}
-
-/* ── SECTION LABEL ── */
 .section-label{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .section-label::after{content:'';flex:1;height:1px;background:linear-gradient(to left,transparent,var(--border2))}
-
-/* ── FILTERS ── */
 .filter-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2rem;animation:fade-up 0.8s ease 0.2s both}
 .filter-chip{
   padding:9px 18px;border-radius:50px;
@@ -141,8 +126,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .ca-1{border-color:rgba(59,130,246,0.4)!important;background:var(--blue-glow)!important;color:var(--blue)!important}
 .ca-2{border-color:rgba(245,158,11,0.4)!important;background:var(--orange-glow)!important;color:var(--orange)!important}
 .ca-3{border-color:rgba(239,68,68,0.4)!important;background:var(--red-glow)!important;color:var(--red)!important}
-
-/* ── BRANCHES ── */
 .branches-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2rem;animation:fade-up 0.8s ease 0.3s both}
 .branch-chip{
   padding:9px 18px;border-radius:50px;
@@ -159,8 +142,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
   box-shadow:0 4px 20px var(--gold-glow),0 0 0 1px rgba(240,180,41,0.3);
   transform:translateY(-1px);
 }
-
-/* ── SEARCH ── */
 .search-wrap{
   display:flex;gap:0;
   background:var(--glass2);
@@ -193,8 +174,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 }
 .search-btn:hover{filter:brightness(1.1)}
 .search-btn:active{transform:scale(0.97)}
-
-/* ── SUGGESTIONS ── */
 .sugg-box{
   background:var(--ink2);
   border:1px solid var(--border2);
@@ -217,8 +196,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .sug-meta{display:flex;align-items:center;gap:8px}
 .sug-branch{font-size:11px;color:var(--muted);background:var(--glass);padding:3px 10px;border-radius:50px;border:1px solid var(--border);font-weight:600}
 .sug-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}
-
-/* ── RESULT CARD ── */
 .result-card{
   border-radius:var(--r);overflow:hidden;
   margin-bottom:1rem;
@@ -261,8 +238,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 }
 .map-btn:hover{background:var(--glass3);border-color:var(--border3);color:var(--text)}
 .no-result{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:15px;animation:fade-up 0.4s ease both}
-
-/* ── ADD BUTTON ── */
 .add-area-btn{
   display:flex;align-items:center;justify-content:center;gap:10px;
   width:100%;padding:16px;
@@ -275,8 +250,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
   backdrop-filter:blur(8px);
 }
 .add-area-btn:hover{border-color:rgba(240,180,41,0.4);color:var(--gold);background:var(--gold-glow2)}
-
-/* ── TOP AREAS ── */
 .top-section{margin-bottom:2rem;animation:fade-up 0.8s ease 0.5s both}
 .top-list{display:flex;flex-direction:column;gap:8px}
 .top-item{
@@ -298,13 +271,9 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .top-name{flex:1;font-weight:700;color:var(--text);font-size:13px}
 .top-count{font-size:11px;color:var(--muted);background:var(--glass);padding:3px 10px;border-radius:50px;border:1px solid var(--border);font-weight:600}
 .top-branch{font-size:11px;color:var(--dim);font-weight:500}
-
-/* ── LEGEND ── */
 .legend{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border)}
 .leg-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);font-weight:600}
 .leg-dot{width:9px;height:9px;border-radius:50%;box-shadow:0 0 6px currentColor}
-
-/* ── MODAL ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:100;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(12px)}
 .modal-overlay.open{display:flex;animation:overlay-in 0.25s ease both}
 @keyframes overlay-in{from{opacity:0}to{opacity:1}}
@@ -369,8 +338,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
   font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;
 }
 .btn-cancel:hover{border-color:var(--border3);color:var(--text)}
-
-/* ── ADMIN FLOAT ── */
 .admin-float{
   position:fixed;bottom:28px;left:16px;z-index:50;
   background:var(--ink2);border:1px solid var(--border2);
@@ -382,8 +349,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
   backdrop-filter:blur(16px);
 }
 .admin-float:hover{border-color:rgba(240,180,41,0.3);color:var(--gold);box-shadow:0 8px 32px rgba(240,180,41,0.15)}
-
-/* ── LOGIN ── */
 .login-screen{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);backdrop-filter:blur(20px);z-index:200;align-items:center;justify-content:center;padding:1rem}
 .login-screen.open{display:flex;animation:overlay-in 0.3s ease both}
 .login-box{
@@ -414,8 +379,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .login-err{color:var(--red);font-size:13px;margin-top:12px;display:none;font-weight:700;padding:10px;background:var(--red-glow);border-radius:var(--r3);border:1px solid rgba(239,68,68,0.2)}
 .login-back{margin-top:18px;background:none;border:none;color:var(--muted);font-family:'Cairo',sans-serif;font-size:13px;cursor:pointer;display:block;width:100%;text-align:center;transition:color 0.2s;font-weight:500}
 .login-back:hover{color:var(--text)}
-
-/* ── ADMIN PANEL ── */
 .admin-panel{display:none;position:fixed;inset:0;background:var(--ink);z-index:190;overflow-y:auto}
 .admin-panel.open{display:block;animation:panel-in 0.35s ease both}
 @keyframes panel-in{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
@@ -433,8 +396,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
   backdrop-filter:blur(8px);
 }
 .admin-back-btn:hover{border-color:var(--border3);color:var(--text)}
-
-/* ── ADMIN TABS ── */
 .admin-tabs{
   display:flex;gap:4px;background:var(--glass);border-radius:var(--r);padding:4px;
   margin:1.2rem 1rem 0;border:1px solid var(--border2);overflow-x:auto;
@@ -449,19 +410,13 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .admin-tab.active{background:var(--ink2);color:var(--gold);box-shadow:0 2px 12px rgba(0,0,0,0.4)}
 .admin-tab-badge{display:inline-block;background:var(--red);color:#fff;border-radius:50px;font-size:10px;padding:1px 7px;margin-right:3px;vertical-align:middle}
 .admin-body{padding:1rem 1rem 4rem}
-
-/* ── ADMIN CARDS ── */
 .ac{background:var(--glass);border:1px solid var(--border2);border-radius:var(--r);padding:1.3rem;margin-bottom:1rem;backdrop-filter:blur(12px)}
 .ac-title{font-size:11px;font-weight:700;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:6px;letter-spacing:0.5px}
 .ac-title span{display:flex;align-items:center;gap:6px}
-
-/* ── STATS GRID ── */
 .ag{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .as{background:var(--glass2);border-radius:var(--r2);padding:14px;text-align:center;border:1px solid var(--border);min-width:0}
 .as .an{font-size:22px;font-weight:900;color:var(--gold);word-break:break-all}
 .as .al{font-size:10px;color:var(--muted);margin-top:3px;font-weight:600;letter-spacing:0.5px}
-
-/* ── LOG TABLE ── */
 .log-scroll{overflow-x:auto;border-radius:var(--r2);border:1px solid var(--border)}
 .log-tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:420px}
 .log-tbl th{text-align:right;color:var(--muted);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--border2);font-size:10px;white-space:nowrap;background:var(--glass2);letter-spacing:0.5px}
@@ -474,8 +429,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .ta{background:var(--green-glow);color:var(--green)}
 .td{background:var(--red-glow);color:var(--red)}
 .tp{background:var(--orange-glow);color:var(--orange)}
-
-/* ── PENDING ── */
 .pending-item{background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r2);padding:14px;margin-bottom:8px}
 .pending-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .pending-name{font-size:14px;font-weight:700;flex:1;color:var(--text)}
@@ -487,8 +440,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .btn-approve:hover{background:var(--green);color:#fff;border-color:var(--green)}
 .btn-reject{flex:1;background:var(--red-glow);border:1px solid rgba(239,68,68,0.25);border-radius:var(--r3);color:var(--red);padding:10px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center}
 .btn-reject:hover{background:var(--red);color:#fff;border-color:var(--red)}
-
-/* ── AREA MANAGE ── */
 .area-search-fi{width:100%;background:var(--glass);border:1px solid var(--border2);border-radius:var(--r2);padding:11px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:14px;outline:none;margin-bottom:10px;direction:rtl;-webkit-appearance:none;transition:border-color 0.2s}
 .area-search-fi:focus{border-color:rgba(240,180,41,0.3)}
 .area-row{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--glass2);border-radius:var(--r3);margin-bottom:6px;border:1px solid var(--border);transition:background 0.15s}
@@ -498,16 +449,12 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .ar-price{font-size:11px;font-weight:700;padding:3px 9px;border-radius:50px;flex-shrink:0}
 .btn-del{background:var(--red-glow);border:1px solid rgba(239,68,68,0.2);border-radius:var(--r3);color:var(--red);padding:5px 11px;font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;transition:all 0.2s}
 .btn-del:hover{background:var(--red);color:#fff}
-
-/* ── SETTINGS ── */
 .setting-row{display:flex;flex-direction:column;gap:6px;margin-bottom:1rem}
 .setting-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 .setting-fi{width:100%;background:var(--glass);border:1px solid var(--border2);border-radius:var(--r2);padding:12px 14px;color:var(--text);font-family:'Cairo',sans-serif;font-size:16px;outline:none;direction:ltr;text-align:right;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none}
 .setting-fi:focus{border-color:rgba(240,180,41,0.4);box-shadow:0 0 0 3px var(--gold-glow2)}
 .btn-setting-save{background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:var(--r2);padding:13px 24px;color:#0a0a0f;font-family:'Cairo',sans-serif;font-size:14px;font-weight:900;cursor:pointer;transition:all 0.2s;margin-top:4px;box-shadow:0 4px 16px var(--gold-glow)}
 .btn-setting-save:hover{filter:brightness(1.1);transform:translateY(-1px)}
-
-/* ── SEARCH LIST ── */
 .search-row{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px;transition:background 0.15s}
 .search-row:last-child{border-bottom:none}
 .search-row:hover{background:var(--glass2)}
@@ -522,12 +469,9 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .sf-btn.active{background:var(--gold-glow);border-color:rgba(240,180,41,0.4);color:var(--gold)}
 .reset-search-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;background:var(--red-glow);border:1px solid rgba(239,68,68,0.25);border-radius:var(--r2);color:var(--red);font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px;transition:all 0.2s}
 .reset-search-btn:hover{background:var(--red);color:#fff}
-
 .no-data{text-align:center;color:var(--dim);font-size:13px;padding:2rem 0}
 .tab-content{display:none}
 .tab-content.active{display:block}
-
-/* ── TOAST ── */
 .toast{
   position:fixed;bottom:30px;left:50%;
   transform:translateX(-50%) translateY(100px);
@@ -540,8 +484,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
   box-shadow:0 8px 32px var(--gold-glow),0 0 0 1px rgba(240,180,41,0.2);
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ── STAGGER ANIMATIONS ── */
 .branches-wrap .branch-chip{animation:chip-in 0.4s ease both}
 .branches-wrap .branch-chip:nth-child(1){animation-delay:0.05s}
 .branches-wrap .branch-chip:nth-child(2){animation-delay:0.08s}
@@ -557,7 +499,6 @@ header p{font-size:13px;color:var(--muted);font-weight:500}
 .branches-wrap .branch-chip:nth-child(12){animation-delay:0.38s}
 .branches-wrap .branch-chip:nth-child(13){animation-delay:0.41s}
 @keyframes chip-in{from{opacity:0;transform:scale(0.85) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
-
 @media(max-width:480px){
   header h1{font-size:23px}
   .result-area-name{font-size:20px}
@@ -728,7 +669,61 @@ import{getDatabase,ref,onValue,set,update,get,push,query,limitToLast,remove}from
 const firebaseConfig={apiKey:"AIzaSyDmKyNsp4Qpron_QIa295xA2dpWGC2Y81k",authDomain:"call-centar-63f51.firebaseapp.com",databaseURL:"https://call-centar-63f51-default-rtdb.europe-west1.firebasedatabase.app",projectId:"call-centar-63f51",storageBucket:"call-centar-63f51.firebasestorage.app",messagingSenderId:"706433338631",appId:"1:706433338631:web:2d2b4ed6dc59035f0609a2"};
 const app=initializeApp(firebaseConfig);const db=getDatabase(app);
 let ADMIN_USER="f1v1f",ADMIN_PASS="2001185";
-const SEED_DATA={"الاعظمية":[{area:"شارع الضباط",price:"1",distance:"1كم"},{area:"الشماسية",price:"1",distance:"1-2كم"},{area:"شارع عمر",price:"1",distance:"2-3كم"},{area:"ساحة عنتر",price:"1",distance:"2-3كم"},{area:"شارع الاخطل",price:"1",distance:"2-3كم"},{area:"شارع 20",price:"1",distance:"3-4كم"},{area:"شارع سهام",price:"1",distance:"2-3كم"},{area:"قصر بلاسم",price:"1",distance:"3-4كم"},{area:"شارع المشاتل",price:"1",distance:"3-4كم"},{area:"جامع النداء",price:"1",distance:"3-4كم"},{area:"الكم",price:"1",distance:"2-3كم"},{area:"راغبة غاتون",price:"1",distance:"1-2كم"},{area:"شارع أبو حنيفة",price:"1",distance:"3-4كم"},{area:"السفينة",price:"2",distance:"4-5كم"},{area:"المقبرة الملكية",price:"2",distance:"4-5كم"},{area:"مقابر الخيزران",price:"2",distance:"4-5كم"},{area:"مقبرة الشهداء",price:"2",distance:"4كم"},{area:"مستشفى النعمان",price:"2",distance:"4-5كم"},{area:"كورنيش الاعظمية",price:"2",distance:"4-5كم"},{area:"المسناية",price:"2",distance:"5-6كم"},{area:"جسر الائمة",price:"2",distance:"5-6كم"},{area:"كورنيش الكاظمية",price:"2",distance:"6-7كم"},{area:"شارع اكد",price:"2",distance:"7-8كم"},{area:"مستشفى أطفال الكاظمية",price:"2",distance:"7-8كم"},{area:"فلكة محمد الجواد",price:"2",distance:"7-8كم"},{area:"باب المراد",price:"2",distance:"7-8كم"},{area:"مجمع العبسلي",price:"2",distance:"7-8كم"},{area:"شارع الجواد",price:"2",distance:"7-8كم"},{area:"معسكر العدالة",price:"2",distance:"8-9كم"},{area:"الوزيرية",price:"2",distance:"6-7كم"},{area:"شارع المغرب",price:"2",distance:"6-7كم"},{area:"باب المعظم",price:"2",distance:"7-8كم"},{area:"مدينة الطب",price:"2",distance:"6-7كم"},{area:"صليخ",price:"2",distance:"5-6كم"},{area:"القاهرة جهة النداء",price:"2",distance:"5-6كم"},{area:"القاهرة الدلفية",price:"2",distance:"5-7كم"},{area:"الكريعات",price:"3",distance:"7-8كم"}],"البنوك":[{area:"طاقه ومجمع الاساتذه",price:"0",distance:"1كم"},{area:"نادي العربي",price:"1",distance:"2كم"},{area:"طالبية",price:"1",distance:"2كم"},{area:"نادي النفط",price:"1",distance:"2كم"},{area:"حي اور 600",price:"1",distance:"2-3كم"},{area:"صباح الخياط",price:"1",distance:"2-3كم"},{area:"علوة زويني",price:"1",distance:"2-3كم"},{area:"البنوك بكل مخارجها ومداخلها",price:"1",distance:"2-4كم"},{area:"حي سومر",price:"1",distance:"3-4كم"},{area:"عمار ابن ياسر",price:"1",distance:"2-3كم"},{area:"شارع فلسطين تقاطع الصخرة",price:"2",distance:"4كم"},{area:"شارع فلسطين نادي التركماني",price:"2",distance:"4-5كم"},{area:"شارع فلسطين مركز شرطة القناة",price:"2",distance:"4-5كم"},{area:"م ابن البلدي",price:"2",distance:"3-4كم"},{area:"حي اور معمل الرحلات",price:"2",distance:"3-4كم"},{area:"حي اور كوفي السلطان",price:"2",distance:"3-4كم"},{area:"حي الكوفه",price:"2",distance:"4-5كم"},{area:"سبع قصور",price:"2",distance:"4-5كم"},{area:"قاهرة من جسر البنوك لغاية جامعة الامام الصادق",price:"2",distance:"4-5كم"},{area:"ام الكبر",price:"2",distance:"4-5كم"},{area:"جميلة",price:"2",distance:"4-5كم"},{area:"مدينه الصدر من الفلاح الى قطاع 79",price:"2",distance:"5-7كم"},{area:"كسرة وعطش",price:"2",distance:"5-6كم"},{area:"نهايه حي اور",price:"2",distance:"4-5كم"},{area:"شيشان حي اور",price:"2",distance:"4-5كم"},{area:"اريدو وساحة بيروت",price:"2",distance:"6-7كم"},{area:"مستشفى الكندي",price:"3",distance:"7-8كم"},{area:"النهضة",price:"3",distance:"8-9كم"}],"الحرية":[{area:"شارع الدور العريض",price:"0",distance:"1كم"},{area:"بيت شاطىء",price:"0",distance:"1كم"},{area:"مصور عيسى",price:"0",distance:"1كم"},{area:"كباب ابو رضا",price:"0",distance:"0كم"},{area:"جامع المشاهده",price:"1",distance:"1-2كم"},{area:"دور النواب",price:"1",distance:"2-3كم"},{area:"دور الضباط",price:"1",distance:"2-3كم"},{area:"شارع 20",price:"1",distance:"2-3كم"},{area:"حي السلام",price:"1",distance:"3-4كم"},{area:"البستان",price:"1",distance:"2-3كم"},{area:"الدباش",price:"1",distance:"3-4كم"},{area:"جامع زين العابدين",price:"1",distance:"2-3كم"},{area:"شارع المشجر",price:"1",distance:"1-2كم"},{area:"الحريه 1 2 3",price:"1",distance:"2-4كم"},{area:"الحريه شارع الصحه",price:"1",distance:"1-2كم"},{area:"الحريه الجمعيه",price:"1",distance:"2-3كم"},{area:"الزراعي بالحريه",price:"2",distance:"4-5كم"},{area:"الامام الحسين واخيه العباس",price:"2",distance:"3-4كم"},{area:"الكاظميه",price:"2",distance:"4-5كم"},{area:"الدولعي",price:"2",distance:"4-5كم"},{area:"حي الجامعه",price:"2",distance:"4-5كم"},{area:"الوشاش",price:"2",distance:"6-7كم"},{area:"المنصور",price:"2",distance:"5-6كم"},{area:"الاسكان",price:"2",distance:"4-5كم"},{area:"شالجيه",price:"2",distance:"5-6كم"},{area:"الطي",price:"3",distance:"6-7كم"},{area:"العلاوي",price:"3",distance:"6-7كم"},{area:"المنصور البيجية",price:"3",distance:"6-7كم"}],"الدورة":[{area:"شارع 60",price:"1",distance:"1-2كم"},{area:"شارع 120",price:"1",distance:"2-3كم"},{area:"شارع الزيتون",price:"1",distance:"2-3كم"},{area:"شارع الصحة",price:"1",distance:"2-3كم"},{area:"الرواد",price:"1",distance:"2-3كم"},{area:"كلية الهادي",price:"1",distance:"1-2كم"},{area:"هور رجب",price:"2",distance:"5-6كم"},{area:"أبو دشير",price:"2",distance:"4-5كم"},{area:"عمارات/كفائات الصحة",price:"2",distance:"4-5كم"},{area:"حي اسيا/حي الحضر",price:"2",distance:"3-4كم"},{area:"الوادي",price:"2",distance:"4-5كم"},{area:"الاسكان",price:"2",distance:"5كم"},{area:"المعلمين",price:"2",distance:"5-6كم"},{area:"حي الشرطة",price:"2",distance:"5-6كم"},{area:"المعامرة",price:"2",distance:"6-7كم"},{area:"الطعمة",price:"2",distance:"6-7كم"},{area:"المخابرات/حي زبيدة",price:"2",distance:"6-7كم"},{area:"سكانية",price:"2",distance:"4-5كم"},{area:"كلية دجلة",price:"2",distance:"5-6كم"},{area:"كلية الفارابي",price:"2",distance:"6-7كم"},{area:"الجامعة التقنية الوسطى",price:"2",distance:"7-8كم"},{area:"هور رجب خط النفط",price:"2",distance:"10-11كم"},{area:"شهداء أبو دشير",price:"3",distance:"6-7كم"},{area:"الطعمة بريد الدورة",price:"3",distance:"5-6كم"},{area:"حاتم السعدون",price:"3",distance:"5-6كم"},{area:"الاثوريين",price:"3",distance:"5-7كم"},{area:"كلية السلام",price:"3",distance:"6-7كم"},{area:"العدوانية",price:"3",distance:"6-7كم"},{area:"علوة الرشيد",price:"3",distance:"8-9كم"},{area:"كويريش/عويريج",price:"3",distance:"8-9كم"},{area:"جسر الطابقين",price:"3",distance:"10-12كم"},{area:"المهدية 1 2 3",price:"3",distance:"10-11كم"},{area:"شيخ سردي/جسر صدام/جسر الوليد",price:"3",distance:"8-9كم"},{area:"زراعي/الملا/العبيدي/أبو طيارة",price:"3",distance:"9-11كم"},{area:"مجمع الايادي",price:"3",distance:"9-10كم"}],"الشعب":[{area:"الصحه",price:"1",distance:"1كم"},{area:"وصفي المضمد",price:"1",distance:"1كم"},{area:"جامع الحق",price:"1",distance:"1كم"},{area:"جامع الارقم",price:"1",distance:"2-3كم"},{area:"صلاح الدين",price:"1",distance:"2-3كم"},{area:"شارع عدن",price:"1",distance:"2-3كم"},{area:"جامع الجهاد",price:"1",distance:"2-3كم"},{area:"شارع المحكمه",price:"1",distance:"2كم"},{area:"الجزائر",price:"1",distance:"2-3كم"},{area:"الفيحاء",price:"1",distance:"1-2كم"},{area:"المثلث",price:"1",distance:"2كم"},{area:"الديوان",price:"1",distance:"2-3كم"},{area:"شارع 25",price:"1",distance:"2كم"},{area:"شارع 40",price:"1",distance:"2-3كم"},{area:"شارع 15",price:"1",distance:"2كم"},{area:"سما بغداد",price:"1",distance:"2كم"},{area:"زراعيه شارع 20",price:"1",distance:"2كم"},{area:"ساحه علاء نجف",price:"1",distance:"1-2كم"},{area:"شارع ابو ماهر",price:"1",distance:"2كم"},{area:"حجي عادل",price:"1",distance:"1-2كم"},{area:"حي البساتين مقابيل المحكمه",price:"2",distance:"2-3كم"},{area:"البساتين شارع احمد الوائلي",price:"2",distance:"3-4كم"},{area:"البساتين شارع التكاتك",price:"2",distance:"3-4كم"},{area:"البساتين شارع الشخ منهل",price:"2",distance:"3-4كم"},{area:"حي المصطفى",price:"2",distance:"4كم"},{area:"حي المهندسين",price:"2",distance:"4كم"},{area:"جمعيات وجامع المحترك",price:"2",distance:"2-3كم"},{area:"شارع ابو هيثم",price:"2",distance:"3كم"},{area:"بساتين الضباط",price:"2",distance:"3-4كم"},{area:"بساتين حي السلام",price:"2",distance:"3-4كم"},{area:"بساتين من جهة القناه",price:"2",distance:"4كم"},{area:"بساتين الشقق",price:"2",distance:"4كم"},{area:"بساتين اسواق فراوله",price:"2",distance:"3-4كم"},{area:"بساتين شارع السبيس",price:"2",distance:"3-4كم"},{area:"سيطره الشعب القديمه",price:"2",distance:"3-4كم"},{area:"السريدات",price:"2",distance:"4كم"},{area:"حي الشهيدين",price:"2",distance:"4كم"},{area:"الثعالبه",price:"2",distance:"4-5كم"},{area:"بوب الشام",price:"2",distance:"5-6كم"},{area:"واحد حزيران",price:"2",distance:"5-6كم"},{area:"بوب الشام بعد القوس",price:"3",distance:"6-7كم"},{area:"فوج شمال بغداد",price:"3",distance:"6-7كم"}],"الغدير":[{area:"الغدير",price:"1",distance:"1كم"},{area:"تل محمد",price:"1",distance:"1-2كم"},{area:"بغداد الجديده الدرويش",price:"1",distance:"3-4كم"},{area:"زيونه",price:"1",distance:"2-3كم"},{area:"ميسلون",price:"1",distance:"1كم"},{area:"شارع الربيعي",price:"1",distance:"1-2كم"},{area:"الف دار",price:"1",distance:"4-5كم"},{area:"بغداد الجديده شارع المسبح الفين",price:"2",distance:"4-5كم"},{area:"الأمين",price:"2",distance:"4-5كم"},{area:"البلديات",price:"2",distance:"4-5كم"},{area:"الكراده خارج",price:"2",distance:"5-6كم"},{area:"الكراده داخل",price:"2",distance:"6-7كم"},{area:"النعيريه",price:"2",distance:"5-6كم"},{area:"الحبيبيه",price:"2",distance:"5-6كم"},{area:"شارع فلسطين حي النيل",price:"2",distance:"5-6كم"},{area:"شارع فلسطين حي المهندسين",price:"2",distance:"5-6كم"},{area:"كراج الامانه",price:"2",distance:"4-5كم"},{area:"مشتل",price:"2",distance:"5-6كم"},{area:"فلكه رقم 10",price:"2",distance:"4-5كم"},{area:"شارع المطبك",price:"2",distance:"6-7كم"},{area:"ملجأ",price:"2",distance:"5-6كم"},{area:"شارع السعدون",price:"2",distance:"5-6كم"},{area:"ملعب الشعب على جهة وزاره الداخليه",price:"2",distance:"5-6كم"},{area:"مدينه قطاع 0 1 2 3",price:"2",distance:"6-7كم"},{area:"الاستكشافات",price:"3",distance:"6-7كم"},{area:"الجملة العصبيه",price:"3",distance:"6-7كم"},{area:"كفاءات العبيدي",price:"3",distance:"7-8كم"},{area:"اورفلي",price:"3",distance:"7-8كم"},{area:"رستميه",price:"3",distance:"6-7كم"}],"الغزالية":[{area:"شارع مدير الامن",price:"1",distance:"1-2كم"},{area:"شارع الصديق",price:"1",distance:"1-2كم"},{area:"مرور الغزالية",price:"1",distance:"2كم"},{area:"سوق النفلة",price:"1",distance:"2كم"},{area:"شارع أسواق الزاوية",price:"1",distance:"1-2كم"},{area:"الهياكل",price:"2",distance:"3-4كم"},{area:"ام القرى",price:"2",distance:"3-4كم"},{area:"سوق المائدة",price:"2",distance:"3-4كم"},{area:"شارع المهاجرين",price:"2",distance:"3-4كم"},{area:"شارع المركز",price:"2",distance:"3-4كم"},{area:"شارع الضغط",price:"2",distance:"4-5كم"},{area:"البكرية",price:"2",distance:"3-4كم"},{area:"شارع البصرة",price:"2",distance:"4-5كم"},{area:"شارع الزبير",price:"2",distance:"4-5كم"},{area:"مجمع المالية",price:"2",distance:"4-5كم"},{area:"المجمع السويسري",price:"2",distance:"5-6كم"},{area:"مول الغزالية",price:"2",distance:"4-5كم"},{area:"شارع البدالة",price:"2",distance:"4-5كم"},{area:"الشعلة",price:"2",distance:"6-7كم"},{area:"حي الخضراء",price:"2",distance:"7-8كم"},{area:"جرف الملح",price:"2",distance:"7-8كم"},{area:"الرحمانية",price:"3",distance:"4-6كم"},{area:"الصابئات",price:"3",distance:"7-8كم"},{area:"السلاميات",price:"3",distance:"9-10كم"},{area:"العامرية",price:"3",distance:"9-10كم"},{area:"حي الحسين",price:"3",distance:"9-10كم"}],"حي العامل":[{area:"شارع السكلات/الجنابات",price:"1",distance:"1كم"},{area:"شارع 30/جامع العشرة المبشر",price:"1",distance:"1كم"},{area:"دور النفط",price:"1",distance:"1-2كم"},{area:"مركز الصحي",price:"1",distance:"1-2كم"},{area:"شارع 7 نيسان/شارع التايرات",price:"1",distance:"2-3كم"},{area:"سوق الشعبي/جامع الزهراء",price:"1",distance:"1-2كم"},{area:"شارع المصرف/فوج المصرف",price:"1",distance:"1-2كم"},{area:"شارع 84/الجمعيات",price:"1",distance:"1-2كم"},{area:"سوق المكاصيص",price:"1",distance:"2-3كم"},{area:"نادي صلاح الدين",price:"1",distance:"2-3كم"},{area:"مدرسة تعز/البريد",price:"1",distance:"2-3كم"},{area:"شارع التشييش",price:"1",distance:"2-3كم"},{area:"حي صدام/شارع المطار",price:"1",distance:"4-5كم"},{area:"المدارس الصفر",price:"1",distance:"3-4كم"},{area:"فلكة حياوي/مؤسسة بنت الهدى",price:"1",distance:"2-3كم"},{area:"حي العمداء",price:"1",distance:"3-4كم"},{area:"حي العباس",price:"2",distance:"5-6كم"},{area:"مدرسة سعد ابن المسيب",price:"2",distance:"5-6كم"},{area:"شارع 9 نيسان",price:"2",distance:"5-6كم"},{area:"شارع المكتفي",price:"2",distance:"5-7كم"},{area:"شارع المعتز",price:"2",distance:"6-7كم"},{area:"مجمع المحبة السكني",price:"2",distance:"7-8كم"}],"بسمايه":[{area:"كل المنطقة",price:"1",distance:"كل المنطقة"}],"البعيثة":[{area:"السلطان 1",price:"1",distance:"1-2كم"},{area:"السلطان 2",price:"1",distance:"2-3كم"},{area:"السلطان 3",price:"1",distance:"2-3كم"},{area:"العدل 1",price:"1",distance:"2-3كم"},{area:"العدل 2",price:"1",distance:"2-3كم"},{area:"العدل 3",price:"1",distance:"1-2كم"},{area:"جمعية خير الله",price:"2",distance:"5-6كم"},{area:"دور النفط",price:"2",distance:"4-5كم"},{area:"المعدات",price:"2",distance:"4-5كم"},{area:"حي دجلة",price:"2",distance:"3-4كم"},{area:"كرارة",price:"2",distance:"4-5كم"},{area:"عرب جبور",price:"2",distance:"5كم"},{area:"الدوانم",price:"2",distance:"5-6كم"},{area:"سدة عرب جبور",price:"2",distance:"5-6كم"},{area:"مزارع عرب جبور",price:"2",distance:"5-6كم"},{area:"السابعة حي الحسن مدخل الحشد",price:"3",distance:"9-12كم"},{area:"الثامنة",price:"3",distance:"10-12كم"},{area:"مصفى الدورة",price:"3",distance:"9-11كم"},{area:"مول العراق",price:"3",distance:"10-11كم"}],"حي الجهاد":[{area:"الشارع التجاري",price:"1",distance:"1كم"},{area:"الاساتذة",price:"1",distance:"1-2كم"},{area:"الملحانية",price:"1",distance:"2-3كم"},{area:"مجمع السلام/النسيم/الرافدين",price:"1",distance:"1-2كم"},{area:"حي الحسين/الضباط/الفرات",price:"1",distance:"2-3كم"},{area:"الأمانة/المخابرات",price:"1",distance:"3-4كم"},{area:"الشارقة/حي الاطباء",price:"1",distance:"2-3كم"},{area:"شارع الديوان",price:"1",distance:"3-4كم"},{area:"الرضوانية",price:"2",distance:"4-6كم"},{area:"العامرية",price:"2",distance:"6-8كم"}],"شهداء البياع":[{area:"شارع الشهداء",price:"1",distance:"2كم"},{area:"فلكة شهداء البياع",price:"1",distance:"2كم"},{area:"جامع الحسن العسكري",price:"1",distance:"2كم"},{area:"الحمدانية",price:"1",distance:"4كم"},{area:"الرسالة 1/2/3",price:"1",distance:"2-3كم"},{area:"الشرطة الرابعة والخامسة",price:"1",distance:"3-4كم"},{area:"شارع السياب",price:"1",distance:"2-3كم"},{area:"سويب",price:"1",distance:"3-4كم"},{area:"البديري",price:"1",distance:"1-2كم"},{area:"المكاسب",price:"1",distance:"3-4كم"},{area:"المواصلات",price:"1",distance:"1-2كم"},{area:"قطر الندى",price:"1",distance:"4كم"},{area:"شارع المضخة",price:"1",distance:"2-3كم"},{area:"حي الاعلام",price:"2",distance:"5-6كم"},{area:"الدوانم",price:"2",distance:"4-6كم"},{area:"المعالف",price:"2",distance:"5-7كم"},{area:"التراث",price:"2",distance:"5-7كم"},{area:"الري",price:"2",distance:"5-6كم"},{area:"السيدية/شهداء السيدية",price:"2",distance:"5-7كم"},{area:"جامعة الفراهيدي",price:"2",distance:"6-7كم"},{area:"الجادرية",price:"3",distance:"10كم"}]};
+const SEED_DATA={
+"الاعظمية":[{area:"شارع الضباط",price:"1",distance:"1كم"},{area:"الشماسية",price:"1",distance:"1-2كم"},{area:"شارع عمر",price:"1",distance:"2-3كم"},{area:"ساحة عنتر",price:"1",distance:"2-3كم"},{area:"شارع الاخطل",price:"1",distance:"2-3كم"},{area:"شارع 20",price:"1",distance:"3-4كم"},{area:"شارع سهام",price:"1",distance:"2-3كم"},{area:"قصر بلاسم",price:"1",distance:"3-4كم"},{area:"شارع المشاتل",price:"1",distance:"3-4كم"},{area:"جامع النداء",price:"1",distance:"3-4كم"},{area:"الكم",price:"1",distance:"2-3كم"},{area:"راغبة غاتون",price:"1",distance:"1-2كم"},{area:"شارع أبو حنيفة",price:"1",distance:"3-4كم"},{area:"السفينة",price:"2",distance:"4-5كم"},{area:"المقبرة الملكية",price:"2",distance:"4-5كم"},{area:"مقابر الخيزران",price:"2",distance:"4-5كم"},{area:"مقبرة الشهداء",price:"2",distance:"4كم"},{area:"مستشفى النعمان",price:"2",distance:"4-5كم"},{area:"كورنيش الاعظمية",price:"2",distance:"4-5كم"},{area:"المسناية",price:"2",distance:"5-6كم"},{area:"جسر الائمة",price:"2",distance:"5-6كم"},{area:"كورنيش الكاظمية",price:"2",distance:"6-7كم"},{area:"شارع اكد",price:"2",distance:"7-8كم"},{area:"مستشفى أطفال الكاظمية",price:"2",distance:"7-8كم"},{area:"فلكة محمد الجواد",price:"2",distance:"7-8كم"},{area:"باب المراد",price:"2",distance:"7-8كم"},{area:"مجمع العبسلي",price:"2",distance:"7-8كم"},{area:"شارع الجواد",price:"2",distance:"7-8كم"},{area:"معسكر العدالة",price:"2",distance:"8-9كم"},{area:"الوزيرية",price:"2",distance:"6-7كم"},{area:"شارع المغرب",price:"2",distance:"6-7كم"},{area:"باب المعظم",price:"2",distance:"7-8كم"},{area:"مدينة الطب",price:"2",distance:"6-7كم"},{area:"صليخ",price:"2",distance:"5-6كم"},{area:"القاهرة جهة النداء",price:"2",distance:"5-6كم"},{area:"القاهرة الدلفية",price:"2",distance:"5-7كم"},{area:"الكريعات",price:"3",distance:"7-8كم"}],
+"البنوك":[{area:"طاقه ومجمع الاساتذه",price:"0",distance:"1كم"},{area:"نادي العربي",price:"1",distance:"2كم"},{area:"طالبية",price:"1",distance:"2كم"},{area:"نادي النفط",price:"1",distance:"2كم"},{area:"حي اور 600",price:"1",distance:"2-3كم"},{area:"صباح الخياط",price:"1",distance:"2-3كم"},{area:"علوة زويني",price:"1",distance:"2-3كم"},{area:"البنوك بكل مخارجها ومداخلها",price:"1",distance:"2-4كم"},{area:"حي سومر",price:"1",distance:"3-4كم"},{area:"عمار ابن ياسر",price:"1",distance:"2-3كم"},{area:"شارع فلسطين تقاطع الصخرة",price:"2",distance:"4كم"},{area:"شارع فلسطين نادي التركماني",price:"2",distance:"4-5كم"},{area:"شارع فلسطين مركز شرطة القناة",price:"2",distance:"4-5كم"},{area:"م ابن البلدي",price:"2",distance:"3-4كم"},{area:"حي اور معمل الرحلات",price:"2",distance:"3-4كم"},{area:"حي اور كوفي السلطان",price:"2",distance:"3-4كم"},{area:"حي الكوفه",price:"2",distance:"4-5كم"},{area:"سبع قصور",price:"2",distance:"4-5كم"},{area:"قاهرة من جسر البنوك لغاية جامعة الامام الصادق",price:"2",distance:"4-5كم"},{area:"ام الكبر",price:"2",distance:"4-5كم"},{area:"جميلة",price:"2",distance:"4-5كم"},{area:"مدينه الصدر من الفلاح الى قطاع 79",price:"2",distance:"5-7كم"},{area:"كسرة وعطش",price:"2",distance:"5-6كم"},{area:"نهايه حي اور",price:"2",distance:"4-5كم"},{area:"شيشان حي اور",price:"2",distance:"4-5كم"},{area:"اريدو وساحة بيروت",price:"2",distance:"6-7كم"},{area:"مستشفى الكندي",price:"3",distance:"7-8كم"},{area:"النهضة",price:"3",distance:"8-9كم"}],
+"الحرية":[{area:"شارع الدور العريض",price:"0",distance:"1كم"},{area:"بيت شاطىء",price:"0",distance:"1كم"},{area:"مصور عيسى",price:"0",distance:"1كم"},{area:"كباب ابو رضا",price:"0",distance:"0كم"},{area:"جامع المشاهده",price:"1",distance:"1-2كم"},{area:"دور النواب",price:"1",distance:"2-3كم"},{area:"دور الضباط",price:"1",distance:"2-3كم"},{area:"شارع 20",price:"1",distance:"2-3كم"},{area:"حي السلام",price:"1",distance:"3-4كم"},{area:"البستان",price:"1",distance:"2-3كم"},{area:"الدباش",price:"1",distance:"3-4كم"},{area:"جامع زين العابدين",price:"1",distance:"2-3كم"},{area:"شارع المشجر",price:"1",distance:"1-2كم"},{area:"الحريه 1 2 3",price:"1",distance:"2-4كم"},{area:"الحريه شارع الصحه",price:"1",distance:"1-2كم"},{area:"الحريه الجمعيه",price:"1",distance:"2-3كم"},{area:"الزراعي بالحريه",price:"2",distance:"4-5كم"},{area:"الامام الحسين واخيه العباس",price:"2",distance:"3-4كم"},{area:"الكاظميه",price:"2",distance:"4-5كم"},{area:"الدولعي",price:"2",distance:"4-5كم"},{area:"حي الجامعه",price:"2",distance:"4-5كم"},{area:"الوشاش",price:"2",distance:"6-7كم"},{area:"المنصور",price:"2",distance:"5-6كم"},{area:"الاسكان",price:"2",distance:"4-5كم"},{area:"شالجيه",price:"2",distance:"5-6كم"},{area:"الطي",price:"3",distance:"6-7كم"},{area:"العلاوي",price:"3",distance:"6-7كم"},{area:"المنصور البيجية",price:"3",distance:"6-7كم"}],
+"الدورة":[{area:"شارع 60",price:"1",distance:"1-2كم"},{area:"شارع 120",price:"1",distance:"2-3كم"},{area:"شارع الزيتون",price:"1",distance:"2-3كم"},{area:"شارع الصحة",price:"1",distance:"2-3كم"},{area:"الرواد",price:"1",distance:"2-3كم"},{area:"كلية الهادي",price:"1",distance:"1-2كم"},{area:"هور رجب",price:"2",distance:"5-6كم"},{area:"أبو دشير",price:"2",distance:"4-5كم"},{area:"عمارات/كفائات الصحة",price:"2",distance:"4-5كم"},{area:"حي اسيا/حي الحضر",price:"2",distance:"3-4كم"},{area:"الوادي",price:"2",distance:"4-5كم"},{area:"الاسكان",price:"2",distance:"5كم"},{area:"المعلمين",price:"2",distance:"5-6كم"},{area:"حي الشرطة",price:"2",distance:"5-6كم"},{area:"المعامرة",price:"2",distance:"6-7كم"},{area:"الطعمة",price:"2",distance:"6-7كم"},{area:"المخابرات/حي زبيدة",price:"2",distance:"6-7كم"},{area:"سكانية",price:"2",distance:"4-5كم"},{area:"كلية دجلة",price:"2",distance:"5-6كم"},{area:"كلية الفارابي",price:"2",distance:"6-7كم"},{area:"الجامعة التقنية الوسطى",price:"2",distance:"7-8كم"},{area:"هور رجب خط النفط",price:"2",distance:"10-11كم"},{area:"شهداء أبو دشير",price:"3",distance:"6-7كم"},{area:"الطعمة بريد الدورة",price:"3",distance:"5-6كم"},{area:"حاتم السعدون",price:"3",distance:"5-6كم"},{area:"الاثوريين",price:"3",distance:"5-7كم"},{area:"كلية السلام",price:"3",distance:"6-7كم"},{area:"العدوانية",price:"3",distance:"6-7كم"},{area:"علوة الرشيد",price:"3",distance:"8-9كم"},{area:"كويريش/عويريج",price:"3",distance:"8-9كم"},{area:"جسر الطابقين",price:"3",distance:"10-12كم"},{area:"المهدية 1 2 3",price:"3",distance:"10-11كم"},{area:"شيخ سردي/جسر صدام/جسر الوليد",price:"3",distance:"8-9كم"},{area:"زراعي/الملا/العبيدي/أبو طيارة",price:"3",distance:"9-11كم"},{area:"مجمع الايادي",price:"3",distance:"9-10كم"}],
+"الشعب":[{area:"الصحه",price:"1",distance:"1كم"},{area:"وصفي المضمد",price:"1",distance:"1كم"},{area:"جامع الحق",price:"1",distance:"1كم"},{area:"جامع الارقم",price:"1",distance:"2-3كم"},{area:"صلاح الدين",price:"1",distance:"2-3كم"},{area:"شارع عدن",price:"1",distance:"2-3كم"},{area:"جامع الجهاد",price:"1",distance:"2-3كم"},{area:"شارع المحكمه",price:"1",distance:"2كم"},{area:"الجزائر",price:"1",distance:"2-3كم"},{area:"الفيحاء",price:"1",distance:"1-2كم"},{area:"المثلث",price:"1",distance:"2كم"},{area:"الديوان",price:"1",distance:"2-3كم"},{area:"شارع 25",price:"1",distance:"2كم"},{area:"شارع 40",price:"1",distance:"2-3كم"},{area:"شارع 15",price:"1",distance:"2كم"},{area:"سما بغداد",price:"1",distance:"2كم"},{area:"زراعيه شارع 20",price:"1",distance:"2كم"},{area:"ساحه علاء نجف",price:"1",distance:"1-2كم"},{area:"شارع ابو ماهر",price:"1",distance:"2كم"},{area:"حجي عادل",price:"1",distance:"1-2كم"},{area:"حي البساتين مقابيل المحكمه",price:"2",distance:"2-3كم"},{area:"البساتين شارع احمد الوائلي",price:"2",distance:"3-4كم"},{area:"البساتين شارع التكاتك",price:"2",distance:"3-4كم"},{area:"البساتين شارع الشخ منهل",price:"2",distance:"3-4كم"},{area:"حي المصطفى",price:"2",distance:"4كم"},{area:"حي المهندسين",price:"2",distance:"4كم"},{area:"جمعيات وجامع المحترك",price:"2",distance:"2-3كم"},{area:"شارع ابو هيثم",price:"2",distance:"3كم"},{area:"بساتين الضباط",price:"2",distance:"3-4كم"},{area:"بساتين حي السلام",price:"2",distance:"3-4كم"},{area:"بساتين من جهة القناه",price:"2",distance:"4كم"},{area:"بساتين الشقق",price:"2",distance:"4كم"},{area:"بساتين اسواق فراوله",price:"2",distance:"3-4كم"},{area:"بساتين شارع السبيس",price:"2",distance:"3-4كم"},{area:"سيطره الشعب القديمه",price:"2",distance:"3-4كم"},{area:"السريدات",price:"2",distance:"4كم"},{area:"حي الشهيدين",price:"2",distance:"4كم"},{area:"الثعالبه",price:"2",distance:"4-5كم"},{area:"بوب الشام",price:"2",distance:"5-6كم"},{area:"واحد حزيران",price:"2",distance:"5-6كم"},{area:"بوب الشام بعد القوس",price:"3",distance:"6-7كم"},{area:"فوج شمال بغداد",price:"3",distance:"6-7كم"}],
+"الغدير":[{area:"الغدير",price:"1",distance:"1كم"},{area:"تل محمد",price:"1",distance:"1-2كم"},{area:"بغداد الجديده الدرويش",price:"1",distance:"3-4كم"},{area:"زيونه",price:"1",distance:"2-3كم"},{area:"ميسلون",price:"1",distance:"1كم"},{area:"شارع الربيعي",price:"1",distance:"1-2كم"},{area:"الف دار",price:"1",distance:"4-5كم"},{area:"بغداد الجديده شارع المسبح الفين",price:"2",distance:"4-5كم"},{area:"الأمين",price:"2",distance:"4-5كم"},{area:"البلديات",price:"2",distance:"4-5كم"},{area:"الكراده خارج",price:"2",distance:"5-6كم"},{area:"الكراده داخل",price:"2",distance:"6-7كم"},{area:"النعيريه",price:"2",distance:"5-6كم"},{area:"الحبيبيه",price:"2",distance:"5-6كم"},{area:"شارع فلسطين حي النيل",price:"2",distance:"5-6كم"},{area:"شارع فلسطين حي المهندسين",price:"2",distance:"5-6كم"},{area:"كراج الامانه",price:"2",distance:"4-5كم"},{area:"مشتل",price:"2",distance:"5-6كم"},{area:"فلكه رقم 10",price:"2",distance:"4-5كم"},{area:"شارع المطبك",price:"2",distance:"6-7كم"},{area:"ملجأ",price:"2",distance:"5-6كم"},{area:"شارع السعدون",price:"2",distance:"5-6كم"},{area:"ملعب الشعب على جهة وزاره الداخليه",price:"2",distance:"5-6كم"},{area:"مدينه قطاع 0 1 2 3",price:"2",distance:"6-7كم"},{area:"الاستكشافات",price:"3",distance:"6-7كم"},{area:"الجملة العصبيه",price:"3",distance:"6-7كم"},{area:"كفاءات العبيدي",price:"3",distance:"7-8كم"},{area:"اورفلي",price:"3",distance:"7-8كم"},{area:"رستميه",price:"3",distance:"6-7كم"}],
+"الغزالية":[{area:"شارع مدير الامن",price:"1",distance:"1-2كم"},{area:"شارع الصديق",price:"1",distance:"1-2كم"},{area:"مرور الغزالية",price:"1",distance:"2كم"},{area:"سوق النفلة",price:"1",distance:"2كم"},{area:"شارع أسواق الزاوية",price:"1",distance:"1-2كم"},{area:"الهياكل",price:"2",distance:"3-4كم"},{area:"ام القرى",price:"2",distance:"3-4كم"},{area:"سوق المائدة",price:"2",distance:"3-4كم"},{area:"شارع المهاجرين",price:"2",distance:"3-4كم"},{area:"شارع المركز",price:"2",distance:"3-4كم"},{area:"شارع الضغط",price:"2",distance:"4-5كم"},{area:"البكرية",price:"2",distance:"3-4كم"},{area:"شارع البصرة",price:"2",distance:"4-5كم"},{area:"شارع الزبير",price:"2",distance:"4-5كم"},{area:"مجمع المالية",price:"2",distance:"4-5كم"},{area:"المجمع السويسري",price:"2",distance:"5-6كم"},{area:"مول الغزالية",price:"2",distance:"4-5كم"},{area:"شارع البدالة",price:"2",distance:"4-5كم"},{area:"الشعلة",price:"2",distance:"6-7كم"},{area:"حي الخضراء",price:"2",distance:"7-8كم"},{area:"جرف الملح",price:"2",distance:"7-8كم"},{area:"الرحمانية",price:"3",distance:"4-6كم"},{area:"الصابئات",price:"3",distance:"7-8كم"},{area:"السلاميات",price:"3",distance:"9-10كم"},{area:"العامرية",price:"3",distance:"9-10كم"},{area:"حي الحسين",price:"3",distance:"9-10كم"}],
+"حي العامل":[{area:"شارع السكلات/الجنابات",price:"1",distance:"1كم"},{area:"شارع 30/جامع العشرة المبشر",price:"1",distance:"1كم"},{area:"دور النفط",price:"1",distance:"1-2كم"},{area:"مركز الصحي",price:"1",distance:"1-2كم"},{area:"شارع 7 نيسان/شارع التايرات",price:"1",distance:"2-3كم"},{area:"سوق الشعبي/جامع الزهراء",price:"1",distance:"1-2كم"},{area:"شارع المصرف/فوج المصرف",price:"1",distance:"1-2كم"},{area:"شارع 84/الجمعيات",price:"1",distance:"1-2كم"},{area:"سوق المكاصيص",price:"1",distance:"2-3كم"},{area:"نادي صلاح الدين",price:"1",distance:"2-3كم"},{area:"مدرسة تعز/البريد",price:"1",distance:"2-3كم"},{area:"شارع التشييش",price:"1",distance:"2-3كم"},{area:"حي صدام/شارع المطار",price:"1",distance:"4-5كم"},{area:"المدارس الصفر",price:"1",distance:"3-4كم"},{area:"فلكة حياوي/مؤسسة بنت الهدى",price:"1",distance:"2-3كم"},{area:"حي العمداء",price:"1",distance:"3-4كم"},{area:"حي العباس",price:"2",distance:"5-6كم"},{area:"مدرسة سعد ابن المسيب",price:"2",distance:"5-6كم"},{area:"شارع 9 نيسان",price:"2",distance:"5-6كم"},{area:"شارع المكتفي",price:"2",distance:"5-7كم"},{area:"شارع المعتز",price:"2",distance:"6-7كم"},{area:"مجمع المحبة السكني",price:"2",distance:"7-8كم"}],
+"بسمايه":[{area:"كل المنطقة",price:"1",distance:"كل المنطقة"}],
+"البوعيثة":[
+  {area:"السلطان 1",price:"1",distance:"2-1كم"},
+  {area:"السلطان 2",price:"1",distance:"3-2كم"},
+  {area:"السلطان 3",price:"1",distance:"2-3كم"},
+  {area:"العدل 1",price:"1",distance:"3-2كم"},
+  {area:"العدل 2",price:"1",distance:"3-2كم"},
+  {area:"العدل 3",price:"1",distance:"2-1كم"},
+  {area:"هواشة",price:"1",distance:"1-4كم"},
+  {area:"بهاء المدن",price:"1",distance:"1-4كم"},
+  {area:"مجمع الحليم / العيثاوي / السالم / الأمل",price:"1",distance:"1-4كم"},
+  {area:"البيطرة",price:"1",distance:"4-3كم"},
+  {area:"معمل الغاز",price:"1",distance:"1-4كم"},
+  {area:"شيخ زوين",price:"1",distance:"4كم"},
+  {area:"المثلث الذهبي",price:"1",distance:"1-4كم"},
+  {area:"مجمع القمة",price:"1",distance:"1-4كم"},
+  {area:"المجزرة / خلف المجزرة",price:"1",distance:"1-4كم"},
+  {area:"جامع رياضي الصالحين",price:"1",distance:"1-4كم"},
+  {area:"مدخل البوعيثة",price:"1",distance:"4-6كم"},
+  {area:"شارع فالح ابو العمبة",price:"1",distance:"4-5كم"},
+  {area:"مركز عرب جبور",price:"2",distance:"5-7كم"},
+  {area:"خمس دوانم",price:"2",distance:"5-8كم"},
+  {area:"حي دجلة",price:"2",distance:"5-6كم"},
+  {area:"گرارة",price:"2",distance:"6-7كم"},
+  {area:"مشروع محيي عرب جبور",price:"2",distance:"5-7كم"},
+  {area:"العليمية عرب جبور",price:"2",distance:"5-7كم"},
+  {area:"جامع التوبة عرب جبور",price:"2",distance:"6-7كم"},
+  {area:"مدرسة الأحرار عرب جبور",price:"2",distance:"5-7كم"},
+  {area:"السدة",price:"2",distance:"5-7كم"},
+  {area:"شارع الحشد",price:"2",distance:"5-8كم"},
+  {area:"شارع الزهور ع السدة",price:"2",distance:"5-7كم"},
+  {area:"حاجة ابتسام",price:"2",distance:"6-8كم"},
+  {area:"شارع التانكي عرب جبور",price:"2",distance:"5-7كم"},
+  {area:"لوفة الاحمدين",price:"2",distance:"6-8كم"},
+  {area:"الطمر الصحي",price:"2",distance:"5-7كم"},
+  {area:"شارع الوادي عرب جبور",price:"2",distance:"5-7كم"},
+  {area:"مجمع الطرق عرب جبور",price:"2",distance:"6-7كم"},
+  {area:"جمعية خير الله",price:"3",distance:"8-10كم"},
+  {area:"مول العراق",price:"3",distance:"9-11كم"},
+  {area:"السابعة / الثامنة",price:"3",distance:"9-10كم"},
+  {area:"البيجية عرب جبور",price:"3",distance:"9-11كم"},
+  {area:"المعدات / جسر الطابقين",price:"3",distance:"9-12كم"}
+],
+"حي الجهاد":[{area:"الشارع التجاري",price:"1",distance:"1كم"},{area:"الاساتذة",price:"1",distance:"1-2كم"},{area:"الملحانية",price:"1",distance:"2-3كم"},{area:"مجمع السلام/النسيم/الرافدين",price:"1",distance:"1-2كم"},{area:"حي الحسين/الضباط/الفرات",price:"1",distance:"2-3كم"},{area:"الأمانة/المخابرات",price:"1",distance:"3-4كم"},{area:"الشارقة/حي الاطباء",price:"1",distance:"2-3كم"},{area:"شارع الديوان",price:"1",distance:"3-4كم"},{area:"الرضوانية",price:"2",distance:"4-6كم"},{area:"العامرية",price:"2",distance:"6-8كم"}],
+"شهداء البياع":[{area:"شارع الشهداء",price:"1",distance:"2كم"},{area:"فلكة شهداء البياع",price:"1",distance:"2كم"},{area:"جامع الحسن العسكري",price:"1",distance:"2كم"},{area:"الحمدانية",price:"1",distance:"4كم"},{area:"الرسالة 1/2/3",price:"1",distance:"2-3كم"},{area:"الشرطة الرابعة والخامسة",price:"1",distance:"3-4كم"},{area:"شارع السياب",price:"1",distance:"2-3كم"},{area:"سويب",price:"1",distance:"3-4كم"},{area:"البديري",price:"1",distance:"1-2كم"},{area:"المكاسب",price:"1",distance:"3-4كم"},{area:"المواصلات",price:"1",distance:"1-2كم"},{area:"قطر الندى",price:"1",distance:"4كم"},{area:"شارع المضخة",price:"1",distance:"2-3كم"},{area:"حي الاعلام",price:"2",distance:"5-6كم"},{area:"الدوانم",price:"2",distance:"4-6كم"},{area:"المعالف",price:"2",distance:"5-7كم"},{area:"التراث",price:"2",distance:"5-7كم"},{area:"الري",price:"2",distance:"5-6كم"},{area:"السيدية/شهداء السيدية",price:"2",distance:"5-7كم"},{area:"جامعة الفراهيدي",price:"2",distance:"6-7كم"},{area:"الجادرية",price:"3",distance:"10كم"}]
+};
 const PRICES={"0":"مجاني","1":"1,000 د.ع","2":"2,000 د.ع","3":"3,000 د.ع"};
 const PRICE_CLR={"0":"#10b981","1":"#3b82f6","2":"#f59e0b","3":"#ef4444"};
 const BORDER_CLR={"0":"rgba(16,185,129,0.3)","1":"rgba(59,130,246,0.3)","2":"rgba(245,158,11,0.3)","3":"rgba(239,68,68,0.3)"};
